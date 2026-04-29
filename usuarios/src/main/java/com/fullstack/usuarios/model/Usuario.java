@@ -23,8 +23,9 @@ public class Usuario {
     @Column(name = "nombre", nullable = false)
     private String nombre;
 
-    @NotBlank
-    @Column(name = "correo_electronico", unique = true, nullable = false)
+    @NotBlank(message = "El correo electrónico es obligatorio")
+    @Email(message = "Debe proporcionar un formato de correo electrónico válido")
+    @Column(nullable = false, unique = true)
     private String correoElectronico;
 
     @NotBlank
