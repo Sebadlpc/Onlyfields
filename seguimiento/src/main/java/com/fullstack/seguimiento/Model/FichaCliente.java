@@ -23,10 +23,11 @@ public class FichaCliente {
     @Column(name = "cliente_id", nullable = false, unique = true)
     private Long clienteId;
 
-    @Column(name = "lesiones", columnDefinition = "TEXT")
+    @Lob
+    @Column(name = "lesiones", columnDefinition = "CLOB")
     private String lesiones;
 
-    @Column(name = "observaciones", columnDefinition = "TEXT")
+    @Column(name = "observaciones", columnDefinition = "CLOB")
     private String observaciones;
 
     @Column(name = "fecha_ingreso")
