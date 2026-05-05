@@ -52,7 +52,7 @@ public class Transaccion {
     @Column(name = "fecha_hora")
     private LocalDateTime fechaHora;
 
-    @OneToMany(mappedBy = "Transaccion", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "transaccion", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemTransaccion> items;
 
     @PrePersist
