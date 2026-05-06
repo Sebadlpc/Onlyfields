@@ -37,15 +37,11 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.actualizar(id, usuario));
     }
 
-@DeleteMapping("/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         usuarioService.eliminar(id);
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/{id}/password")
-    public ResponseEntity<Void> actualizarPassword(@PathVariable Long id, @RequestBody String nuevoPassword) {
-        usuarioService.actualizarPassword(id, nuevoPassword);
-        return ResponseEntity.noContent().build();
-    }
 }
+

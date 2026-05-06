@@ -1,6 +1,5 @@
 package com.fullstack.usuarios.service;
 
-import com.fullstack.usuarios.exception.UsuarioNoEncontradoException;
 import com.fullstack.usuarios.model.Usuario;
 import com.fullstack.usuarios.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
@@ -8,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -22,9 +20,9 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
 
-public Usuario obtenerPorId(Long id) {
+    public Usuario obtenerPorId(Long id) {
         return usuarioRepository.findById(id)
-                .orElseThrow(() -> new UsuarioNoEncontradoException(id));
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
     }
 
     @Transactional
@@ -33,9 +31,6 @@ public Usuario obtenerPorId(Long id) {
             log.warn("[ms-usuarios] Validacion fallida: Email duplicado {}", usuario.getCorreoElectronico());
             throw new RuntimeException("El correo electronico ya esta registrado");
         }
-        // Inicializar campos requeridos por el modelo
-        usuario.setFechaCreacion(LocalDateTime.now());
-        usuario.setEstado("ACTIVO");
         log.info("[ms-usuarios] Operacion iniciada: Creando usuario {}", usuario.getNombre());
         return usuarioRepository.save(usuario);
     }
@@ -49,20 +44,12 @@ public Usuario obtenerPorId(Long id) {
         return usuarioRepository.save(usuarioExistente);
     }
 
-@Transactional
+    @Transactional
     public void eliminar(Long id) {
         Usuario usuario = obtenerPorId(id);
         // Segun el informe, se prefiere restringir/desactivar
         usuario.setEstado("INACTIVO");
         usuarioRepository.save(usuario);
         log.info("[ms-usuarios] Usuario con ID {} marcado como INACTIVO", id);
-    }
-
-    @Transactional
-    public void actualizarPassword(Long id, String nuevoPassword) {
-        Usuario usuario = obtenerPorId(id);
-        usuario.setPasswordHash(nuevoPassword);
-        usuarioRepository.save(usuario);
-        log.info("[ms-usuarios] Password actualizado para usuario con ID {}", id);
     }
 }
