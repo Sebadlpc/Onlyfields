@@ -20,7 +20,7 @@ public class ItemTransaccion {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tansaccion_id", nullable = false)
+    @JoinColumn(name = "transaccion_id", nullable = false)
     private Transaccion transaccion;
 
     @Column(name = "producto_id")
