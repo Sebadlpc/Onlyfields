@@ -17,7 +17,7 @@ import java.util.List;
 @Builder
 public class Rol {
     
-@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rol_seq")
     @SequenceGenerator(name = "rol_seq", sequenceName = "ROL_SEQ", allocationSize = 1)
     private Long id;
