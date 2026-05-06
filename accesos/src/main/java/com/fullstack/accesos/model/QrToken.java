@@ -23,7 +23,7 @@ public class QrToken {
     private Long clienteId;
 
     @NotBlank(message = "El token no puede estar vacio")
-    @Column(name = "token", nullable = false, unique = true)
+    @Column(name = "token", nullable = false, unique = true,length = 500)
     private String token;
 
     @NotNull(message = "La fecha de expiracion es obligatoria")
