@@ -1,25 +1,26 @@
 package com.fullstack.inventario.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "categoria")
-@AllArgsConstructor
+@Data
 @NoArgsConstructor
-@Getter
-@Setter
-
+@AllArgsConstructor
 public class Categoria {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "categoria_id")
     private Long id;
 
-    @NotBlank
-    @Column(name = "nombre", nullable = false)
+    @Column(nullable = false, unique = true)
     private String nombre;
 
+    private String descripcion;
 }

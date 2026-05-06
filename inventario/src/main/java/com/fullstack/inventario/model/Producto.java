@@ -1,45 +1,43 @@
 package com.fullstack.inventario.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "producto")
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-@Builder
 public class Producto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Column(name = "nombre", nullable = false)
+    @Column(nullable = false)
     private String nombre;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @Column(nullable = false, unique = true)
+    private String codigo;
+
+    @Column(nullable = false)
+    private BigDecimal precio;
+
+    @Column(nullable = false)
+    private Integer stock;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "categoria_id", nullable = false)
     private Categoria categoria;
 
-    @NotNull
-    @Column(name = "Precio_venta", nullable = false)
-    private Double precioVenta;
-
-    @NotNull
-    @Column(name = "Stock_actual", nullable = false)
-    private Integer stockActual;
-
-    @NotNull
-    @Column(name = "Stock_minimo", nullable = false)
-    private Integer stockMinimo;
-
-    @NotBlank
-    @Column(name = "Codigo_barras", nullable = false)
-    private String codigoBarras;
-
+    @Column(nullable = false)
+    private String estado;
 }
