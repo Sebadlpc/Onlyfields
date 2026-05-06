@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,8 +17,9 @@ import java.util.List;
 @Builder
 public class Permiso {
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "permiso_seq")
+    @SequenceGenerator(name = "permiso_seq", sequenceName = "PERMISO_SEQ", allocationSize = 1)
     private Long id;
     
     @NotBlank(message = "El módulo es obligatorio")
@@ -30,7 +32,7 @@ public class Permiso {
     @Column(nullable = false)
     private String accion;
     
-    // Relación ManyToMany con Rol (bidireccional)
     @ManyToMany(mappedBy = "permisos", fetch = FetchType.LAZY)
-    private List<Rol> roles;
+    @Builder.Default
+    private List<Rol> roles = new ArrayList<>();
 }

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,8 +17,9 @@ import java.util.List;
 @Builder
 public class Rol {
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rol_seq")
+    @SequenceGenerator(name = "rol_seq", sequenceName = "ROL_SEQ", allocationSize = 1)
     private Long id;
     
     @NotBlank(message = "El nombre del rol es obligatorio")
@@ -29,14 +31,16 @@ public class Rol {
     @Column(length = 255)
     private String descripcion;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+@ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "rol_permiso",
         joinColumns = @JoinColumn(name = "rol_id"),
         inverseJoinColumns = @JoinColumn(name = "permiso_id")
     )
-    private List<Permiso> permisos;
+    @Builder.Default
+    private List<Permiso> permisos = new ArrayList<>();
 
     @OneToMany(mappedBy = "rol", fetch = FetchType.LAZY)
-    private List<Usuario> usuarios;
+    @Builder.Default
+    private List<Usuario> usuarios = new ArrayList<>();
 }

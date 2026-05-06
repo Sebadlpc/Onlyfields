@@ -1,5 +1,6 @@
 package com.fullstack.usuarios.model;
 
+import com.fullstack.usuarios.model.Rol;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -9,13 +10,14 @@ import java.time.LocalDateTime;
 @Table(name = "usuario")
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 
 public class Usuario {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "usuario_seq")
+    @SequenceGenerator(name = "usuario_seq", sequenceName = "USUARIO_SEQ", allocationSize = 1)
     @Column(name = "id_usuario")
     private Long id;
 
