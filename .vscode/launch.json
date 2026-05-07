@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-ReportesApplication<ms-reportes>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.fullstack.reportes.ReportesApplication",
+            "projectName": "ms-reportes",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
