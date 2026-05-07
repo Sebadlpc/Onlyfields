@@ -11,8 +11,8 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>ms-usuarios</artifactId>
-    <name>ms-usuarios</name>
+    <artifactId>ms-inventario</artifactId>
+    <name>ms-inventario</name>
 
     <dependencies>
         <dependency>
