@@ -1,0 +1,22 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: ms-notificaciones
+    docker:
+      compose:
+        enabled: false
+  datasource:
+    url: jdbc:oracle:thin:@ONLYFIELDS_HIGH?TNS_ADMIN=C:/Users/dolap/Wallet/Wallet_ONLYFIELDS
+    username: OF_NOTIFICACIONES
+    password: OnlyFields2026
+    driver-class-name: oracle.jdbc.OracleDriver
+    
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
