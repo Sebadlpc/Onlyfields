@@ -18,10 +18,32 @@ CREATE TABLE feriados_bloqueos (
     CONSTRAINT pk_feriados_bloqueos PRIMARY KEY (id)
 );
 
+
 INSERT INTO configuracion_global (clave, valor, descripcion, fecha_modificacion, usuario_id) 
 VALUES ('HORARIO_APERTURA', '08:00', 'Horario oficial de apertura del complejo', CURRENT_TIMESTAMP, 1);
 
 INSERT INTO configuracion_global (clave, valor, descripcion, fecha_modificacion, usuario_id) 
-VALUES ('HORARIO_CIERRE', '23:00', 'Horario oficial de cierre del complejo', CURRENT_TIMESTAMP, 1);
+VALUES ('HORARIO_CIERRE', '23:30', 'Horario oficial de cierre del complejo', CURRENT_TIMESTAMP, 1);
+
+INSERT INTO configuracion_global (clave, valor, descripcion, fecha_modificacion, usuario_id) 
+VALUES ('DURACION_SLOT_MINUTOS', '60', 'Duración base de los bloques de reserva en las canchas', CURRENT_TIMESTAMP, 1);
+
+INSERT INTO configuracion_global (clave, valor, descripcion, fecha_modificacion, usuario_id) 
+VALUES ('ANTICIPACION_CANCELACION_HORAS', '12', 'Horas de anticipación mínima para cancelar una reserva sin penalización', CURRENT_TIMESTAMP, 1);
+
+INSERT INTO configuracion_global (clave, valor, descripcion, fecha_modificacion, usuario_id) 
+VALUES ('AFORO_MAXIMO', '500', 'Capacidad máxima total de personas dentro del recinto', CURRENT_TIMESTAMP, 1);
+
+INSERT INTO feriados_bloqueos (fecha, motivo, afecta_reservas) 
+VALUES (TO_DATE('2026-09-18', 'YYYY-MM-DD'), 'Feriado Irrenunciable - Fiestas Patrias', 1);
+
+INSERT INTO feriados_bloqueos (fecha, motivo, afecta_reservas) 
+VALUES (TO_DATE('2026-09-19', 'YYYY-MM-DD'), 'Feriado Irrenunciable - Fiestas Patrias', 1);
+
+INSERT INTO feriados_bloqueos (fecha, motivo, afecta_reservas) 
+VALUES (TO_DATE('2026-12-25', 'YYYY-MM-DD'), 'Navidad - Recinto Cerrado', 1);
+
+INSERT INTO feriados_bloqueos (fecha, motivo, afecta_reservas) 
+VALUES (TO_DATE('2027-01-01', 'YYYY-MM-DD'), 'Año Nuevo - Recinto Cerrado', 1);
 
 COMMIT;
