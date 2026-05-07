@@ -3,12 +3,12 @@ server:
 
 spring:
   application:
-    name: ms-reportes
+    name: reportes
 
   # Configuración de la Base de Datos (Oracle Cloud)
   datasource:
     driver-class-name: oracle.jdbc.OracleDriver
-    url: jdbc:oracle:thin:@ONLYFIELDS_HIGH?TNS_ADMIN=C:/Users/dolap/Wallet/Wallet_ONLYFIELDS
+    url: jdbc:oracle:thin:@ONLYFIELDS_HIGH?TNS_ADMIN=C:/Users/W608-PCXX/Desktop/Wallet/Wallet_ONLYFIELDS
     username: OF_REPORTES
     password: OnlyFields2026
 
