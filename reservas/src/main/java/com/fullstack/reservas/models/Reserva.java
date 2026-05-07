@@ -16,9 +16,10 @@ public class Reserva {
     @SequenceGenerator(name = "mi_secuencia", sequenceName = "HIBERNATE_SEQUENCE", allocationSize = 1)
     private Long id;
 
-    @NotNull
-    @Column(name = "cancha_id")
-    private Long canchaId;
+   
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cancha_id", nullable = false)
+    private Cancha cancha;
 
     @NotNull
     @Column(name = "cliente_id")
