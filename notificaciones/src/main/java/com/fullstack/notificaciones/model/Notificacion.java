@@ -1,6 +1,7 @@
 package com.fullstack.notificaciones.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -34,7 +35,9 @@ public class Notificacion {
     private String asunto;
 
 
-    @Column(name = "cuerpo", columnDefinition = "TEXT")
+    @NotBlank
+    @Lob
+    @Column(name = "cuerpo", columnDefinition = "CLOB")
     private String cuerpo;
 
     @Column(name = "estado")
