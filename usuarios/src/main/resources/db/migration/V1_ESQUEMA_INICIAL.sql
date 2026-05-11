@@ -1,9 +1,3 @@
--- 1. CREACIÓN DE SECUENCIAS
-CREATE SEQUENCE PERMISO_SEQ START WITH 1 INCREMENT BY 1;
-CREATE SEQUENCE ROL_SEQ START WITH 1 INCREMENT BY 1;
-CREATE SEQUENCE USUARIO_SEQ START WITH 1 INCREMENT BY 1;
-
--- 2. TABLA: PERMISO
 CREATE TABLE permiso (
     id NUMBER(19,0) NOT NULL,
     modulo VARCHAR2(50) NOT NULL,
@@ -11,7 +5,6 @@ CREATE TABLE permiso (
     CONSTRAINT pk_permiso PRIMARY KEY (id)
 );
 
--- 3. TABLA: ROL
 CREATE TABLE rol (
     id NUMBER(19,0) NOT NULL,
     nombre VARCHAR2(50) NOT NULL,
@@ -20,7 +13,6 @@ CREATE TABLE rol (
     CONSTRAINT uk_rol_nombre UNIQUE (nombre)
 );
 
--- 4. TABLA INTERMEDIA: ROL_PERMISO (Relación Many-to-Many)
 CREATE TABLE rol_permiso (
     rol_id NUMBER(19,0) NOT NULL,
     permiso_id NUMBER(19,0) NOT NULL,
@@ -28,7 +20,6 @@ CREATE TABLE rol_permiso (
     CONSTRAINT fk_rol_permiso_permiso FOREIGN KEY (permiso_id) REFERENCES permiso(id)
 );
 
--- 5. TABLA: USUARIO
 CREATE TABLE usuario (
     id_usuario NUMBER(19,0) NOT NULL,
     nombre VARCHAR2(255) NOT NULL,
@@ -42,7 +33,36 @@ CREATE TABLE usuario (
     CONSTRAINT fk_usuario_rol FOREIGN KEY (rol_id) REFERENCES rol(id)
 );
 
--- 6. DATA INICIAL (Seed) - Para evitar el error de integridad en Postman
-INSERT INTO rol (id, nombre, descripcion) VALUES (ROL_SEQ.NEXTVAL, 'ADMIN', 'Administrador General');
-INSERT INTO rol (id, nombre, descripcion) VALUES (ROL_SEQ.NEXTVAL, 'CLIENTE', 'Cliente del Complejo');
+INSERT INTO rol (id, nombre, descripcion) 
+VALUES (1, 'ADMIN', 'Administrador total del complejo deportivo');
+
+INSERT INTO rol (id, nombre, descripcion) 
+VALUES (2, 'CLIENTE', 'Usuario regular (deportista/arrendatario)');
+
+INSERT INTO rol (id, nombre, descripcion) 
+VALUES (2, 'STAFF DP', 'Staff DP');
+
+INSERT INTO permiso (id, modulo, accion) VALUES (1, 'USUARIOS', 'LEER');
+INSERT INTO permiso (id, modulo, accion) VALUES (2, 'USUARIOS', 'ESCRIBIR');
+INSERT INTO permiso (id, modulo, accion) VALUES (3, 'RESERVAS', 'LEER');
+INSERT INTO permiso (id, modulo, accion) VALUES (4, 'RESERVAS', 'ESCRIBIR');
+
+INSERT INTO rol_permiso (rol_id, permiso_id) VALUES (1, 1);
+INSERT INTO rol_permiso (rol_id, permiso_id) VALUES (1, 2);
+INSERT INTO rol_permiso (rol_id, permiso_id) VALUES (1, 3);
+INSERT INTO rol_permiso (rol_id, permiso_id) VALUES (1, 4);
+
+INSERT INTO rol_permiso (rol_id, permiso_id) VALUES (2, 1);
+INSERT INTO rol_permiso (rol_id, permiso_id) VALUES (2, 3);
+INSERT INTO rol_permiso (rol_id, permiso_id) VALUES (2, 4);
+
+
+INSERT INTO usuario (id_usuario, nombre, correo_electronico, password_hash, estado, fecha_creacion, rol_id) 
+VALUES (1, 'Admin OnlyFields', 'admin@onlyfields.cl', '$2a$10$EjemploDeHashBCryptSimuladoParaAdmin123', 'ACTIVO', CURRENT_TIMESTAMP, 1);
+
+INSERT INTO usuario (id_usuario, nombre, correo_electronico, password_hash, estado, fecha_creacion, rol_id) 
+VALUES (2, 'Sebastian Silva', 'cliente@onlyfields.cl', '1273h1t4981vi713b136u84th81giju3tfu7', 'ACTIVO', CURRENT_TIMESTAMP, 3);
+
+INSERT INTO usuario (id_usuario, nombre, correo_electronico, password_hash, estado, fecha_creacion, rol_id) 
+VALUES (3, 'El pepe sech', 'ete sech@onlyfields.cl', '1273h1t4981vi713b136u84th81giju3tfu7', 'ACTIVO', CURRENT_TIMESTAMP, 2);
 COMMIT;
