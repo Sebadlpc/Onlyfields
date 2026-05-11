@@ -1,6 +1,7 @@
 package com.fullstack.usuarios.repository;
 
 import com.fullstack.usuarios.model.Usuario;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
