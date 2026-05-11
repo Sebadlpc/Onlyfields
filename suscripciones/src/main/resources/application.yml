@@ -2,7 +2,7 @@ spring:
   application:
     name: suscripciones
   datasource:
-    url: jdbc:oracle:thin:@onlyfields_high?TNS_ADMIN=C:/Users/seses/Desktop/GIT/Wallet_ONLYFIELDS
+    url: jdbc:oracle:thin:@onlyfields_high?TNS_ADMIN=C:/Users/W608-PCXX/Desktop/git/Wallet_ONLYFIELDS
     username: OF_SUSCRIPCIONES
     password: OnlyFields2026
     driver-class-name: oracle.jdbc.OracleDriver

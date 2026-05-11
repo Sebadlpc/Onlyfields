@@ -29,4 +29,10 @@ VALUES ('Plata', 'Acceso premium y descuentos', 25000, 1, 'ACTIVO');
 INSERT INTO plan_suscripcion (nombre, descripcion, precio, duracion_meses, estado) 
 VALUES ('Oro', 'Acceso total y prioridad de reserva', 40000, 1, 'ACTIVO');
 
+INSERT INTO suscripcion (usuario_id, plan_id, fecha_inicio, fecha_fin, estado) 
+VALUES (2, 2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL '30' DAY, 'ACTIVO');
+
+INSERT INTO suscripcion (usuario_id, plan_id, fecha_inicio, fecha_fin, estado) 
+VALUES (3, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP + INTERVAL '30' DAY, 'ACTIVO');
+
 COMMIT;
