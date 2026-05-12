@@ -25,20 +25,20 @@ public class BloqueHorarioController {
 
     @PostMapping
     public ResponseEntity<?> crear(@Valid @RequestBody BloqueHorario bloque) {
-    // 1. Llamas a tu consulta actual
+    
     List<BloqueHorario> conflictos = bloqueHorarioRepository.buscarChoques(
         bloque.getCancha().getId(), 
         bloque.getFechaInicio(), 
         bloque.getFechaFin()
     );
 
-    // 2. Si la lista tiene algo, es que SI hay un bloqueo
+    
     if (!conflictos.isEmpty()) {
         return ResponseEntity.badRequest()
             .body("No se puede agendar: Ya existe un bloqueo en este horario para esta cancha.");
     }
 
-    // 3. Si está vacía, procede a guardar
+   
     return new ResponseEntity<>(bloqueHorarioRepository.save(bloque), HttpStatus.CREATED);
 }
     
