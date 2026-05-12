@@ -15,15 +15,14 @@ public interface BloqueHorarioRepository extends JpaRepository<BloqueHorario, Lo
     // Obtener todos los bloqueos de una cancha
     List<BloqueHorario> findByCanchaId(Long canchaId);
 
-    // Detectar si una cancha tiene algún bloqueo activo en un rango de tiempo
-    // Usado en ReservaServiceImpl para validar disponibilidad real de la cancha
+    
     @Query("""
         SELECT b FROM BloqueHorario b
         WHERE b.cancha.id = :canchaId
           AND b.fechaInicio < :fechaFin
           AND b.fechaFin > :fechaInicio
     """)
-    List<BloqueHorario> findBloquesSolapados(
+    List<BloqueHorario> buscarChoques(
         @Param("canchaId")    Long canchaId,
         @Param("fechaInicio") LocalDateTime fechaInicio,
         @Param("fechaFin")    LocalDateTime fechaFin

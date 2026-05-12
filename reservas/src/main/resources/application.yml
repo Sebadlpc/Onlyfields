@@ -6,7 +6,7 @@ spring:
     name: ms-reservas
   datasource:
     driver-class-name: oracle.jdbc.OracleDriver
-    url: jdbc:oracle:thin:@ONLYFIELDS_HIGH?TNS_ADMIN=C:/Users/W608-PCXX/Desktop/Wallet/Wallet_ONLYFIELDS
+    url: jdbc:oracle:thin:@ONLYFIELDS_HIGH?TNS_ADMIN=C:/Users/dolap/Desktop/Wallet/Wallet_ONLYFIELDS
     username: OF_RESERVAS
     password: OnlyFields2026
   jpa:
