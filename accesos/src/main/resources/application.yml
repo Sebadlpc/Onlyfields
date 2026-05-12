@@ -8,7 +8,7 @@ spring:
   # Configuración de la Base de Datos (Oracle Cloud)
   datasource:
     driver-class-name: oracle.jdbc.OracleDriver
-    url: jdbc:oracle:thin:@ONLYFIELDS_HIGH?TNS_ADMIN=C:/Users/sebas/Wallet/Wallet_ONLYFIELDS
+    url: jdbc:oracle:thin:@ONLYFIELDS_HIGH?TNS_ADMIN=C:/Users/W608-PCXX/IdeaProjects/Wallet_ONLYFIELDS
     username: OF_ACCESOS
     password: OnlyFields2026
 
