@@ -2,7 +2,6 @@ package com.fullstack.reservas.service.impl;
 
 import com.fullstack.reservas.models.Cancha;
 import com.fullstack.reservas.models.Reserva;
-import com.fullstack.reservas.repository.CanchaRepository;
 import com.fullstack.reservas.repository.*;
 import com.fullstack.reservas.service.IReservaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Duration;
 import java.util.List;
 
@@ -29,35 +29,55 @@ public class ReservaServiceImpl implements IReservaService {
     @Transactional
     public Reserva crearReserva(Reserva reserva) {
 
-        // 1. Validar que fechaFin sea posterior a fechaInicio
-        if (!reserva.getFechaFin().isAfter(reserva.getFechaInicio())) {
-            throw new RuntimeException(
-                "La fecha de fin debe ser posterior a la fecha de inicio."
-            );
-        }
-
-        // 2. Cargar la Cancha completa desde la BD para acceder a tarifaHora
-        Cancha cancha = canchaRepository.findById(reserva.getCancha().getId())
-            .orElseThrow(() -> new RuntimeException(
-                "No se encontró la cancha con ID: " + reserva.getCancha().getId()
-            ));
-
-        // 3. Calcular duración en horas (fraccionadas) y totalCobrado
-        long minutos = Duration.between(
-            reserva.getFechaInicio(),
-            reserva.getFechaFin()
-        ).toMinutes();
-
-        BigDecimal horas        = BigDecimal.valueOf(minutos).divide(BigDecimal.valueOf(60));
-        BigDecimal totalCobrado = horas.multiply(cancha.getTarifaHora());
-
-        // 4. Establecer valores calculados / por defecto
-        reserva.setCancha(cancha);
-        reserva.setTotalCobrado(totalCobrado);
-        reserva.setEstado("CONFIRMADA");
-
-        return reservaRepository.save(reserva);
+    // 1. Validar que fechaFin sea posterior a fechaInicio
+    if (!reserva.getFechaFin().isAfter(reserva.getFechaInicio())) {
+        throw new RuntimeException(
+            "La fecha de fin debe ser posterior a la fecha de inicio."
+        );
     }
+
+    // 2. Cargar la Cancha completa desde la BD
+    Cancha cancha = canchaRepository.findById(reserva.getCancha().getId())
+        .orElseThrow(() -> new RuntimeException(
+            "No se encontró la cancha con ID: " + reserva.getCancha().getId()
+        ));
+
+    // --- NUEVO: Validar que la cancha esté DISPONIBLE ---
+    if (!"DISPONIBLE".equalsIgnoreCase(cancha.getEstado())) {
+        throw new RuntimeException(
+            "No se puede reservar: La cancha está en estado " + cancha.getEstado()
+        );
+    }
+
+    // Dentro de crearReserva, antes de guardar:
+
+    List<Reserva> choques = reservaRepository.buscarChoquesReserva(
+    reserva.getCancha().getId(), 
+    reserva.getFechaInicio(), 
+    reserva.getFechaFin()
+    );
+        if (!choques.isEmpty()) {
+        throw new RuntimeException("La cancha ya está reservada en ese horario.");
+        }
+    // ----------------------------------------------------
+
+    // 3. Calcular duración en horas (fraccionadas) y totalCobrado
+    long minutos = Duration.between(
+        reserva.getFechaInicio(),
+        reserva.getFechaFin()
+    ).toMinutes();
+
+    // Usamos doubleValue() o transformamos a BigDecimal con precisión para evitar errores de escala
+    BigDecimal horas = BigDecimal.valueOf(minutos).divide(new BigDecimal("60"), 2, RoundingMode.HALF_UP);
+    BigDecimal totalCobrado = horas.multiply(cancha.getTarifaHora());
+
+    // 4. Establecer valores calculados / por defecto
+    reserva.setCancha(cancha);
+    reserva.setTotalCobrado(totalCobrado);
+    reserva.setEstado("CONFIRMADA");
+
+    return reservaRepository.save(reserva);
+}
 
     // ---------------------------------------------------------------
     // OBTENER POR ID
@@ -139,4 +159,5 @@ public class ReservaServiceImpl implements IReservaService {
         }
         reservaRepository.deleteById(id);
     }
+    
 }
