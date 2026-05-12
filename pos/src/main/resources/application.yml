@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: ms-accesos
+    name: ms-pos
 
   # Configuración de la Base de Datos (Oracle Cloud)
   datasource:
