@@ -1,24 +1,22 @@
 -- V1__crear_esquema_inicial.sql (Para el MS de Reportes)
 
-
 CREATE TABLE reporte_generado (
-    id NUMBER(19,0),
+
+    id NUMBER(19,0)
+        GENERATED ALWAYS AS IDENTITY,
+
     usuario_id NUMBER(19,0),
-    
-    
-    tipo VARCHAR2(255) NOT NULL, 
-    
-    -- Para la ruta del archivo
+
+    tipo VARCHAR2(255) NOT NULL,
+
     ruta_archivo VARCHAR2(255),
-    
-    -- LocalDateTime se mapea como TIMESTAMP
+
     fecha_generacion TIMESTAMP(6),
-    
-    -- IMPORTANTE: Aquí NO usamos TEXT. 
-    -- Usamos CLOB para textos muy largos (JSON, parámetros, etc.)
-    parametros CLOB, 
-    
+
+    parametros CLOB,
+
     CONSTRAINT pk_reporte_generado PRIMARY KEY (id)
+
 );
 
 INSERT INTO reporte_generado (id, usuario_id, tipo, ruta_archivo, fecha_generacion, parametros) 

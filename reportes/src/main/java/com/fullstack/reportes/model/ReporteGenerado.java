@@ -18,8 +18,8 @@ import java.time.LocalDateTime;
 public class ReporteGenerado {
 
    @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
-   private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @NotBlank(message = "El tipo de reporte es obligatorio")
     @Column(name = "tipo", nullable = false)
