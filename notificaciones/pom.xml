@@ -11,8 +11,14 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
+<<<<<<< Updated upstream
     <artifactId>ms-notificaciones</artifactId>
     <name>ms-notificaciones</name>
+=======
+<artifactId>ms-notificaciones</artifactId>
+    <name>ms-notificaciones</name>
+    <description>Microservicio de Notificaciones - Onlyfields</description>
+>>>>>>> Stashed changes
 
     <dependencies>
         <dependency>

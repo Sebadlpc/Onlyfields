@@ -11,8 +11,14 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
+<<<<<<< Updated upstream
     <artifactId>ms-reportes</artifactId>
     <name>ms-reportes</name>
+=======
+<artifactId>ms-reportes</artifactId>
+    <name>ms-reportes</name>
+    <description>Microservicio de Reportes - Onlyfields</description>
+>>>>>>> Stashed changes
 
     <dependencies>
         <dependency>

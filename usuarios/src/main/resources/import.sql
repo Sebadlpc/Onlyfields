@@ -1,38 +1,3 @@
-CREATE TABLE permiso (
-    id NUMBER(19,0) NOT NULL,
-    modulo VARCHAR2(50) NOT NULL,
-    accion VARCHAR2(20) NOT NULL,
-    CONSTRAINT pk_permiso PRIMARY KEY (id)
-);
-
-CREATE TABLE rol (
-    id NUMBER(19,0) NOT NULL,
-    nombre VARCHAR2(50) NOT NULL,
-    descripcion VARCHAR2(255),
-    CONSTRAINT pk_rol PRIMARY KEY (id),
-    CONSTRAINT uk_rol_nombre UNIQUE (nombre)
-);
-
-CREATE TABLE rol_permiso (
-    rol_id NUMBER(19,0) NOT NULL,
-    permiso_id NUMBER(19,0) NOT NULL,
-    CONSTRAINT fk_rol_permiso_rol FOREIGN KEY (rol_id) REFERENCES rol(id),
-    CONSTRAINT fk_rol_permiso_permiso FOREIGN KEY (permiso_id) REFERENCES permiso(id)
-);
-
-CREATE TABLE usuario (
-    id_usuario NUMBER(19,0) NOT NULL,
-    nombre VARCHAR2(255) NOT NULL,
-    correo_electronico VARCHAR2(255) NOT NULL,
-    password_hash VARCHAR2(255) NOT NULL,
-    estado VARCHAR2(50) NOT NULL,
-    fecha_creacion TIMESTAMP NOT NULL,
-    rol_id NUMBER(19,0) NOT NULL,
-    CONSTRAINT pk_usuario PRIMARY KEY (id_usuario),
-    CONSTRAINT uk_usuario_email UNIQUE (correo_electronico),
-    CONSTRAINT fk_usuario_rol FOREIGN KEY (rol_id) REFERENCES rol(id)
-);
-
 INSERT INTO rol (id, nombre, descripcion) 
 VALUES (1, 'ADMIN', 'Administrador total del complejo deportivo');
 
