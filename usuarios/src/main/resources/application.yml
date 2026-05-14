@@ -5,19 +5,16 @@ spring:
   application:
     name: usuarios
 
-  # Configuración de la Base de Datos (MySQL para Docker)
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://db-mysql:3306/usuarios_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
     username: root
     password: root
 
-  # Desactivar Docker Compose para evitar errores al arrancar
   docker:
     compose:
       enabled: false
 
-  # Configuración de JPA e Hibernate
   jpa:
     hibernate:
       ddl-auto: update
