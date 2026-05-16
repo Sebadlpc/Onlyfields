@@ -20,7 +20,26 @@ services:
       timeout: 5s
       retries: 5
 
-  # Servicio 2: ms-suscripciones (Spring Boot Native)
+  # Servicio 8081: ms-usuarios
+
+  ms-usuarios:
+    build:
+      context: .
+      dockerfile: usuarios/Dockerfile
+    container_name: onlyfields-ms-usuarios
+    ports:
+      - "8081:8080"
+    networks:
+      - onlyfields-network
+    depends_on:
+      db-mysql:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db-mysql:3306/usuarios_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+
+  # Servicio 8084: ms-suscripciones
   
   ms-suscripciones:
     build:
@@ -38,6 +57,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://db-mysql:3306/suscripciones_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
+
 # Redes y Volúmenes
 networks:
   onlyfields-network:
