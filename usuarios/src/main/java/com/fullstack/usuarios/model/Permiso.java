@@ -18,8 +18,8 @@ import java.util.List;
 public class Permiso {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "permiso_seq")
-    @SequenceGenerator(name = "permiso_seq", sequenceName = "PERMISO_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_permiso", nullable = false, updatable = false)
     private Long id;
     
     @NotBlank(message = "El módulo es obligatorio")

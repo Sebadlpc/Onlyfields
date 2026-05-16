@@ -18,8 +18,8 @@ import java.util.List;
 public class Rol {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rol_seq")
-    @SequenceGenerator(name = "rol_seq", sequenceName = "ROL_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_rol", nullable = false, updatable = false)
     private Long id;
     
     @NotBlank(message = "El nombre del rol es obligatorio")

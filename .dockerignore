@@ -1,16 +1,9 @@
-# Exclude all target directories to avoid duplicate project errors
-*/target/
-*/*/target/
-*/*/*/target/
-
-# Exclude Maven wrapper files
-.mvn/
-
-# Exclude IDE files
-.idea/
-.vscode/
-*.iml
-
-# Git
-.git/
+.git
 .gitignore
+.idea
+.vscode
+node_modules
+*.md
+target/
+.github
+*.log
