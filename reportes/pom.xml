@@ -11,9 +11,9 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>ms-reservas</artifactId>
-    <name>ms-reservas</name>
-    <description>Microservicio de Reservas - Onlyfields</description>
+    <artifactId>ms-reportes</artifactId>
+    <name>ms-reportes</name>
+    <description>Microservicio de Reportes - Onlyfields</description>
 
     <dependencies>
         <dependency>
@@ -75,21 +75,20 @@
         </dependency>
     </dependencies>
 
-   <build>
-    <plugins>
-        <plugin>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-maven-plugin</artifactId>
-            <configuration>
-                <mainClass>com.fullstack.reservas.ReservasApplication</mainClass>
-                <excludes>
-                    <exclude>
-                        <groupId>org.projectlombok</groupId>
-                        <artifactId>lombok</artifactId>
-                    </exclude>
-                </excludes>
-            </configuration>
-        </plugin>
-    </plugins>
-</build>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

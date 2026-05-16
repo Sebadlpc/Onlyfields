@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "UsuariosApplication",
+            "request": "launch",
+            "mainClass": "com.fullstack.usuarios.UsuariosApplication",
+            "projectName": "ms-usuarios"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-ReportesApplication<ms-reportes>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
