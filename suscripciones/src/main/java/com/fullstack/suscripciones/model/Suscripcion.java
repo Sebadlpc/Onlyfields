@@ -18,8 +18,8 @@ public class Suscripcion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "usuario_id", nullable = false)
-    private Long usuarioId;
+    @Column(name = "cliente_id", nullable = false)
+    private Long clienteId; // CORREGIDO: Segun doc (era usuarioId)
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "plan_id", nullable = false)
@@ -33,4 +33,7 @@ public class Suscripcion {
 
     @Column(nullable = false)
     private String estado;
+    
+    @Column(name = "dias_congelados")
+    private Integer diasCongelados = 0; // CORREGIDO: Faltaba segun doc
 }

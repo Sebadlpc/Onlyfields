@@ -11,14 +11,10 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>ms-usuarios</artifactId>
-    <name>ms-usuarios</name>
+    <artifactId>ms-suscripciones</artifactId>
+    <name>ms-suscripciones</name>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -33,47 +29,25 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
         </dependency>
+        
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.oracle.database.jdbc</groupId>
-            <artifactId>ojdbc8</artifactId>
-            <version>19.8.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.oracle.database.security</groupId>
-            <artifactId>oraclepki</artifactId>
-            <version>19.8.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.oracle.database.security</groupId>
-            <artifactId>osdt_cert</artifactId>
-            <version>19.8.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.oracle.database.security</groupId>
-            <artifactId>osdt_core</artifactId>
-            <version>19.8.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-database-oracle</artifactId>
-        </dependency>
     </dependencies>
-
 
     <build>
         <plugins>

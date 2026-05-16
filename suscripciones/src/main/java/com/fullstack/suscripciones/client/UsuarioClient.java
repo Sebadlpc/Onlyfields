@@ -1,7 +1,6 @@
 package com.fullstack.suscripciones.client;
 
 import com.fullstack.suscripciones.dto.external.UsuarioExternoDTO;
-
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,5 +9,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface UsuarioClient {
 
     @GetMapping("/{id}")
-    UsuarioDTO obtenerUsuarioPorId(@PathVariable("id") Long id);
+    UsuarioExternoDTO obtenerUsuarioPorId(@PathVariable("id") Long id);
 }

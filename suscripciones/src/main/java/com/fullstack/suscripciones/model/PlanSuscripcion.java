@@ -21,13 +21,13 @@ public class PlanSuscripcion {
     @Column(nullable = false, unique = true)
     private String nombre;
 
-    private String descripcion;
+    private String beneficios; // CORREGIDO: Segun doc (era descripcion)
 
     @Column(nullable = false)
     private BigDecimal precio;
 
-    @Column(name = "duracion_meses", nullable = false)
-    private Integer duracionMeses;
+    @Column(name = "duracion_dias", nullable = false)
+    private Integer duracionDias; // CORREGIDO: Segun doc (era duracionMeses)
 
     @Column(nullable = false)
     private String estado;
