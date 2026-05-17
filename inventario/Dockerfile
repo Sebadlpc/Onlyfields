@@ -1,17 +1,15 @@
 FROM eclipse-temurin:17-jdk AS builder
 
+RUN apt-get update && apt-get install -y maven && rm -rf /var/lib/apt/lists/*
 WORKDIR /build
 
 COPY . .
-
-RUN apt-get update && apt-get install -y maven
-
-RUN mvn clean package -DskipTests -pl usuarios -am -B
+RUN cd inventario && mvn clean package -B -DskipTests
 
 FROM eclipse-temurin:17-jre AS runner
 
-COPY --from=builder /build/usuarios/target/ms-usuarios-1.0.0.jar /app.jar
+COPY --from=builder /build/inventario/target/ms-inventario-*.jar /app-inventario.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+ENTRYPOINT ["java", "-jar", "/app-inventario.jar"]

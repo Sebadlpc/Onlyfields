@@ -1,12 +1,10 @@
 FROM eclipse-temurin:17-jdk AS builder
 
-RUN apt-get update && apt-get install -y maven
+RUN apt-get update && apt-get install -y maven && rm -rf /var/lib/apt/lists/*
 WORKDIR /build
 
 COPY . .
-RUN mvn clean -B
-
-RUN mvn -B -pl suscripciones -am package -DskipTests
+RUN cd suscripciones && mvn clean package -B -DskipTests
 
 FROM eclipse-temurin:17-jre AS runner
 

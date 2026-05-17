@@ -1,19 +1,15 @@
 FROM eclipse-temurin:17-jdk AS builder
 
+RUN apt-get update && apt-get install -y maven && rm -rf /var/lib/apt/lists/*
 WORKDIR /build
 
 COPY . .
-
-# Install Maven
-RUN apt-get update && apt-get install -y maven
-
-# Use the root pom which manages all modules
-RUN mvn clean package -DskipTests -pl usuarios -am -B
+RUN cd usuarios && mvn clean package -B -DskipTests
 
 FROM eclipse-temurin:17-jre AS runner
 
-COPY --from=builder /build/usuarios/target/ms-usuarios-1.0.0.jar /app.jar
+COPY --from=builder /build/usuarios/target/ms-usuarios-*.jar /app-usuarios.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+ENTRYPOINT ["java", "-jar", "/app-usuarios.jar"]

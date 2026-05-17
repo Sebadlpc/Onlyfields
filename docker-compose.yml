@@ -40,11 +40,11 @@ services:
       SPRING_DATASOURCE_PASSWORD: root
 
   # Servicio 8084: ms-suscripciones
-  
+
   ms-suscripciones:
     build:
       context: .
-      dockerfile: suscripciones/Dockerfile 
+      dockerfile: suscripciones/Dockerfile
     container_name: onlyfields-ms-suscripciones
     ports:
       - "8084:8080"
@@ -55,6 +55,25 @@ services:
         condition: service_healthy
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://db-mysql:3306/suscripciones_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+
+    # Servicio 8085: ms-inventario
+
+  ms-inventario:
+    build:
+      context: .
+      dockerfile: inventario/Dockerfile
+    container_name: onlyfields-ms-inventario
+    ports:
+      - "8085:8080"
+    networks:
+      - onlyfields-network
+    depends_on:
+      db-mysql:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db-mysql:3306/inventario_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
 
