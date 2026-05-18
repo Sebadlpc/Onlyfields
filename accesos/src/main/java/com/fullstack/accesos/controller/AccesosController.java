@@ -1,5 +1,6 @@
 package com.fullstack.accesos.controller;
 
+import com.fullstack.accesos.dto.RegistroAccesoDTO;
 import com.fullstack.accesos.model.QrToken;
 import com.fullstack.accesos.model.RegistroAcceso;
 import com.fullstack.accesos.model.ResultadoAcceso;
@@ -27,13 +28,22 @@ public class AccesosController {
 
     // POST /api/v1/accesos/validar
     @PostMapping("/accesos/validar")
-    public ResponseEntity<RegistroAcceso> validarQr(@RequestParam String token) {
+    public ResponseEntity<RegistroAccesoDTO> validarQr(@RequestParam String token) {
         RegistroAcceso registro = accesosService.validarEntrada(token);
 
+        RegistroAccesoDTO dto = RegistroAccesoDTO.builder()
+                .clienteId(registro.getClienteId())
+                .tipo(registro.getTipo().name())
+                .resultado(registro.getResultado().name())
+                .motivoRechazo(registro.getMotivoRechazo())
+                .fechaHora(registro.getFechaHora())
+                .build();
+
+        // 3. Devuelves el DTO
         if (registro.getResultado() == ResultadoAcceso.DENEGADO) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(registro);
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(dto);
         }
-        return ResponseEntity.ok(registro);
+        return ResponseEntity.ok(dto);
     }
 
     // GET /api/v1/accesos/historial

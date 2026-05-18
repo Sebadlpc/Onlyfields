@@ -1,0 +1,34 @@
+version: '3.8'
+services:
+  # Base de Datos Común MySQL 8.0
+  db-mysql:
+    image: mysql:8.0
+    container_name: onlyfields-db-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: accesos_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - onlyfields-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Microservicio de Accesos (Puerto externo 8086)
+  ms-accesos:
+    build:
+      context: .
+      dockerfile: accesos/Dockerfile
+    container_name: onlyfields-ms-accesos
+    ports:
+      - "8086:8080"
+    networks:
+      - onlyfields-network
+    depends_on:
+      db-mysql:
+        condition: service_healthy
