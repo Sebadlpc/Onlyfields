@@ -1,42 +1,37 @@
 server:
-  port: 8083
+  port: 8080
 
 spring:
   application:
-    name: ms-pos
-
-  # Configuración de la Base de Datos (Oracle Cloud)
+    name: pos
   datasource:
-    driver-class-name: oracle.jdbc.OracleDriver
-    url: jdbc:oracle:thin:@ONLYFIELDS_HIGH?TNS_ADMIN=C:/Users/sebas/Wallet/Wallet_ONLYFIELDS
-    username: OF_POS
-    password: OnlyFields2026
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://db-mysql:3306/ms_pos_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: root
+    password: root
 
-  # Desactivar Docker Compose para evitar errores al arrancar
+
   docker:
     compose:
       enabled: false
 
-  # Configuración de JPA e Hibernate
+
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
         format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
 
-  # Configuración de Flyway (Control de versiones)
+
+
   flyway:
-    enabled: true
-    locations: classpath:db/migration
-    baseline-on-migrate: true
-    baseline-version: 0
-    user: ${spring.datasource.username}
-    password: ${spring.datasource.password}
-    url: ${spring.datasource.url}
+    enabled: false
 
-# Configuración de Logs para ver qué pasa en la consola
+
+
 logging:
   level:
     org.hibernate: DEBUG

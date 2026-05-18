@@ -32,3 +32,41 @@ services:
     depends_on:
       db-mysql:
         condition: service_healthy
+
+
+
+  # Microservicio de Pos (Puerto externo 8083)
+  ms-pos:
+    build:
+      context: .
+      dockerfile: pos/Dockerfile
+    container_name: onlyfields-ms-pos
+    ports:
+      - "8083:8080"
+    networks:
+      - onlyfields-network
+    depends_on:
+      db-mysql:
+        condition: service_healthy
+
+  # Microservicio de Seguimiento (Puerto externo 8087)
+  ms-seguimiento:
+    build:
+      context: .
+      dockerfile: seguimiento/Dockerfile
+    container_name: onlyfields-ms-seguimiento
+    ports:
+      - "8087:8080"
+    networks:
+      - onlyfields-network
+    depends_on:
+      db-mysql:
+        condition: service_healthy
+
+# Redes y Volúmenes
+networks:
+  onlyfields-network:
+    driver: bridge
+
+volumes:
+  mysql_data:
