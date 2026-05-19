@@ -1,15 +1,16 @@
+# Etapa 1: Construcción y Compilación con Maven
 FROM eclipse-temurin:17-jdk AS builder
-
-RUN apt-get update && apt-get install -y maven && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y maven
 WORKDIR /build
-
 COPY . .
-RUN cd inventario && mvn clean package -B -DskipTests
+RUN mvn clean -B
+# Compila selectivamente el módulo correspondiente omitiendo las pruebas unitarias
+RUN mvn -B -pl accesos -am package -DskipTests
 
+# Etapa 2: Entorno de Ejecución Ligero JRE
 FROM eclipse-temurin:17-jre AS runner
-
-COPY --from=builder /build/inventario/target/ms-inventario-*.jar /app-inventario.jar
-
+WORKDIR /app
+# Copia el artefacto JAR generado de la etapa anterior de forma segura
+COPY --from=builder /build/accesos/target/*.jar app.jar
 EXPOSE 8080
-
-ENTRYPOINT ["java", "-jar", "/app-inventario.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]

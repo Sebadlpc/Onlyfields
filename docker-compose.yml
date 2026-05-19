@@ -53,7 +53,52 @@ services:
   ms-seguimiento:
     build:
       context: .
+      dockerfile: seguimiento/Dockerfile
+    container_name: onlyfields-ms-seguimiento
     ports:
+     - "8087:8080"
+    networks:
+      - onlyfields-network
+    depends_on:
+      db-mysql:
+        condition: service_healthy
+
+  # Microservicio de Usuarios (Puerto externo 8081)
+  ms-usuarios:
+    build:
+      context: .
+      dockerfile: usuarios/Dockerfile
+    container_name: onlyfields-ms-usuarios
+    ports:
+      - "8081:8080"
+    networks:
+      - onlyfields-network
+    depends_on:
+      db-mysql:
+        condition: service_healthy
+
+  # Microservicio de suscripciones (Puerto externo 8084)
+  ms-suscripciones:
+    build:
+      context: .
+      dockerfile: usuarios/Dockerfile
+    container_name: onlyfields-ms-suscripciones
+    ports:
+      - "8084:8080"
+    networks:
+      - onlyfields-network
+    depends_on:
+      db-mysql:
+        condition: service_healthy
+
+  # Microservicio de inventario (Puerto externo 8085)
+  ms-inventario:
+    build:
+      context: .
+      dockerfile: usuarios/Dockerfile
+    container_name: onlyfields-ms-inventario
+    ports:
+      - "8085:8080"
     networks:
       - onlyfields-network
     depends_on:

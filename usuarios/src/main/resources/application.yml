@@ -1,11 +1,22 @@
+server:
+  port: 8080
+
 spring:
   application:
-    name: ms-usuarios
+    name: usuarios
+
   datasource:
-    url: jdbc:mysql://db-mysql:3306/usuarios_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://db-mysql:3306/ms_usuarios_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
     username: root
     password: root
-    driver-class-name: com.mysql.cj.jdbc.Driver
+
+
+  docker:
+    compose:
+      enabled: false
+
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -14,5 +25,16 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.MySQLDialect
-server:
-  port: 8080
+
+
+
+  flyway:
+    enabled: false
+
+
+
+logging:
+  level:
+    org.hibernate: DEBUG
+    com.zaxxer.hikari: DEBUG
+    java.sql: DEBUG
