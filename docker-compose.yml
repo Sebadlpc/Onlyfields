@@ -53,10 +53,7 @@ services:
   ms-seguimiento:
     build:
       context: .
-      dockerfile: seguimiento/Dockerfile
-    container_name: onlyfields-ms-seguimiento
     ports:
-      - "8087:8080"
     networks:
       - onlyfields-network
     depends_on:

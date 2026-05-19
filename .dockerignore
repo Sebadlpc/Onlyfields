@@ -2,8 +2,14 @@
 .gitignore
 .idea
 .vscode
+.mvn
+.DS_Store
 node_modules
 *.md
 target/
 .github
 *.log
+.classpath
+.project
+*.iml
+.factorypath
