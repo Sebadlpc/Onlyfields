@@ -1,6 +1,6 @@
 package com.fullstack.usuarios.service;
 
-import com.fullstack.usuarios.dto.RolDTO;
+import com.fullstack.usuarios.dto.DTONucleo.*;
 import com.fullstack.usuarios.model.Rol;
 import com.fullstack.usuarios.repository.RolRepository;
 import lombok.RequiredArgsConstructor;

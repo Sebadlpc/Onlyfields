@@ -1,9 +1,10 @@
 package com.fullstack.usuarios.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 import lombok.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "usuario")
@@ -12,36 +13,44 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
 public class Usuario {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_usuario", nullable = false, updatable = false)
     private Long id;
- 
-    @NotBlank
-    @Column(name = "nombre", nullable = false)
+
+    @Column(nullable = false)
     private String nombre;
 
-    @NotBlank(message = "El correo electrónico es obligatorio")
-    @Email(message = "Debe proporcionar un formato de correo electrónico válido")
-    @Column(nullable = false, unique = true)
-    private String correoElectronico;
+    @Column(unique = true, nullable = false)
+    private String email;
 
-    @NotBlank
     @Column(name = "password_hash", nullable = false)
     private String passwordHash;
 
-    @NotBlank
-    @Column(name = "estado", nullable = false)
-    private String estado;
+    @Builder.Default
+    private String estado = "ACTIVO";
 
-    @NotNull
-    @Column(name = "fecha_creacion", nullable = false)
+    @Column(name = "fecha_creacion", updatable = false)
     private LocalDateTime fechaCreacion;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "rol_id", nullable = false)
-    private Rol rol;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "usuario_rol",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "rol_id")
+    )
+    @Builder.Default
+    private Set<Rol> roles = new HashSet<>();
+
+    @PrePersist
+    public void prePersist() {
+        if (this.fechaCreacion == null) {
+            this.fechaCreacion = LocalDateTime.now();
+        }
+    }
+
+    public void agregarRol(Rol rol) {
+        if (this.roles == null) this.roles = new HashSet<>();
+        this.roles.add(rol);
+    }
 }

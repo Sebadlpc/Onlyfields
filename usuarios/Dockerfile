@@ -1,19 +1,23 @@
-FROM eclipse-temurin:17-jdk AS builder
-
+# Etapa 1: Compilación Nativa (AOT)
+FROM ghcr.io/graalvm/native-image-community:17 AS builder
 WORKDIR /build
 
-COPY . .
+COPY pom.xml .
+COPY usuarios ./usuarios
+WORKDIR /build/usuarios
 
-# Install Maven
-RUN apt-get update && apt-get install -y maven
+RUN chmod +x ./mvnw
+RUN ./mvnw native:compile -Pnative -DskipTests
 
-# Use the root pom which manages all modules
-RUN mvn clean package -DskipTests -pl usuarios -am -B
+# Etapa 2: Ejecución Ultra Ligera (Distroless)
+FROM gcr.io/distroless/base-debian12
+WORKDIR /app
 
-FROM eclipse-temurin:17-jre AS runner
+# Copiamos la librería 'zlib'
+COPY --from=builder /usr/lib64/libz.so.1 /lib/
 
-COPY --from=builder /build/usuarios/target/ms-usuarios-1.0.0.jar /app.jar
+# Copiamos el binario compilado
+COPY --from=builder /build/usuarios/target/ms-usuarios /app/ms-usuarios
 
 EXPOSE 8080
-
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+ENTRYPOINT ["/app/ms-usuarios"]

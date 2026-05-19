@@ -3,7 +3,6 @@ package com.fullstack.usuarios.repository;
 import com.fullstack.usuarios.model.Rol;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
 import java.util.Optional;
 
 @Repository

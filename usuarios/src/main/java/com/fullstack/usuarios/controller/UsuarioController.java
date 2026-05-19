@@ -1,12 +1,12 @@
 package com.fullstack.usuarios.controller;
 
-import com.fullstack.usuarios.dto.*;
+import com.fullstack.usuarios.dto.DTONucleo.*;
 import com.fullstack.usuarios.service.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -18,7 +18,7 @@ public class UsuarioController {
 
     @PostMapping
     public ResponseEntity<UsuarioRespuestaDTO> registrar(@Valid @RequestBody UsuarioRegistroDTO dto) {
-        return ResponseEntity.status(201).body(usuarioService.registrarUsuario(dto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.registrarUsuario(dto));
     }
 
     @PostMapping("/login")
@@ -29,16 +29,6 @@ public class UsuarioController {
     @GetMapping
     public ResponseEntity<List<UsuarioRespuestaDTO>> listarTodos() {
         return ResponseEntity.ok(usuarioService.listarTodos());
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<UsuarioRespuestaDTO> obtenerPorId(@PathVariable Long id) {
-        return ResponseEntity.ok(usuarioService.obtenerPorId(id));
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<UsuarioRespuestaDTO> actualizar(@PathVariable Long id, @Valid @RequestBody UsuarioUpdateDTO dto) {
-        return ResponseEntity.ok(usuarioService.actualizarUsuario(id, dto));
     }
 
     @DeleteMapping("/{id}")
