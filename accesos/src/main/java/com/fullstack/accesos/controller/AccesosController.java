@@ -21,9 +21,14 @@ public class AccesosController {
 
     // POST /api/v1/qr/generar
     @PostMapping("/qr/generar")
-    public ResponseEntity<QrToken> generarQr(@RequestParam Long clienteId) {
-        QrToken token = accesosService.generarQr(clienteId);
-        return ResponseEntity.status(HttpStatus.CREATED).body(token);
+    public ResponseEntity<?> generarQr(@RequestParam Long clienteId) {
+        try {
+            QrToken token = accesosService.generarQr(clienteId);
+            return ResponseEntity.status(HttpStatus.CREATED).body(token);
+        } catch (RuntimeException e) {
+            // Mandamos un 404 o 400 con tu mensaje personalizado
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     // POST /api/v1/accesos/validar
