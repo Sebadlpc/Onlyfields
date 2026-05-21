@@ -1,22 +1,15 @@
 spring:
-  application:
-    name: ms-usuarios
   datasource:
-    driver-class-name: oracle.jdbc.OracleDriver
-    url: jdbc:oracle:thin:@onlyfields_high?TNS_ADMIN=/app/wallet&javax.net.ssl.trustStore=/app/wallet/truststore.jks&javax.net.ssl.trustStorePassword=PASS_DE_LA_WALLET&javax.net.ssl.keyStore=/app/wallet/keystore.jks&javax.net.ssl.keyStorePassword=PASS_DE_LA_WALLET
-    username: ADMIN
-    password: "Sepulved5844?"
+    url: jdbc:mysql://db-mysql:3306/onlyfields_usuarios?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: validate
-    show-sql: true
     properties:
       hibernate:
-        format_sql: true
-        dialect: org.hibernate.dialect.OracleDialect
+        dialect: org.hibernate.dialect.MySQLDialect
   flyway:
     enabled: true
-    baseline-on-migrate: true
-
-server:
-  port: 8080
+    locations: classpath:db/migration
