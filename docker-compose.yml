@@ -4,9 +4,11 @@ services:
     container_name: onlyfields-db-mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: onlyfields_db
+      MYSQL_DATABASE: onlyfields_usuarios
     ports:
-      - "3306:3306"
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
     networks:
       - onlyfields-network
     restart: unless-stopped
@@ -27,3 +29,6 @@ services:
 networks:
   onlyfields-network:
     driver: bridge
+
+volumes:
+  mysql-data:

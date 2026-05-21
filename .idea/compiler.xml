@@ -8,15 +8,21 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="ms-reservas" />
-        <module name="ms-seguimiento" />
         <module name="ms-suscripciones" />
         <module name="ms-usuarios" />
-        <module name="ms-configuracion" />
-        <module name="ms-notificaciones" />
         <module name="ms-pos" />
-        <module name="ms-reportes" />
+        <module name="ms-usuarios (2)" />
+        <module name="ms-usuarios (3)" />
         <module name="ms-accesos" />
         <module name="ms-inventario" />
+        <module name="ms-usuarios (1)" />
+        <module name="ms-seguimiento" />
+        <module name="ms-configuracion" />
+        <module name="ms-notificaciones" />
+        <module name="ms-reportes" />
+        <module name="ms-reservas (3)" />
+        <module name="ms-reservas (2)" />
+        <module name="ms-reservas (1)" />
       </profile>
     </annotationProcessing>
   </component>
@@ -29,9 +35,15 @@
       <module name="ms-pos" options="-parameters" />
       <module name="ms-reportes" options="-parameters" />
       <module name="ms-reservas" options="-parameters" />
+      <module name="ms-reservas (1)" options="-parameters" />
+      <module name="ms-reservas (2)" options="-parameters" />
+      <module name="ms-reservas (3)" options="-parameters" />
       <module name="ms-seguimiento" options="-parameters" />
       <module name="ms-suscripciones" options="-parameters" />
       <module name="ms-usuarios" options="-parameters" />
+      <module name="ms-usuarios (1)" options="-parameters" />
+      <module name="ms-usuarios (2)" options="-parameters" />
+      <module name="ms-usuarios (3)" options="-parameters" />
     </option>
   </component>
 </project>
