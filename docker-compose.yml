@@ -1,34 +1,34 @@
 services:
-  db-mysql-reservas:
+  db-mysql:
     image: mysql:8.0
-    container_name: onlyfields-db-reservas
+    container_name: onlyfields-db-mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: onlyfields_reservas
     ports:
-      - "3308:3306" # Usamos 3308 para no chocar con el 3307 de Usuarios
+      - "3307:3306"
     volumes:
-      - mysql-reservas-data:/var/lib/mysql
+      - mysql-data:/var/lib/mysql
     networks:
-      - reservas-network
+      - onlyfields-network
     restart: unless-stopped
 
   ms-reservas:
     build:
-      context: .. # Importante: Sube un nivel para poder leer el pom.xml padre
+      context: .
       dockerfile: reservas/Dockerfile
     container_name: onlyfields-ms-reservas
     ports:
-      - "8082:8080"
+      - "8081:8080"
     depends_on:
-      - db-mysql-reservas
+      - db-mysql
     networks:
-      - reservas-network
+      - onlyfields-network
     restart: unless-stopped
 
 networks:
-  reservas-network:
+  onlyfields-network:
     driver: bridge
 
 volumes:
-  mysql-reservas-data:
+  mysql-data:
