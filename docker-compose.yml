@@ -1,0 +1,34 @@
+services:
+  db-mysql:
+    image: mysql:8.0
+    container_name: onlyfields-db-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: onlyfields_reportes
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - onlyfields-network
+    restart: unless-stopped
+
+  ms-reportes:
+    build:
+      context: .
+      dockerfile: reportes/Dockerfile
+    container_name: onlyfields-ms-reportes
+    ports:
+      - "8088:8080"
+    depends_on:
+      - db-mysql
+    networks:
+      - onlyfields-network
+    restart: unless-stopped
+
+networks:
+  onlyfields-network:
+    driver: bridge
+
+volumes:
+  mysql-data:

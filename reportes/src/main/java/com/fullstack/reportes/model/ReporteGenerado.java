@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.JdbcTypeCode; 
+import org.hibernate.type.SqlTypes;        
 
 import java.time.LocalDateTime;
 
@@ -17,7 +19,7 @@ import java.time.LocalDateTime;
 @Builder
 public class ReporteGenerado {
 
-   @Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -28,12 +30,10 @@ public class ReporteGenerado {
     @Column(name = "fecha_generacion")
     private LocalDateTime fechaGeneracion;
 
-    
     @Column(name = "usuario_id")
     private Long usuarioId;
 
-    
-    @Lob
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "parametros")
     private String parametros;
 
