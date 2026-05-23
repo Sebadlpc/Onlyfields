@@ -1,29 +1,15 @@
-server:
-  port: 8082
-
 spring:
-  application:
-    name: ms-reservas
   datasource:
-    driver-class-name: oracle.jdbc.OracleDriver
-    url: jdbc:oracle:thin:@ONLYFIELDS_HIGH?TNS_ADMIN=C:/Users/dolap/Desktop/Wallet/Wallet_ONLYFIELDS
-    username: OF_RESERVAS
-    password: OnlyFields2026
+    url: jdbc:mysql://db-mysql:3306/onlyfields_reservas?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: validate
-    show-sql: true
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.OracleDialect
-        format_sql: true
-        temp:
-          use_jdbc_metadata_defaults: false
+        dialect: org.hibernate.dialect.MySQLDialect
   flyway:
     enabled: true
     locations: classpath:db/migration
-    baseline-on-migrate: true
-
-logging:
-  level:
-    org.hibernate: DEBUG
