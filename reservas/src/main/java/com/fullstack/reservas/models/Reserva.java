@@ -4,10 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 import java.time.LocalDateTime;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import java.math.BigDecimal;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "reserva")
@@ -15,11 +13,9 @@ import java.math.BigDecimal;
 public class Reserva {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mi_secuencia")
-    @SequenceGenerator(name = "mi_secuencia", sequenceName = "HIBERNATE_SEQUENCE", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Long id;
 
-   
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cancha_id", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -37,7 +33,7 @@ public class Reserva {
     private LocalDateTime fechaFin;
 
     @Column(length = 30)
-    private String estado; 
+    private String estado;
 
     @Column(name = "total_cobrado", precision = 12, scale = 2)
     private BigDecimal totalCobrado;

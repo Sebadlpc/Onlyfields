@@ -9,9 +9,9 @@ import java.math.BigDecimal;
 @Table(name = "cancha")
 @Data
 public class Cancha {
-   @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mi_secuencia")
-    @SequenceGenerator(name = "mi_secuencia", sequenceName = "HIBERNATE_SEQUENCE", allocationSize = 1)
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Long id;
 
     @NotBlank
@@ -27,5 +27,5 @@ public class Cancha {
     @Column(precision = 12, scale = 2)
     private BigDecimal tarifaHora;
 
-    private String estado; // Ejemplo: 'DISPONIBLE', 'MANTENIMIENTO'
+    private String estado; 
 }

@@ -1,4 +1,5 @@
 services:
+
   db-mysql:
     image: mysql:8.0
     container_name: onlyfields-db-mysql
@@ -12,6 +13,12 @@ services:
     networks:
       - onlyfields-network
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-u", "root", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
 
   ms-reservas:
     build:
@@ -19,12 +26,17 @@ services:
       dockerfile: reservas/Dockerfile
     container_name: onlyfields-ms-reservas
     ports:
-      - "8081:8080"
+      - "8082:8080"
     depends_on:
-      - db-mysql
+      db-mysql:
+        condition: service_healthy
     networks:
       - onlyfields-network
     restart: unless-stopped
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db-mysql:3306/onlyfields_reservas?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
 
 networks:
   onlyfields-network:

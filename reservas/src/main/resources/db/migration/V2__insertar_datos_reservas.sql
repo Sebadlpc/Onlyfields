@@ -1,27 +1,19 @@
-INSERT INTO cancha (id, nombre, deporte, capacidad, tarifa_hora, estado) 
-VALUES (1, 'Cancha Central', 'Tenis', 100, 25000.00, 'Disponible');
+-- V2__insertar_datos_reservas.sql
 
-INSERT INTO cancha (id, nombre, deporte, capacidad, tarifa_hora, estado) 
-VALUES (2, 'Cancha Norte', 'Futbolito', 14, 30000.50, 'Mantenimiento');
+-- ── Canchas ───────────────────────────────────────────────────────
+INSERT INTO cancha (nombre, deporte, capacidad, tarifa_hora, estado) VALUES
+('Cancha Norte',   'FUTBOL',  10, 15000.00, 'DISPONIBLE'),
+('Cancha Central', 'TENIS',    2, 12000.00, 'DISPONIBLE'),
+('Cancha Sur',     'BASQUET',  8, 10000.00, 'DISPONIBLE');
 
-INSERT INTO cancha (id, nombre, deporte, capacidad, tarifa_hora, estado) 
-VALUES (3, 'Pista Cristal', 'Padel', 4, 15000.00, 'Disponible');
+-- ── Reservas ──────────────────────────────────────────────────────
+INSERT INTO reserva (cancha_id, cliente_id, fecha_inicio, fecha_fin, estado, total_cobrado) VALUES
+(1, 101, '2026-06-01 09:00:00', '2026-06-01 10:00:00', 'CONFIRMADA', 15000.00),
+(2, 102, '2026-06-02 14:00:00', '2026-06-02 15:30:00', 'CONFIRMADA', 18000.00),
+(3, 103, '2026-06-03 16:00:00', '2026-06-03 17:00:00', 'CONFIRMADA', 10000.00);
 
-INSERT INTO reserva (id, cancha_id, cliente_id, fecha_inicio, fecha_fin, estado, total_cobrado) 
-VALUES (1, 1, 101, TO_TIMESTAMP('2026-05-15 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('2026-05-15 11:30:00', 'YYYY-MM-DD HH24:MI:SS'), 'Confirmada', 37500.00);
-
-INSERT INTO reserva (id, cancha_id, cliente_id, fecha_inicio, fecha_fin, estado, total_cobrado) 
-VALUES (2, 3, 205, TO_TIMESTAMP('2026-05-16 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('2026-05-16 19:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Pendiente', 15000.00);
-
-INSERT INTO reserva (id, cancha_id, cliente_id, fecha_inicio, fecha_fin, estado, total_cobrado) 
-VALUES (3, 1, 310, TO_TIMESTAMP('2026-05-20 20:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('2026-05-20 22:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Cancelada', 0.00);
-
-INSERT INTO bloque_horario (id, cancha_id, fecha_inicio, fecha_fin, motivo) 
-VALUES (1, 2, TO_TIMESTAMP('2026-05-10 08:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('2026-05-12 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Cambio de césped sintético');
-
-INSERT INTO bloque_horario (id, cancha_id, fecha_inicio, fecha_fin, motivo) 
-VALUES (2, 1, TO_TIMESTAMP('2026-06-01 09:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('2026-06-05 21:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Torneo Regional de Tenis');
-
-INSERT INTO bloque_horario (id, cancha_id, fecha_inicio, fecha_fin, motivo) 
-VALUES (3, 3, TO_TIMESTAMP('2026-05-22 12:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('2026-05-22 14:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Reparación de red e iluminación');
-COMMIT;
+-- ── Bloques horarios ──────────────────────────────────────────────
+INSERT INTO bloque_horario (cancha_id, fecha_inicio, fecha_fin, motivo) VALUES
+(1, '2026-06-05 08:00:00', '2026-06-05 12:00:00', 'Mantenimiento de cesped'),
+(2, '2026-06-06 10:00:00', '2026-06-06 13:00:00', 'Reparacion de red'),
+(3, '2026-06-07 07:00:00', '2026-06-07 09:00:00', 'Limpieza general');
