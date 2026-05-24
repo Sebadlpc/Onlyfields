@@ -37,4 +37,14 @@ public class Reserva {
 
     @Column(name = "total_cobrado", precision = 12, scale = 2)
     private BigDecimal totalCobrado;
+
+    @Column(name = "fecha_creacion", updatable = false)
+    private LocalDateTime fechaCreacion;
+
+    @PrePersist
+    public void prePersist() {
+        if (this.fechaCreacion == null) {
+            this.fechaCreacion = LocalDateTime.now();
+        }
+    }
 }

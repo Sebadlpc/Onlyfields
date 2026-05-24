@@ -21,53 +21,36 @@ public class ReservaController {
     @Autowired
     private IReservaService reservaService;
 
-    // GET /api/reservas
     @GetMapping
     public List<ReservaResponseDTO> listar() {
-        return reservaService.obtenerTodasLasReservas()
-                .stream()
-                .map(ReservaResponseDTO::fromEntity)
-                .collect(Collectors.toList());
+        return reservaService.obtenerTodasLasReservas().stream().map(ReservaResponseDTO::fromEntity).collect(Collectors.toList());
     }
 
-    // GET /api/reservas/{id}
     @GetMapping("/{id}")
     public ResponseEntity<ReservaResponseDTO> obtenerPorId(@PathVariable Long id) {
-        Reserva reserva = reservaService.obtenerReservaPorId(id);
-        return ResponseEntity.ok(ReservaResponseDTO.fromEntity(reserva));
+        return ResponseEntity.ok(ReservaResponseDTO.fromEntity(reservaService.obtenerReservaPorId(id)));
     }
 
-    // POST /api/reservas
+    @GetMapping("/cliente/{clienteId}")
+    public List<ReservaResponseDTO> listarPorCliente(@PathVariable Long clienteId) {
+        return reservaService.obtenerPorCliente(clienteId).stream().map(ReservaResponseDTO::fromEntity).collect(Collectors.toList());
+    }
+
     @PostMapping
     public ResponseEntity<?> crear(@Valid @RequestBody ReservaRequestDTO dto) {
         try {
-            Reserva nueva = reservaService.crearReserva(dto.toEntity());
-            return new ResponseEntity<>(ReservaResponseDTO.fromEntity(nueva), HttpStatus.CREATED);
+            return new ResponseEntity<>(ReservaResponseDTO.fromEntity(reservaService.crearReserva(dto.toEntity())), HttpStatus.CREATED);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    // PUT /api/reservas/{id}
-    @PutMapping("/{id}")
-    public ResponseEntity<?> actualizar(@PathVariable Long id,
-                                        @Valid @RequestBody ReservaRequestDTO dto) {
+    @PutMapping("/{id}/cancelar")
+    public ResponseEntity<?> cancelar(@PathVariable Long id) {
         try {
-            Reserva actualizada = reservaService.actualizarReserva(id, dto.toEntity());
-            return ResponseEntity.ok(ReservaResponseDTO.fromEntity(actualizada));
+            return ResponseEntity.ok(ReservaResponseDTO.fromEntity(reservaService.cancelarReserva(id)));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-
-    // DELETE /api/reservas/{id}
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> eliminar(@PathVariable Long id) {
-        try {
-            reservaService.eliminarReserva(id);
-            return ResponseEntity.ok("Reserva eliminada exitosamente");
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 }

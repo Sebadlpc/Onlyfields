@@ -1,9 +1,10 @@
 package com.fullstack.reservas.controller;
 
-import com.fullstack.reservas.dto.CanchaRequestDTO;
-import com.fullstack.reservas.dto.CanchaResponseDTO;
+import com.fullstack.reservas.dto.*;
 import com.fullstack.reservas.models.Cancha;
+import com.fullstack.reservas.models.BloqueHorario;
 import com.fullstack.reservas.repository.CanchaRepository;
+import com.fullstack.reservas.repository.BloqueHorarioRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,57 +22,43 @@ public class CanchaController {
     @Autowired
     private CanchaRepository canchaRepository;
 
-    // GET /api/canchas
+    @Autowired
+    private BloqueHorarioRepository bloqueHorarioRepository;
+
     @GetMapping
     public List<CanchaResponseDTO> listarTodas() {
-        return canchaRepository.findAll()
-                .stream()
-                .map(CanchaResponseDTO::fromEntity)
-                .collect(Collectors.toList());
+        return canchaRepository.findAll().stream().map(CanchaResponseDTO::fromEntity).collect(Collectors.toList());
     }
 
-    // GET /api/canchas/deporte/{deporte}
-    @GetMapping("/deporte/{deporte}")
-    public List<CanchaResponseDTO> listarPorDeporte(@PathVariable String deporte) {
-        return canchaRepository.findByDeporte(deporte)
-                .stream()
+    @GetMapping("/{id}")
+    public ResponseEntity<CanchaResponseDTO> obtenerPorId(@PathVariable Long id) {
+        return canchaRepository.findById(id)
                 .map(CanchaResponseDTO::fromEntity)
-                .collect(Collectors.toList());
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    // POST /api/canchas
+    @PostMapping("/{id}/bloquear")
+    public ResponseEntity<?> bloquearCancha(@PathVariable Long id, @Valid @RequestBody BloqueHorarioRequestDTO dto) {
+        if (!dto.getFechaFin().isAfter(dto.getFechaInicio())) return ResponseEntity.badRequest().body("Fechas inválidas");
+        
+        dto.setCanchaId(id); // Forzamos el ID de la URL
+        if (!bloqueHorarioRepository.buscarChoques(id, dto.getFechaInicio(), dto.getFechaFin()).isEmpty()) {
+            return ResponseEntity.badRequest().body("Ya existe un bloqueo en este horario.");
+        }
+        
+        return new ResponseEntity<>(BloqueHorarioResponseDTO.fromEntity(bloqueHorarioRepository.save(dto.toEntity())), HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/{id}/desbloquear/{bloqueoId}")
+    public ResponseEntity<?> desbloquearCancha(@PathVariable Long id, @PathVariable Long bloqueoId) {
+        if (!bloqueHorarioRepository.existsById(bloqueoId)) return ResponseEntity.notFound().build();
+        bloqueHorarioRepository.deleteById(bloqueoId);
+        return ResponseEntity.noContent().build();
+    }
+
     @PostMapping
     public ResponseEntity<?> crear(@Valid @RequestBody CanchaRequestDTO dto) {
-        if (canchaRepository.existsByNombre(dto.getNombre())) {
-            return ResponseEntity.badRequest().body("Ya existe una cancha con ese nombre.");
-        }
-        return new ResponseEntity<>(
-                CanchaResponseDTO.fromEntity(canchaRepository.save(dto.toEntity())),
-                HttpStatus.CREATED
-        );
+        return new ResponseEntity<>(CanchaResponseDTO.fromEntity(canchaRepository.save(dto.toEntity())), HttpStatus.CREATED);
     }
-
-    // DELETE /api/canchas/{id}
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> eliminar(@PathVariable Long id) {
-        if (!canchaRepository.existsById(id)) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No se encontró la cancha con ID: " + id);
-        }
-        canchaRepository.deleteById(id);
-        return ResponseEntity.ok("Cancha eliminada exitosamente");
-    }
-    @PutMapping("/{id}")
-public ResponseEntity<Cancha> actualizar(@PathVariable Long id, @RequestBody Cancha detallesCancha) {
-    return canchaRepository.findById(id)
-            .map(cancha -> {
-                cancha.setNombre(detallesCancha.getNombre());
-                cancha.setDeporte(detallesCancha.getDeporte());
-                cancha.setCapacidad(detallesCancha.getCapacidad());
-                cancha.setTarifaHora(detallesCancha.getTarifaHora());
-                cancha.setEstado(detallesCancha.getEstado());
-                return ResponseEntity.ok(canchaRepository.save(cancha));
-            })
-            .orElse(ResponseEntity.notFound().build());
-}
 }

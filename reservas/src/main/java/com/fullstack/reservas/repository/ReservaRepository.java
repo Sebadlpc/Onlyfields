@@ -12,19 +12,11 @@ import java.util.List;
 @Repository
 public interface ReservaRepository extends JpaRepository<Reserva, Long> {
 
-    // Buscar todas las reservas de un cliente
     List<Reserva> findByClienteId(Long clienteId);
-
-    // Buscar todas las reservas de una cancha
     List<Reserva> findByCanchaId(Long canchaId);
-
-    // Buscar reservas por estado 
     List<Reserva> findByEstado(String estado);
-
-    // Buscar reservas de un cliente filtradas por estado
     List<Reserva> findByClienteIdAndEstado(Long clienteId, String estado);
 
-  
     @Query("""
         SELECT r FROM Reserva r
         WHERE r.cancha.id = :canchaId
@@ -37,16 +29,8 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long> {
         @Param("fechaInicio") LocalDateTime fechaInicio,
         @Param("fechaFin")    LocalDateTime fechaFin
     );
-    @Query("""
-        SELECT r FROM Reserva r
-        WHERE r.cancha.id = :canchaId
-          AND r.fechaInicio < :fechaFin
-          AND r.fechaFin > :fechaInicio
-          AND r.estado = 'CONFIRMADA'
-    """)
-    List<Reserva> buscarChoquesReserva(
-        @Param("canchaId")    Long canchaId,
-        @Param("fechaInicio") LocalDateTime fechaInicio,
-        @Param("fechaFin")    LocalDateTime fechaFin
-    );
+
+    // Buscar reservas que no se han pagado a tiempo
+    @Query("SELECT r FROM Reserva r WHERE r.estado = :estado AND r.fechaCreacion <= :fechaLimite")
+    List<Reserva> buscarExpiradas(@Param("estado") String estado, @Param("fechaLimite") LocalDateTime fechaLimite);
 }
