@@ -9,6 +9,7 @@ public interface IReservaService {
     List<Reserva> obtenerTodasLasReservas();
     List<Reserva> obtenerPorCliente(Long clienteId);
     Reserva actualizarReserva(Long id, Reserva reserva);
-    Reserva cancelarReserva(Long id); // 🌟 Nuevo método
+    Reserva cancelarReserva(Long id);
     void eliminarReserva(Long id);
+    Reserva confirmarReserva(Long id);
 }

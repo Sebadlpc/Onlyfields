@@ -53,4 +53,9 @@ public class ReservaController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+    @PutMapping("/{id}/confirmar")
+    public ResponseEntity<?> confirmarReserva(@PathVariable Long id) {
+    Reserva reservaConfirmada = reservaService.confirmarReserva(id);
+    return ResponseEntity.ok(reservaConfirmada);
+}
 }

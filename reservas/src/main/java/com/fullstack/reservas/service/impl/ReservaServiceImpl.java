@@ -146,4 +146,21 @@ public class ReservaServiceImpl implements IReservaService {
     public void eliminarReserva(Long id) {
         reservaRepository.deleteById(id);
     }
+    @Override
+    @Transactional
+    public Reserva confirmarReserva(Long id) {
+        Reserva reserva = reservaRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
+        
+        reserva.setEstado("CONFIRMADA");
+        
+        try {
+            restTemplate.postForObject("http://localhost:8090/api/notificaciones/enviar-comprobante", reserva, String.class);
+            System.out.println("✅ Notificación enviada con éxito para la reserva " + id);
+        } catch (Exception e) {
+            System.err.println("❌ Error al enviar notificación, pero la reserva se confirmó: " + e.getMessage());
+        }
+        
+        return reservaRepository.save(reserva);
+    }
 }
