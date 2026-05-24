@@ -19,8 +19,15 @@ public class NotificacionDTO {
     @NotNull(message = "El ID del destinatario es obligatorio")
     private Long destinatarioId;
     
-    private String tipo;
+    @NotBlank(message = "El email del destinatario es obligatorio")
+    private String destinatarioEmail; 
+    
+    @NotBlank(message = "El tipo de notificación es obligatorio") 
+    
+    @NotBlank(message = "El canal de notificación es obligatorio") 
     private String canal;
+    
+    @NotBlank(message = "El asunto es obligatorio") 
     private String asunto;
     
     @NotBlank(message = "El cuerpo de la notificación no puede estar vacío")
@@ -29,5 +36,7 @@ public class NotificacionDTO {
     private String estado;
     private LocalDateTime fechaEnvio;
     private Integer intentos;
+    
+    @NotBlank(message = "La clave de idempotencia es obligatoria")
     private String idempotencyKey;
 }

@@ -43,7 +43,7 @@ public class NotificacionService {
         return NotificacionDTO.builder()
                 .id(n.getId())
                 .destinatarioId(n.getDestinatarioId())
-                .tipo(n.getTipo())
+                .destinatarioEmail(n.getDestinatarioEmail())
                 .canal(n.getCanal())
                 .asunto(n.getAsunto())
                 .cuerpo(n.getCuerpo())
@@ -57,7 +57,7 @@ public class NotificacionService {
     private Notificacion convertToEntity(NotificacionDTO dto) {
         return Notificacion.builder()
                 .destinatarioId(dto.getDestinatarioId())
-                .tipo(dto.getTipo())
+                .destinatarioEmail(dto.getDestinatarioEmail()) 
                 .canal(dto.getCanal())
                 .asunto(dto.getAsunto())
                 .cuerpo(dto.getCuerpo())

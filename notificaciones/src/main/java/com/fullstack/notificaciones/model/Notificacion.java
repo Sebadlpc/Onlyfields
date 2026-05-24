@@ -21,9 +21,11 @@ public class Notificacion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @Column(name = "destinatario_id")
     private Long destinatarioId;
+
+    @Column(name = "destinatario_email")
+    private String destinatarioEmail;
 
     @Column(name = "tipo")
     private String tipo;
@@ -34,21 +36,35 @@ public class Notificacion {
     @Column(name = "asunto")
     private String asunto;
 
-
     @NotBlank
-    @Lob
-    @Column(name = "cuerpo", columnDefinition = "CLOB")
+    @Column(columnDefinition = "TEXT")
     private String cuerpo;
 
+    @Builder.Default
     @Column(name = "estado")
-    private String estado;
+    private String estado = "PENDIENTE";
 
+    @Builder.Default
     @Column(name = "fecha_envio")
-    private LocalDateTime fechaEnvio;
+    private LocalDateTime fechaEnvio = LocalDateTime.now();
 
+    @Builder.Default
     @Column(name = "intentos")
-    private Integer intentos;
+    private Integer intentos = 0;
 
     @Column(name = "idempotency_key", unique = true)
     private String idempotencyKey;
+
+    @PrePersist
+    public void prePersist() {
+        if (this.estado == null) {
+            this.estado = "PENDIENTE";
+        }
+        if (this.intentos == null) {
+            this.intentos = 0;
+        }
+        if (this.fechaEnvio == null) {
+            this.fechaEnvio = LocalDateTime.now();
+        }
+    }
 }

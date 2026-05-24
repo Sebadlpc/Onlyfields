@@ -1,0 +1,44 @@
+services:
+  db-mysql:
+    image: mysql:8.0
+    container_name: onlyfields-db-notificaciones
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: onlyfields_notificaciones
+    ports:
+      - "3308:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-u", "root", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - mysql-notificaciones-data:/var/lib/mysql
+    networks:
+      - onlyfields-network
+    restart: unless-stopped
+
+  ms-notificaciones:
+    build:
+      context: ./notificaciones
+      dockerfile: Dockerfile
+    container_name: onlyfields-ms-notificaciones
+    ports:
+      - "8090:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db-mysql:3306/onlyfields_notificaciones?useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+    depends_on:
+      db-mysql:
+        condition: service_healthy
+    networks:
+      - onlyfields-network
+    restart: unless-stopped
+
+networks:
+  onlyfields-network:
+    driver: bridge
+
+volumes:
+  mysql-notificaciones-data:
