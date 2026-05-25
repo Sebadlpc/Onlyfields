@@ -1,114 +1,59 @@
-version: '3.8'
 services:
-  # Base de Datos Común MySQL 8.0
   db-mysql:
     image: mysql:8.0
     container_name: onlyfields-db-mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: accesos_db
+      MYSQL_DATABASE: onlyfields_usuarios
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - mysql-data:/var/lib/mysql
     networks:
       - onlyfields-network
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+    restart: unless-stopped
 
-  # Microservicio de Accesos (Puerto externo 8086)
   ms-accesos:
     build:
       context: .
-      dockerfile: accesos/Dockerfile
+      dockerfile: usuarios/Dockerfile
     container_name: onlyfields-ms-accesos
     ports:
       - "8086:8080"
+    depends_on:
+      - db-mysql
     networks:
       - onlyfields-network
-    depends_on:
-      db-mysql:
-        condition: service_healthy
+    restart: unless-stopped
 
-
-
-  # Microservicio de Pos (Puerto externo 8083)
   ms-pos:
     build:
       context: .
-      dockerfile: pos/Dockerfile
+      dockerfile: usuarios/Dockerfile
     container_name: onlyfields-ms-pos
     ports:
       - "8083:8080"
+    depends_on:
+      - db-mysql
     networks:
       - onlyfields-network
-    depends_on:
-      db-mysql:
-        condition: service_healthy
+    restart: unless-stopped
 
-  # Microservicio de Seguimiento (Puerto externo 8087)
   ms-seguimiento:
     build:
       context: .
-      dockerfile: seguimiento/Dockerfile
+      dockerfile: usuarios/Dockerfile
     container_name: onlyfields-ms-seguimiento
     ports:
-     - "8087:8080"
+      - "8087:8080"
+    depends_on:
+      - db-mysql
     networks:
       - onlyfields-network
-    depends_on:
-      db-mysql:
-        condition: service_healthy
-
-  # Microservicio de Usuarios (Puerto externo 8081)
-  ms-usuarios:
-    build:
-      context: .
-      dockerfile: usuarios/Dockerfile
-    container_name: onlyfields-ms-usuarios
-    ports:
-      - "8081:8080"
-    networks:
-      - onlyfields-network
-    depends_on:
-      db-mysql:
-        condition: service_healthy
-
-  # Microservicio de suscripciones (Puerto externo 8084)
-  ms-suscripciones:
-    build:
-      context: .
-      dockerfile: usuarios/Dockerfile
-    container_name: onlyfields-ms-suscripciones
-    ports:
-      - "8084:8080"
-    networks:
-      - onlyfields-network
-    depends_on:
-      db-mysql:
-        condition: service_healthy
-
-  # Microservicio de inventario (Puerto externo 8085)
-  ms-inventario:
-    build:
-      context: .
-      dockerfile: usuarios/Dockerfile
-    container_name: onlyfields-ms-inventario
-    ports:
-      - "8085:8080"
-    networks:
-      - onlyfields-network
-    depends_on:
-      db-mysql:
-        condition: service_healthy
-
-# Redes y Volúmenes
+    restart: unless-stopped
 networks:
   onlyfields-network:
     driver: bridge
 
 volumes:
-  mysql_data:
+  mysql-data:

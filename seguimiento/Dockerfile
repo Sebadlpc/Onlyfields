@@ -1,16 +1,23 @@
-# Etapa 1: Construcción y Compilación con Maven
-FROM eclipse-temurin:17-jdk AS builder
-RUN apt-get update && apt-get install -y maven
+# Etapa 1: Compilación Nativa (AOT)
+FROM ghcr.io/graalvm/native-image-community:17 AS builder
 WORKDIR /build
-COPY . .
-RUN mvn clean -B
-# Compila selectivamente el módulo correspondiente omitiendo las pruebas unitarias
-RUN mvn -B -pl accesos -am package -DskipTests
 
-# Etapa 2: Entorno de Ejecución Ligero JRE
-FROM eclipse-temurin:17-jre AS runner
+COPY pom.xml .
+COPY seguimiento ./seguimiento
+WORKDIR /build/seguimiento
+
+RUN chmod +x ./mvnw
+RUN ./mvnw clean native:compile -Pnative -DskipTests
+
+
+FROM gcr.io/distroless/base-debian12
 WORKDIR /app
-# Copia el artefacto JAR generado de la etapa anterior de forma segura
-COPY --from=builder /build/accesos/target/*.jar app.jar
+
+
+COPY --from=builder /usr/lib64/libz.so.1 /lib/
+
+
+COPY --from=builder /build/seguimiento/target/ms-seguimiento /app/ms-seguimiento
+
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["/app/ms-seguimiento"]

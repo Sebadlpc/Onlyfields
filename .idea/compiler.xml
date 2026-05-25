@@ -7,18 +7,21 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="ms-reservas" />
         <module name="ms-seguimiento" />
+        <module name="ms-reservas" />
         <module name="ms-suscripciones" />
         <module name="ms-usuarios" />
-        <module name="ms-configuracion" />
         <module name="ms-notificaciones" />
         <module name="ms-pos" />
         <module name="ms-reportes" />
         <module name="ms-accesos" />
         <module name="ms-inventario" />
+        <module name="ms-usuarios (1)" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="ms-configuracion" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
@@ -32,6 +35,7 @@
       <module name="ms-seguimiento" options="-parameters" />
       <module name="ms-suscripciones" options="-parameters" />
       <module name="ms-usuarios" options="-parameters" />
+      <module name="ms-usuarios (1)" options="-parameters" />
     </option>
   </component>
 </project>
