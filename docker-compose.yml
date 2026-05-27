@@ -26,7 +26,7 @@ services:
     build: ./notificaciones
     container_name: ms-notificaciones
     ports:
-      - "8090:8080"
+      - "8083:8080"
     depends_on:
       - db-mysql
     networks:
@@ -36,7 +36,7 @@ services:
     build: ./reportes
     container_name: ms-reportes
     ports:
-      - "8088:8080"
+      - "8084:8080"
     depends_on:
       - db-mysql
     networks:
