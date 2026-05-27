@@ -1,4 +1,3 @@
-# Etapa 1: Compilación Nativa (AOT)
 FROM ghcr.io/graalvm/native-image-community:17 AS builder
 WORKDIR /build
 

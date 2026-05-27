@@ -2,8 +2,8 @@ FROM ghcr.io/graalvm/native-image-community:17 AS builder
 WORKDIR /build
 
 COPY pom.xml .
-COPY Configuracion ./Configuracion
-WORKDIR /build/Configuracion
+COPY configuracion ./configuracion
+WORKDIR /build/configuracion
 
 RUN chmod +x ./mvnw
 RUN ./mvnw clean native:compile -Pnative -DskipTests
@@ -16,7 +16,7 @@ WORKDIR /app
 COPY --from=builder /usr/lib64/libz.so.1 /lib/
 
 
-COPY --from=builder /build/Configuracion/target/ms-Configuracion /app/ms-Configuracion
+COPY --from=builder /build/configuracion/target/ms-configuracion /app/ms-configuracion
 
 EXPOSE 8080
-ENTRYPOINT ["/app/ms-Configuracion"]
+ENTRYPOINT ["/app/ms-configuracion"]

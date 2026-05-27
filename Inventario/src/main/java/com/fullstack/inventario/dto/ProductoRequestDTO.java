@@ -1,11 +1,9 @@
 package com.fullstack.inventario.dto;
 
 import jakarta.validation.constraints.*;
-import lombok.Getter;
-import lombok.Setter;
+
 import java.math.BigDecimal;
 
-@Getter @Setter
 public class ProductoRequestDTO {
 
     @NotBlank(message = "El nombre del producto no puede estar vacío")
@@ -27,4 +25,12 @@ public class ProductoRequestDTO {
     private Integer stockMinimo;
 
     private String codigoBarras;
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 }

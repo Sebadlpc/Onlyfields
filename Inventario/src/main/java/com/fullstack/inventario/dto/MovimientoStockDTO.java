@@ -1,10 +1,7 @@
 package com.fullstack.inventario.dto;
 
 import jakarta.validation.constraints.*;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter @Setter
 public class MovimientoStockDTO {
 
     @NotBlank(message = "El tipo de movimiento es obligatorio (ENTRADA o SALIDA)")
@@ -17,4 +14,28 @@ public class MovimientoStockDTO {
 
     @NotBlank(message = "Debe incluir una referencia (ej. ID de Venta POS o 'Ajuste Manual')")
     private String referencia;
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public Integer getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public String getReferencia() {
+        return referencia;
+    }
+
+    public void setReferencia(String referencia) {
+        this.referencia = referencia;
+    }
 }

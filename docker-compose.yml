@@ -54,6 +54,20 @@ services:
       - onlyfields-network
     restart: unless-stopped
 
+  ms-configuracion:
+    build:
+      context: .
+      dockerfile: configuracion/Dockerfile
+    container_name: onlyfields-ms-configuracion
+    ports:
+      - "8089:8089"
+    depends_on:
+      - db-mysql
+      - ms-usuarios
+    networks:
+      - onlyfields-network
+    restart: unless-stopped
+
 networks:
   onlyfields-network:
     driver: bridge

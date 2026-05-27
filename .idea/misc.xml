@@ -10,7 +10,6 @@
     <option name="ignoredFiles">
       <set>
         <option value="$PROJECT_DIR$/accesos/pom.xml" />
-        <option value="$PROJECT_DIR$/configuracion/pom.xml" />
         <option value="$PROJECT_DIR$/inventario/pom.xml" />
         <option value="$PROJECT_DIR$/notificaciones/pom.xml" />
         <option value="$PROJECT_DIR$/pos/pom.xml" />

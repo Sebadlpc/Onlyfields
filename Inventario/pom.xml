@@ -8,7 +8,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>ms-inventario</artifactId>
+    <artifactId>ms-Inventario</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
