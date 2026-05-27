@@ -26,6 +26,20 @@ services:
       - onlyfields-network
     restart: unless-stopped
 
+  ms-suscripciones:
+    build:
+      context: .
+      dockerfile: suscripciones/Dockerfile
+    container_name: onlyfields-ms-suscripciones
+    ports:
+      - "8084:8080"
+    depends_on:
+      - db-mysql
+      - ms-usuarios
+    networks:
+      - onlyfields-network
+    restart: unless-stopped
+
 networks:
   onlyfields-network:
     driver: bridge

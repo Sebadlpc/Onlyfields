@@ -16,6 +16,11 @@ public class UsuarioController {
 
     private final UsuarioService usuarioService;
 
+    @GetMapping("/{id}")
+    public ResponseEntity<UsuarioRespuestaDTO> obtenerPorId(@PathVariable Long id) {
+        return ResponseEntity.ok(usuarioService.obtenerPorId(id));
+    }
+
     @PostMapping
     public ResponseEntity<UsuarioRespuestaDTO> registrar(@Valid @RequestBody UsuarioRegistroDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.registrarUsuario(dto));

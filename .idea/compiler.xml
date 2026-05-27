@@ -8,12 +8,13 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="ms-usuarios" />
+        <module name="ms-Suscripciones" />
         <module name="ms-usuarios (2)" />
-        <module name="ms-usuarios (3)" />
-        <module name="ms-usuarios (1)" />
         <module name="ms-reservas (3)" />
+        <module name="ms-usuarios (3)" />
         <module name="ms-reservas (2)" />
         <module name="ms-reservas (1)" />
+        <module name="ms-usuarios (1)" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -43,7 +44,7 @@
       <module name="ms-seguimiento" options="-parameters" />
       <module name="ms-suscripciones" options="-parameters" />
       <module name="ms-usuarios" options="-parameters" />
-      <module name="ms-usuarios (1)" options="-parameters" />
+      <module name="ms-usuarios (1)" options="" />
       <module name="ms-usuarios (2)" options="-parameters" />
       <module name="ms-usuarios (3)" options="-parameters" />
     </option>

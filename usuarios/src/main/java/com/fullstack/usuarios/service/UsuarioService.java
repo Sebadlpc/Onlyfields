@@ -61,6 +61,14 @@ public class UsuarioService {
         return usuarioRepository.findAll().stream().map(this::mapearARespuestaDTO).collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public UsuarioRespuestaDTO obtenerPorId(Long id) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con el ID: " + id));
+
+        return mapearARespuestaDTO(usuario);
+    }
+
     @Transactional
     public void eliminarUsuario(Long id) {
         Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
