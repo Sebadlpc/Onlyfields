@@ -1,34 +1,47 @@
+version: '3.8'
+
 services:
   db-mysql:
     image: mysql:8.0
-    container_name: onlyfields-db-mysql
+    container_name: db-mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: onlyfields_reportes
+      MYSQL_DATABASE: onlyfields_reservas
     ports:
-      - "3307:3306"
-    volumes:
-      - mysql-data:/var/lib/mysql
+      - "3306:3306"
     networks:
       - onlyfields-network
-    restart: unless-stopped
+
+  ms-reservas:
+    build: ./reservas
+    container_name: ms-reservas
+    ports:
+      - "8082:8080" # Postman entra por el 8082, el contenedor usa el 8080
+    depends_on:
+      - db-mysql
+    networks:
+      - onlyfields-network
+
+  ms-notificaciones:
+    build: ./notificaciones
+    container_name: ms-notificaciones
+    ports:
+      - "8090:8080"
+    depends_on:
+      - db-mysql
+    networks:
+      - onlyfields-network
 
   ms-reportes:
-    build:
-      context: .
-      dockerfile: reportes/Dockerfile
-    container_name: onlyfields-ms-reportes
+    build: ./reportes
+    container_name: ms-reportes
     ports:
       - "8088:8080"
     depends_on:
       - db-mysql
     networks:
       - onlyfields-network
-    restart: unless-stopped
 
 networks:
   onlyfields-network:
     driver: bridge
-
-volumes:
-  mysql-data:
