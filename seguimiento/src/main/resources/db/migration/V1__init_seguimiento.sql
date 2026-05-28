@@ -1,22 +1,22 @@
-
-
-CREATE TABLE fichas_clientes (
-                                 id BIGINT AUTO_INCREMENT PRIMARY KEY,
-                                 cliente_id BIGINT NOT NULL UNIQUE,
-                                 lesiones TEXT,
-                                 observaciones TEXT,
-                                 fecha_ingreso DATE NOT NULL
+CREATE TABLE ficha_cliente (
+                               id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                               cliente_id BIGINT NOT NULL UNIQUE,
+                               antecedentes_medicos TEXT,
+                               lesiones_previas TEXT,
+                               observaciones TEXT,
+                               fecha_creacion TIMESTAMP NOT NULL
 );
 
-CREATE TABLE mediciones_corporales (
-                                       id BIGINT AUTO_INCREMENT PRIMARY KEY,
-                                       ficha_id BIGINT NOT NULL,
-                                       fecha DATE NOT NULL,
-                                       peso DOUBLE NOT NULL,
-                                       altura DOUBLE NOT NULL,
-                                       imc DOUBLE,
-                                       cintura DOUBLE,
-                                       cadera DOUBLE,
-                                       objetivo VARCHAR(30),
-                                       CONSTRAINT fk_mediciones_ficha FOREIGN KEY (ficha_id) REFERENCES fichas_clientes (id) ON DELETE CASCADE
+CREATE TABLE medicion_corporal (
+                                   id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                                   ficha_cliente_id BIGINT NOT NULL,
+                                   fecha_medicion TIMESTAMP NOT NULL,
+                                   peso DOUBLE,
+                                   altura DOUBLE,
+                                   porcentaje_grasa DOUBLE,
+                                   masa_muscular DOUBLE,
+                                   perimetro_cintura DOUBLE,
+                                   perimetro_cadera DOUBLE,
+                                   objetivo_actual VARCHAR(30),
+                                   CONSTRAINT fk_medicion_ficha FOREIGN KEY (ficha_cliente_id) REFERENCES ficha_cliente(id) ON DELETE CASCADE
 );
