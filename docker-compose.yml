@@ -35,7 +35,6 @@ services:
       - "8084:8084"
     depends_on:
       - db-mysql
-      - ms-usuarios
     networks:
       - onlyfields-network
     restart: unless-stopped
@@ -43,13 +42,12 @@ services:
   ms-inventario:
     build:
       context: .
-      dockerfile: inventario/Dockerfile
+      dockerfile: Inventario/Dockerfile
     container_name: onlyfields-ms-inventario
     ports:
       - "8085:8085"
     depends_on:
       - db-mysql
-      - ms-usuarios
     networks:
       - onlyfields-network
     restart: unless-stopped
@@ -63,7 +61,6 @@ services:
       - "8089:8089"
     depends_on:
       - db-mysql
-      - ms-usuarios
     networks:
       - onlyfields-network
     restart: unless-stopped

@@ -18,15 +18,9 @@
 
     <modules>
         <module>usuarios</module>
-        <module>reservas</module>
-        <module>pos</module>
-        <module>suscripciones</module>
-        <module>inventario</module>
-        <module>accesos</module>
-        <module>seguimiento</module>
-        <module>reportes</module>
-        <module>configuracion</module>
-        <module>notificaciones</module>
+        <module>Suscripciones</module>
+        <module>Inventario</module>
+        <module>Configuracion</module>
     </modules>
 
     <properties>
@@ -58,12 +52,4 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.graalvm.buildtools</groupId>
-                <artifactId>native-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 </project>
