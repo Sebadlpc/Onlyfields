@@ -17,6 +17,12 @@ public class NotificacionController {
 
     private final NotificacionService service;
 
+    // 0. GET Todas las notificaciones (Historial completo)
+    @GetMapping
+    public ResponseEntity<List<NotificacionDTO>> obtenerTodas() {
+        return ResponseEntity.ok(service.obtenerTodas());
+    }
+
     // 1. Encolar email (fire-and-forget) -> Responde 202 Accepted
     @PostMapping("/email")
     public ResponseEntity<NotificacionDTO> encolarEmail(@Valid @RequestBody NotificacionDTO dto) {
@@ -46,5 +52,35 @@ public class NotificacionController {
     public ResponseEntity<Void> reenviar(@PathVariable Long id) {
         service.reenviar(id);
         return ResponseEntity.accepted().build();
+    }
+
+    // 6. Recibir la reserva y traducirla a NotificacionDTO
+    @PostMapping("/enviar-comprobante")
+    public ResponseEntity<String> enviarComprobante(@RequestBody java.util.Map<String, Object> datosReserva) {
+        
+        System.out.println("✅ Petición recibida desde ms-reservas: " + datosReserva);
+
+        // Extraemos el clienteId de la reserva (viene como número en el JSON)
+        Number clienteId = (Number) datosReserva.get("clienteId");
+        Long idDestinatario = clienteId != null ? clienteId.longValue() : 1L;
+
+        // Armamos el DTO
+        NotificacionDTO notificacion = NotificacionDTO.builder()
+                .destinatarioId(idDestinatario)
+                .destinatarioEmail("cliente" + idDestinatario + "@onlyfields.com")
+                .tipo("COMPROBANTE")
+                .canal("EMAIL")
+                .asunto("Confirmación de Reserva OnlyFields")
+                .cuerpo("Tu reserva ha sido confirmada exitosamente. Total cobrado: $" + datosReserva.get("totalCobrado"))
+                .idempotencyKey(java.util.UUID.randomUUID().toString()) // Generamos una clave única
+                .build();
+
+        // Le pasamos el DTO válido a tu servicio existente
+        service.crearNotificacion(notificacion);
+        
+        System.out.println("✅ Comprobante encolado exitosamente para el cliente " + idDestinatario);
+
+        // Retornamos el String que ms-reservas está esperando
+        return ResponseEntity.ok("Comprobante processed correctamente");
     }
 }

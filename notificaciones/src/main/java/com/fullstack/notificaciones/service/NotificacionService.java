@@ -38,14 +38,13 @@ public class NotificacionService {
         return convertToDto(guardada);
     }
 
-    @Async // Esto hace que el método no bloquee al Controller
+    @Async 
     @Transactional
     public void procesarEnvio(Long id) {
         repository.findById(id).ifPresent(notificacion -> {
             try {
                 notificacion.setIntentos(notificacion.getIntentos() + 1);
-                // Aquí va lógica real: MailSender.send(...) o renderizado con Thymeleaf
-                // Simulamos que el envío fue exitoso:
+
                 notificacion.setEstado("ENVIADO");
                 notificacion.setFechaEnvio(LocalDateTime.now());
             } catch (Exception e) {
@@ -56,6 +55,13 @@ public class NotificacionService {
             }
             repository.save(notificacion);
         });
+    }
+
+    @Transactional(readOnly = true)
+    public List<NotificacionDTO> obtenerTodas() {
+        return repository.findAll().stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
@@ -115,4 +121,5 @@ public class NotificacionService {
                 .idempotencyKey(dto.getIdempotencyKey())
                 .build();
     }
+    
 }

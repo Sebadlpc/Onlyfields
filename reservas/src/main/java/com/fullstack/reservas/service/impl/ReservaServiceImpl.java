@@ -41,7 +41,7 @@ public class ReservaServiceImpl implements IReservaService {
     @Transactional
     public Reserva crearReserva(Reserva reserva) {
         // 1. Validar Usuario (Comunicación con ms-usuarios)
-         try {
+         /*try {  
             Map<String, Object> usuario = restTemplate.getForObject(msUsuariosUrl + reserva.getClienteId(), Map.class);
             if (usuario == null || !"ACTIVO".equals(usuario.get("estado"))) {
                 throw new RuntimeException("El cliente no está ACTIVO o no existe.");
@@ -49,7 +49,7 @@ public class ReservaServiceImpl implements IReservaService {
         } catch (Exception e) {
             throw new RuntimeException("Error al validar cliente: " + e.getMessage());
         }
-            
+           */ 
 
         // 2. Validar duración de 1 a 4 horas
         long minutos = Duration.between(reserva.getFechaInicio(), reserva.getFechaFin()).toMinutes();
@@ -155,7 +155,7 @@ public class ReservaServiceImpl implements IReservaService {
         reserva.setEstado("CONFIRMADA");
         
         try {
-            restTemplate.postForObject("http://localhost:8090/api/notificaciones/enviar-comprobante", reserva, String.class);
+            restTemplate.postForObject("http://ms-notificaciones:8080/api/notificaciones/enviar-comprobante", reserva, String.class);
             System.out.println("✅ Notificación enviada con éxito para la reserva " + id);
         } catch (Exception e) {
             System.err.println("❌ Error al enviar notificación, pero la reserva se confirmó: " + e.getMessage());

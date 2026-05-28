@@ -19,7 +19,7 @@ public class ReservasApplication {
         SpringApplication.run(ReservasApplication.class, args);
     }
 
-    @Bean // 🌟 Nos permite inyectar RestTemplate en el Service para llamar a otros microservicios
+    @Bean // Nos permite inyectar RestTemplate en el Service para llamar a otros microservicios
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
