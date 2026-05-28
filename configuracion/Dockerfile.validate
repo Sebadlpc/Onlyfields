@@ -16,6 +16,7 @@ COPY configuracion ./configuracion
 COPY notificaciones ./notificaciones
 
 WORKDIR /build
+RUN sed -i 's/\r//' mvnw
 RUN chmod +x mvnw
 RUN ./mvnw clean package -DskipTests -pl configuracion -am
 

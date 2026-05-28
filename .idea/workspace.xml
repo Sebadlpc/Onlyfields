@@ -4,156 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="878a036f-607e-420f-9cd1-6eae26fb11c0" name="Changes" comment="vai pa la cima">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vscode/launch.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/accesos/.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/accesos/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/accesos/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/accesos/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/accesos/mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/accesos/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/accesos/src/main/java/com/fullstack/accesos/AccesosApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/accesos/src/main/java/com/fullstack/accesos/model/QrToken.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/accesos/src/main/java/com/fullstack/accesos/model/RegistroAcceso.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/accesos/src/main/java/com/fullstack/accesos/model/ResultadoAcceso.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/accesos/src/main/java/com/fullstack/accesos/model/TipoAcceso.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/accesos/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/accesos/src/main/resources/application.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/accesos/src/main/resources/db/migration/V1__crear_esquema_inicial.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/accesos/src/test/java/com/fullstack/accesos/AccesosApplicationTests.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuracion/.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuracion/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuracion/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuracion/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuracion/mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuracion/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuracion/src/main/java/com/fullstack/configuracion/ConfiguracionApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuracion/src/main/java/com/fullstack/configuracion/model/ConfiguracionGlobal.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuracion/src/main/java/com/fullstack/configuracion/model/FeriadoBloqueo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuracion/src/main/resources/application.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuracion/src/main/resources/db/migration/V1__ESQUEMA_INICIAL.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/configuracion/src/test/java/com/fullstack/configuracion/ConfiguracionApplicationTests.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventario/.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventario/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventario/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventario/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventario/mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventario/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventario/src/main/java/com/fullstack/inventario/InventarioApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventario/src/main/java/com/fullstack/inventario/model/Categoria.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventario/src/main/java/com/fullstack/inventario/model/MovimientoStock.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventario/src/main/java/com/fullstack/inventario/model/Producto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventario/src/main/resources/application.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventario/src/main/resources/db/migration/V1__ESQUEMA_INICIAL.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventario/src/test/java/com/fullstack/inventario/InventarioApplicationTests.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/notificaciones/.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/notificaciones/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/notificaciones/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/notificaciones/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/notificaciones/mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/notificaciones/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/notificaciones/src/main/java/com/fullstack/notificaciones/NotificacionesApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/notificaciones/src/main/java/com/fullstack/notificaciones/model/Notificacion.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/notificaciones/src/main/resources/application.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/notificaciones/src/main/resources/db/migration/V1__crear_esquema_inicial.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/notificaciones/src/test/java/com/fullstack/notificaciones/NotificacionesApplicationTests.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos/.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos/mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos/src/main/java/com/fullstack/pos/Model/Caja.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos/src/main/java/com/fullstack/pos/Model/EstadoCaja.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos/src/main/java/com/fullstack/pos/Model/EstadoTransaccion.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos/src/main/java/com/fullstack/pos/Model/ItemTransaccion.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos/src/main/java/com/fullstack/pos/Model/MetodoPago.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos/src/main/java/com/fullstack/pos/Model/TipoTransaccion.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos/src/main/java/com/fullstack/pos/Model/Transaccion.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos/src/main/java/com/fullstack/pos/PosApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos/src/main/resources/application.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos/src/main/resources/db/migration/V1__crear_esquema_inicial.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pos/src/test/java/com/fullstack/pos/PosApplicationTests.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reportes/.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reportes/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reportes/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reportes/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reportes/mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reportes/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reportes/src/main/java/com/fullstack/reportes/ReportesApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reportes/src/main/java/com/fullstack/reportes/model/ReporteGenerado.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reportes/src/main/resources/application.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reportes/src/main/resources/db/migration/V1__crear_esquema_inicial.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reportes/src/test/java/com/fullstack/reportes/ReportesApplicationTests.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reservas/.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reservas/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reservas/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reservas/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reservas/mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reservas/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reservas/src/main/java/com/fullstack/reservas/ReservasApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reservas/src/main/java/com/fullstack/reservas/models/BloqueHorario.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reservas/src/main/java/com/fullstack/reservas/models/Cancha.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reservas/src/main/java/com/fullstack/reservas/models/Reserva.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reservas/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reservas/src/main/resources/application.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reservas/src/main/resources/db/migration/V1__crear_esquema_reservas.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reservas/src/main/resources/db/migration/V2__insertar_datos_reservas.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reservas/src/test/java/com/fullstack/reservas/ReservasApplicationTests.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/seguimiento/.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/seguimiento/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/seguimiento/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/seguimiento/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/seguimiento/mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/seguimiento/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/seguimiento/src/main/java/com/fullstack/seguimiento/Model/FichaCliente.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/seguimiento/src/main/java/com/fullstack/seguimiento/Model/MedicionCorporal.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/seguimiento/src/main/java/com/fullstack/seguimiento/Model/ObjetivoFisico.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/seguimiento/src/main/java/com/fullstack/seguimiento/SeguimientoApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/seguimiento/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/seguimiento/src/main/resources/application.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/seguimiento/src/main/resources/db/migration/V1__crear_esquema_seguimiento.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/seguimiento/src/test/java/com/fullstack/seguimiento/SeguimientoApplicationTests.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/suscripciones/.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/suscripciones/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/suscripciones/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/suscripciones/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/suscripciones/mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/suscripciones/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/suscripciones/src/main/java/com/fullstack/suscripciones/SuscripcionesApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/suscripciones/src/main/java/com/fullstack/suscripciones/model/PlanSuscripcion.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/suscripciones/src/main/java/com/fullstack/suscripciones/model/Suscripcion.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/suscripciones/src/main/resources/application.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/suscripciones/src/main/resources/db/migration/V1__ESQUEMA_INICIAL.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/suscripciones/src/test/java/com/fullstack/suscripciones/SuscripcionesApplicationTests.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/usuarios/.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/usuarios/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/usuarios/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/usuarios/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/usuarios/mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/usuarios/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/usuarios/src/main/java/com/fullstack/usuarios/UsuariosApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/usuarios/src/main/java/com/fullstack/usuarios/controller/UsuarioController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/usuarios/src/main/java/com/fullstack/usuarios/model/Permiso.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/usuarios/src/main/java/com/fullstack/usuarios/model/Rol.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/usuarios/src/main/java/com/fullstack/usuarios/model/Usuario.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/usuarios/src/main/java/com/fullstack/usuarios/repository/PermisoRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/usuarios/src/main/java/com/fullstack/usuarios/repository/RolRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/usuarios/src/main/java/com/fullstack/usuarios/repository/UsuarioRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/usuarios/src/main/java/com/fullstack/usuarios/service/UsuarioService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/usuarios/src/main/resources/application.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/usuarios/src/main/resources/db/migration/V1_ESQUEMA_INICIAL.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/usuarios/src/test/java/com/fullstack/usuarios/UsuariosApplicationTests.java" beforeDir="false" />
+    <list default="true" id="878a036f-607e-420f-9cd1-6eae26fb11c0" name="Changes" comment="limpieza del main">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/configuracion/Dockerfile.validate" beforeDir="false" afterPath="$PROJECT_DIR$/configuracion/Dockerfile.validate" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventario/Dockerfile.validate" beforeDir="false" afterPath="$PROJECT_DIR$/inventario/Dockerfile.validate" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notificaciones/Dockerfile.validate" beforeDir="false" afterPath="$PROJECT_DIR$/notificaciones/Dockerfile.validate" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos/Dockerfile.validate" beforeDir="false" afterPath="$PROJECT_DIR$/pos/Dockerfile.validate" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reportes/Dockerfile.validate" beforeDir="false" afterPath="$PROJECT_DIR$/reportes/Dockerfile.validate" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reservas/Dockerfile.validate" beforeDir="false" afterPath="$PROJECT_DIR$/reservas/Dockerfile.validate" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seguimiento/Dockerfile.validate" beforeDir="false" afterPath="$PROJECT_DIR$/seguimiento/Dockerfile.validate" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/suscripciones/Dockerfile.validate" beforeDir="false" afterPath="$PROJECT_DIR$/suscripciones/Dockerfile.validate" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/usuarios/Dockerfile.validate" beforeDir="false" afterPath="$PROJECT_DIR$/usuarios/Dockerfile.validate" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -226,54 +87,53 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
-    "Docker.Docker-compose.yml.db-mysql: Compose Deployment.executor": "Run",
-    "Docker.Docker-compose.yml.ms-inventario: Compose Deployment.executor": "Run",
-    "Docker.Docker-compose.yml.ms-suscripciones: Compose Deployment.executor": "Run",
-    "Docker.Docker-compose.yml.ms-usuarios: Compose Deployment.executor": "Run",
-    "Docker.docker-compose.yml: Compose Deployment.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Notification.DisplayName-DoNotAsk-DatabaseConfigFileWatcher.found": "New/updated database configurations found",
-    "Notification.DoNotAsk-DatabaseConfigFileWatcher.found": "true",
-    "RunOnceActivity.MCP Project settings loaded": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "codeWithMe.voiceChat.enabledByDefault": "false",
-    "com.google.cloudcode.ide_session_index": "20260528_0003",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "main",
-    "junie.onboarding.icon.badge.shown": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/seses/IdeaProjects/Onlyfields/pos/src/main/resources",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "onboarding.tips.debug.path": "C:/Users/seses/IdeaProjects/Onlyfields/suscripciones/src/Main.java",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "run.configurations.included.in.services": "true",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "to.speed.mode.migration.done": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
+    &quot;Docker.Docker-compose.yml.db-mysql: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.Docker-compose.yml.ms-inventario: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.Docker-compose.yml.ms-suscripciones: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.Docker-compose.yml.ms-usuarios: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.docker-compose.yml: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Notification.DisplayName-DoNotAsk-DatabaseConfigFileWatcher.found&quot;: &quot;New/updated database configurations found&quot;,
+    &quot;Notification.DoNotAsk-DatabaseConfigFileWatcher.found&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
+    &quot;com.google.cloudcode.ide_session_index&quot;: &quot;20260528_0003&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/seses/IdeaProjects/Onlyfields/pos/src/main/resources&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/seses/IdeaProjects/Onlyfields/suscripciones/src/Main.java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "oracle",
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;oracle&quot;,
+      &quot;mysql&quot;
     ],
-    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
-      "JAVA"
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
+      &quot;JAVA&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\seses\IdeaProjects\Onlyfields\pos\src\main\resources" />
@@ -479,7 +339,7 @@
       <workItem from="1779933677821" duration="3073000" />
       <workItem from="1779938400153" duration="4203000" />
       <workItem from="1779946257671" duration="13094000" />
-      <workItem from="1779991882140" duration="571000" />
+      <workItem from="1779991882140" duration="1140000" />
     </task>
     <task id="LOCAL-00001" summary="Arreglo de datos &quot; null &quot; en openfeign">
       <option name="closed" value="true" />
@@ -633,7 +493,23 @@
       <option name="project" value="LOCAL" />
       <updated>1779992148427</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="limpieza del main">
+      <option name="closed" value="true" />
+      <created>1779992468794</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1779992468794</updated>
+    </task>
+    <task id="LOCAL-00021" summary="limpieza del main">
+      <option name="closed" value="true" />
+      <created>1779992534869</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1779992534869</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -714,7 +590,9 @@
     <MESSAGE value="Conexiones en teoria bien" />
     <MESSAGE value="deberian estar bien" />
     <MESSAGE value="vai pa la cima" />
-    <option name="LAST_COMMIT_MESSAGE" value="vai pa la cima" />
+    <MESSAGE value="limpieza del main" />
+    <option name="LAST_COMMIT_MESSAGE" value="limpieza del main" />
+    <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
