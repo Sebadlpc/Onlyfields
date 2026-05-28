@@ -17,16 +17,19 @@
     <packaging>pom</packaging>
 
     <modules>
+        <!-- Parte 1 (Tuya) -->
         <module>usuarios</module>
-        <module>reservas</module>
-        <module>pos</module>
-        <module>suscripciones</module>
-        <module>inventario</module>
+        <module>Suscripciones</module>
+        <module>Inventario</module>
+        <module>Configuracion</module>
+        <!-- Parte 2 (Otro integrante) -->
         <module>accesos</module>
+        <module>pos</module>
         <module>seguimiento</module>
-        <module>ms-reportes</module>
-        <module>configuracion</module>
+        <!-- Parte 3 (Esta tanda) -->
         <module>notificaciones</module>
+        <module>reportes</module>
+        <module>reservas</module>
     </modules>
 
     <properties>
@@ -54,23 +57,8 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.graalvm.buildtools</groupId>
-                <artifactId>native-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

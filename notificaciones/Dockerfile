@@ -1,20 +1,31 @@
+# Etapa 1: Construcción Nativa (basado en la configuración estándar)
 FROM ghcr.io/graalvm/native-image-community:17 AS builder
 WORKDIR /build
 
+# Copiamos los archivos necesarios para la compilación del módulo
 COPY pom.xml .
-COPY mvnw .
-COPY .mvn .mvn
+COPY notificaciones/pom.xml ./notificaciones/
+COPY notificaciones/mvnw ./notificaciones/
+COPY notificaciones/.mvn ./notificaciones/.mvn
+COPY notificaciones/src ./notificaciones/src
 
-COPY src ./src
+# Nos movemos al directorio del módulo
+WORKDIR /build/notificaciones
 
-RUN ./mvnw -Pnative native:compile -DskipTests
+# Damos permisos de ejecución al Maven Wrapper y compilamos
+RUN chmod +x ./mvnw
+RUN ./mvnw clean native:compile -Pnative -DskipTests
 
-FROM debian:12-slim
+# Etapa 2: Ejecución (basado en la configuración estándar)
+FROM gcr.io/distroless/base-debian12
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y zlib1g && rm -rf /var/lib/apt/lists/*
+# Copiamos las dependencias de librerías nativas necesarias
+COPY --from=builder /usr/lib64/libz.so.1 /lib/
 
-COPY --from=builder /build/target/ms-notificaciones /app/ms-notificaciones
+# Copiamos el ejecutable nativo compilado
+COPY --from=builder /build/notificaciones/target/ms-notificaciones /app/ms-notificaciones
 
-EXPOSE 8080
+# Exponemos el puerto correcto para notificaciones
+EXPOSE 8088
 ENTRYPOINT ["/app/ms-notificaciones"]

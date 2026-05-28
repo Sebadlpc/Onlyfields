@@ -1,23 +1,31 @@
-# Etapa 1: Compilación Nativa (AOT)
+# Etapa 1: Construcción Nativa (basado en la configuración estándar)
 FROM ghcr.io/graalvm/native-image-community:17 AS builder
 WORKDIR /build
 
+# Copiamos los archivos necesarios para la compilación del módulo
 COPY pom.xml .
-COPY reportes ./reportes
+COPY reportes/pom.xml ./reportes/
+COPY reportes/mvnw ./reportes/
+COPY reportes/.mvn ./reportes/.mvn
+COPY reportes/src ./reportes/src
+
+# Nos movemos al directorio del módulo
 WORKDIR /build/reportes
 
+# Damos permisos de ejecución al Maven Wrapper y compilamos
 RUN chmod +x ./mvnw
-RUN ./mvnw clean native:compile -Pnative -Dmaven.test.skip=true
+RUN ./mvnw clean native:compile -Pnative -DskipTests
 
-
+# Etapa 2: Ejecución (basado en la configuración estándar)
 FROM gcr.io/distroless/base-debian12
 WORKDIR /app
 
-
+# Copiamos las dependencias de librerías nativas necesarias
 COPY --from=builder /usr/lib64/libz.so.1 /lib/
 
-
+# Copiamos el ejecutable nativo compilado
 COPY --from=builder /build/reportes/target/ms-reportes /app/ms-reportes
 
-EXPOSE 8080
+# Exponemos el puerto correcto para reportes
+EXPOSE 8086
 ENTRYPOINT ["/app/ms-reportes"]
