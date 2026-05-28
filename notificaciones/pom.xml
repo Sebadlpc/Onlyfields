@@ -50,6 +50,13 @@
                     </excludes>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.graalvm.buildtools</groupId>
+                <artifactId>native-maven-plugin</artifactId>
+                <configuration>
+                    <imageName>ms-notificaciones</imageName>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>

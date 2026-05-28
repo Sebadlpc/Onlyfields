@@ -16,7 +16,7 @@ services:
   ms-usuarios:
     build:
       context: .
-      dockerfile: usuarios/Dockerfile
+      dockerfile: usuarios/Dockerfile.validate
     container_name: onlyfields-ms-usuarios
     ports:
       - "8081:8081"
@@ -29,7 +29,7 @@ services:
   ms-reservas:
     build:
       context: .
-      dockerfile: reservas/Dockerfile
+      dockerfile: reservas/Dockerfile.validate
     container_name: onlyfields-ms-reservas
     ports:
       - "8082:8082"
@@ -42,7 +42,7 @@ services:
   ms-pos:
     build:
       context: .
-      dockerfile: pos/Dockerfile
+      dockerfile: pos/Dockerfile.validate
     container_name: onlyfields-ms-pos
     ports:
       - "8083:8083"
@@ -55,7 +55,7 @@ services:
   ms-suscripciones:
     build:
       context: .
-      dockerfile: Suscripciones/Dockerfile
+      dockerfile: Suscripciones/Dockerfile.validate
     container_name: onlyfields-ms-suscripciones
     ports:
       - "8084:8084"
@@ -68,7 +68,7 @@ services:
   ms-inventario:
     build:
       context: .
-      dockerfile: Inventario/Dockerfile
+      dockerfile: Inventario/Dockerfile.validate
     container_name: onlyfields-ms-inventario
     ports:
       - "8085:8085"
@@ -81,7 +81,7 @@ services:
   ms-accesos:
     build:
       context: .
-      dockerfile: accesos/Dockerfile
+      dockerfile: accesos/Dockerfile.validate
     container_name: onlyfields-ms-accesos
     ports:
       - "8086:8086"
@@ -94,7 +94,7 @@ services:
   ms-seguimiento:
     build:
       context: .
-      dockerfile: seguimiento/Dockerfile
+      dockerfile: seguimiento/Dockerfile.validate
     container_name: onlyfields-ms-seguimiento
     ports:
       - "8087:8087"
@@ -107,7 +107,7 @@ services:
   ms-reportes:
     build:
       context: .
-      dockerfile: reportes/Dockerfile
+      dockerfile: reportes/Dockerfile.validate
     container_name: onlyfields-ms-reportes
     ports:
       - "8088:8088"
@@ -120,7 +120,7 @@ services:
   ms-configuracion:
     build:
       context: .
-      dockerfile: Configuracion/Dockerfile
+      dockerfile: Configuracion/Dockerfile.validate
     container_name: onlyfields-ms-configuracion
     ports:
       - "8089:8089"
@@ -133,7 +133,7 @@ services:
   ms-notificaciones:
     build:
       context: .
-      dockerfile: notificaciones/Dockerfile
+      dockerfile: notificaciones/Dockerfile.validate
     container_name: onlyfields-ms-notificaciones
     ports:
       - "8090:8090"

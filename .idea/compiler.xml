@@ -9,7 +9,6 @@
         <module name="ms-seguimiento" />
         <module name="ms-suscripciones" />
         <module name="ms-usuarios" />
-        <module name="ms-Suscripciones" />
         <module name="ms-configuracion" />
         <module name="ms-inventario" />
       </profile>
@@ -17,7 +16,6 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="ms-Suscripciones" options="-parameters" />
       <module name="ms-accesos" options="-parameters" />
       <module name="ms-configuracion" options="-parameters" />
       <module name="ms-inventario" options="-parameters" />

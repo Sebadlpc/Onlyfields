@@ -1,5 +1,4 @@
 
-
 CREATE TABLE cajas (
                        id BIGINT AUTO_INCREMENT PRIMARY KEY,
                        usuario_id BIGINT NOT NULL,

@@ -3,10 +3,9 @@
   <component name="Encoding">
     <file url="file://$APPLICATION_HOME_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$APPLICATION_HOME_DIR$/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/Inventario/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/Suscripciones/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/accesos/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/configuracion/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/inventario/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/notificaciones/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/pos/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/reportes/src/main/java" charset="UTF-8" />
@@ -14,6 +13,7 @@
     <file url="file://$PROJECT_DIR$/seguimiento/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/suscripciones/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/usuarios/src/main/java" charset="UTF-8" />
   </component>
 </project>

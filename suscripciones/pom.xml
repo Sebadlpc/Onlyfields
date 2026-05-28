@@ -8,7 +8,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>ms-Suscripciones</artifactId>
+    <artifactId>ms-suscripciones</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
@@ -59,6 +59,13 @@
                             <artifactId>spring-boot-devtools</artifactId>
                         </exclude>
                     </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.graalvm.buildtools</groupId>
+                <artifactId>native-maven-plugin</artifactId>
+                <configuration>
+                    <imageName>ms-suscripciones</imageName>
                 </configuration>
             </plugin>
         </plugins>

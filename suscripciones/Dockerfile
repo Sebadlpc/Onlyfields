@@ -18,14 +18,14 @@ COPY notificaciones ./notificaciones
 WORKDIR /build
 RUN chmod +x mvnw
 
-RUN ../mvnw dependency:go-offline -q -pl seguimiento -am
-RUN ../mvnw clean native:compile -Pnative -DskipTests -pl seguimiento -am
+RUN ../mvnw dependency:go-offline -q -pl suscripciones -am
+RUN ../mvnw clean native:compile -Pnative -DskipTests -pl suscripciones -am
 
 FROM gcr.io/distroless/base-debian12
 WORKDIR /app
 
 COPY --from=builder /usr/lib64/libz.so.1 /lib/
-COPY --from=builder /build/seguimiento/target/ms-seguimiento /app/ms-seguimiento
+COPY --from=builder /build/suscripciones/target/ms-suscripciones /app/ms-suscripciones
 
-EXPOSE 8087
-ENTRYPOINT ["/app/ms-seguimiento"]
+EXPOSE 8084
+ENTRYPOINT ["/app/ms-suscripciones"]

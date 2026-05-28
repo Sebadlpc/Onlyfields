@@ -20,8 +20,8 @@
         <module>usuarios</module>
         <module>reservas</module>
         <module>pos</module>
-        <module>Suscripciones</module>
-        <module>Inventario</module>
+        <module>suscripciones</module>
+        <module>inventario</module>
         <module>accesos</module>
         <module>seguimiento</module>
         <module>reportes</module>
