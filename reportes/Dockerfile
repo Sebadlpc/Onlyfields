@@ -17,7 +17,7 @@ COPY notificaciones ./notificaciones
 
 WORKDIR /build
 RUN chmod +x mvnw
-
+RUN sed -i 's/\r$//' mvnw && chmod +x mvnw
 RUN ../mvnw dependency:go-offline -q -pl reportes -am
 RUN ../mvnw clean native:compile -Pnative -DskipTests -pl reportes -am
 

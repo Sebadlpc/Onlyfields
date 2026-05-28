@@ -4,13 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="878a036f-607e-420f-9cd1-6eae26fb11c0" name="Changes" comment="limpieza del main">
-      <change afterPath="$PROJECT_DIR$/accesos/src/main/java/com/fullstack/accesos/model/QrToken.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/accesos/src/main/java/com/fullstack/accesos/model/RegistroAcceso.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/accesos/src/main/java/com/fullstack/accesos/model/ResultadoAcceso.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/accesos/src/main/java/com/fullstack/accesos/model/TipoAcceso.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+    <list default="true" id="878a036f-607e-420f-9cd1-6eae26fb11c0" name="Changes" comment="pefnskjgvg">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accesos/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/accesos/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/configuracion/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/configuracion/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventario/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/inventario/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notificaciones/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/notificaciones/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/pos/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reportes/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/reportes/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reservas/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/reservas/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seguimiento/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/seguimiento/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/suscripciones/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/suscripciones/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/usuarios/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/usuarios/Dockerfile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -345,7 +351,7 @@
       <workItem from="1779938400153" duration="4203000" />
       <workItem from="1779946257671" duration="13094000" />
       <workItem from="1779991882140" duration="1140000" />
-      <workItem from="1779995596215" duration="346000" />
+      <workItem from="1779995596215" duration="1509000" />
     </task>
     <task id="LOCAL-00001" summary="Arreglo de datos &quot; null &quot; en openfeign">
       <option name="closed" value="true" />
@@ -515,7 +521,15 @@
       <option name="project" value="LOCAL" />
       <updated>1779992534869</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="pefnskjgvg">
+      <option name="closed" value="true" />
+      <created>1779995952555</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1779995952555</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -597,7 +611,8 @@
     <MESSAGE value="deberian estar bien" />
     <MESSAGE value="vai pa la cima" />
     <MESSAGE value="limpieza del main" />
-    <option name="LAST_COMMIT_MESSAGE" value="limpieza del main" />
+    <MESSAGE value="pefnskjgvg" />
+    <option name="LAST_COMMIT_MESSAGE" value="pefnskjgvg" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="XDebuggerManager">
