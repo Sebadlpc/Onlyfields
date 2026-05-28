@@ -40,15 +40,6 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.graalvm.buildtools</groupId>
-                <artifactId>native-maven-plugin</artifactId>
-                <configuration>
-                    <buildArgs>
-                        <buildArg>-J-Djava.io.tmpdir=/build/usuarios/target</buildArg>
-                    </buildArgs>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
@@ -58,7 +49,7 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                         <exclude>
-                            <groupId>org.springframework.boot</groupId>
+                            <groupId>org.springframework.boot</gourpId>
                             <artifactId>spring-boot-devtools</artifactId>
                         </exclude>
                     </excludes>

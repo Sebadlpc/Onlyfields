@@ -1,23 +1,31 @@
-# Etapa 1: Compilación Nativa (AOT)
+# Etapa 1: Construcción Nativa (basado en la configuración estándar)
 FROM ghcr.io/graalvm/native-image-community:17 AS builder
 WORKDIR /build
 
+# Copiamos los archivos necesarios para la compilación del módulo
 COPY pom.xml .
-COPY pos ./pos
+COPY pos/pom.xml ./pos/
+COPY pos/mvnw ./pos/
+COPY pos/.mvn ./pos/.mvn
+COPY pos/src ./pos/src
+
+# Nos movemos al directorio del módulo
 WORKDIR /build/pos
 
+# Damos permisos de ejecución al Maven Wrapper y compilamos
 RUN chmod +x ./mvnw
 RUN ./mvnw clean native:compile -Pnative -DskipTests
 
-
+# Etapa 2: Ejecución (basado en la configuración estándar)
 FROM gcr.io/distroless/base-debian12
 WORKDIR /app
 
-
+# Copiamos las dependencias de librerías nativas necesarias
 COPY --from=builder /usr/lib64/libz.so.1 /lib/
 
-
+# Copiamos el ejecutable nativo compilado
 COPY --from=builder /build/pos/target/ms-pos /app/ms-pos
 
-EXPOSE 8080
+# Exponemos el puerto correcto para pos
+EXPOSE 8083
 ENTRYPOINT ["/app/ms-pos"]
