@@ -5,16 +5,13 @@ WORKDIR /build
 # Copiamos los archivos necesarios para la compilación del módulo
 COPY pom.xml .
 COPY pos/pom.xml ./pos/
-COPY pos/mvnw ./pos/
-COPY pos/.mvn ./pos/.mvn
 COPY pos/src ./pos/src
 
 # Nos movemos al directorio del módulo
 WORKDIR /build/pos
 
-# Damos permisos de ejecución al Maven Wrapper y compilamos
-RUN chmod +x ./mvnw
-RUN ./mvnw clean native:compile -Pnative -DskipTests
+# Compilamos usando el mvn global de la imagen base
+RUN mvn clean native:compile -Pnative -DskipTests
 
 # Etapa 2: Ejecución (basado en la configuración estándar)
 FROM gcr.io/distroless/base-debian12

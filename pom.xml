@@ -18,9 +18,15 @@
 
     <modules>
         <module>usuarios</module>
+        <module>reservas</module>
+        <module>pos</module>
         <module>Suscripciones</module>
         <module>Inventario</module>
+        <module>accesos</module>
+        <module>seguimiento</module>
+        <module>reportes</module>
         <module>Configuracion</module>
+        <module>notificaciones</module>
     </modules>
 
     <properties>

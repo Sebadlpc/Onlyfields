@@ -5,16 +5,13 @@ WORKDIR /build
 # Copiamos los archivos necesarios para la compilación del módulo
 COPY pom.xml .
 COPY notificaciones/pom.xml ./notificaciones/
-COPY notificaciones/mvnw ./notificaciones/
-COPY notificaciones/.mvn ./notificaciones/.mvn
 COPY notificaciones/src ./notificaciones/src
 
 # Nos movemos al directorio del módulo
 WORKDIR /build/notificaciones
 
-# Damos permisos de ejecución al Maven Wrapper y compilamos
-RUN chmod +x ./mvnw
-RUN ./mvnw clean native:compile -Pnative -DskipTests
+# Compilamos usando el mvn global de la imagen base
+RUN mvn clean native:compile -Pnative -DskipTests
 
 # Etapa 2: Ejecución (basado en la configuración estándar)
 FROM gcr.io/distroless/base-debian12
@@ -27,5 +24,5 @@ COPY --from=builder /usr/lib64/libz.so.1 /lib/
 COPY --from=builder /build/notificaciones/target/ms-notificaciones /app/ms-notificaciones
 
 # Exponemos el puerto correcto para notificaciones
-EXPOSE 8088
+EXPOSE 8090
 ENTRYPOINT ["/app/ms-notificaciones"]

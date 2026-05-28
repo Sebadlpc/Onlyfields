@@ -5,16 +5,13 @@ WORKDIR /build
 # Copiamos los archivos necesarios para la compilación del módulo
 COPY pom.xml .
 COPY seguimiento/pom.xml ./seguimiento/
-COPY seguimiento/mvnw ./seguimiento/
-COPY seguimiento/.mvn ./seguimiento/.mvn
 COPY seguimiento/src ./seguimiento/src
 
 # Nos movemos al directorio del módulo
 WORKDIR /build/seguimiento
 
-# Damos permisos de ejecución al Maven Wrapper y compilamos
-RUN chmod +x ./mvnw
-RUN ./mvnw clean native:compile -Pnative -DskipTests
+# Compilamos usando el mvn global de la imagen base
+RUN mvn clean native:compile -Pnative -DskipTests
 
 # Etapa 2: Ejecución (basado en la configuración estándar)
 FROM gcr.io/distroless/base-debian12

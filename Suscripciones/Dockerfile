@@ -1,22 +1,19 @@
-# Etapa 1: Construcción Nativa (basado en la configuración de 'usuarios')
+# Etapa 1: Construcción Nativa (basado en la configuración estándar)
 FROM ghcr.io/graalvm/native-image-community:17 AS builder
 WORKDIR /build
 
 # Copiamos los archivos necesarios para la compilación del módulo
 COPY pom.xml .
 COPY Suscripciones/pom.xml ./Suscripciones/
-COPY Suscripciones/mvnw ./Suscripciones/
-COPY Suscripciones/.mvn ./Suscripciones/.mvn
 COPY Suscripciones/src ./Suscripciones/src
 
 # Nos movemos al directorio del módulo
 WORKDIR /build/Suscripciones
 
-# Damos permisos de ejecución al Maven Wrapper y compilamos
-RUN chmod +x ./mvnw
-RUN ./mvnw clean native:compile -Pnative -DskipTests
+# Compilamos usando el mvn global de la imagen base
+RUN mvn clean native:compile -Pnative -DskipTests
 
-# Etapa 2: Ejecución (basado en la configuración de 'usuarios')
+# Etapa 2: Ejecución (basado en la configuración estándar)
 FROM gcr.io/distroless/base-debian12
 WORKDIR /app
 
