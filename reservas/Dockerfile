@@ -1,0 +1,31 @@
+# Etapa 1: Construcción Nativa (basado en la configuración estándar)
+FROM ghcr.io/graalvm/native-image-community:17 AS builder
+WORKDIR /build
+
+# Copiamos los archivos necesarios para la compilación del módulo
+COPY pom.xml .
+COPY reservas/pom.xml ./reservas/
+COPY reservas/mvnw ./reservas/
+COPY reservas/.mvn ./reservas/.mvn
+COPY reservas/src ./reservas/src
+
+# Nos movemos al directorio del módulo
+WORKDIR /build/reservas
+
+# Damos permisos de ejecución al Maven Wrapper y compilamos
+RUN chmod +x ./mvnw
+RUN ./mvnw clean native:compile -Pnative -DskipTests
+
+# Etapa 2: Ejecución (basado en la configuración estándar)
+FROM gcr.io/distroless/base-debian12
+WORKDIR /app
+
+# Copiamos las dependencias de librerías nativas necesarias
+COPY --from=builder /usr/lib64/libz.so.1 /lib/
+
+# Copiamos el ejecutable nativo compilado
+COPY --from=builder /build/reservas/target/ms-reservas /app/ms-reservas
+
+# Exponemos el puerto correcto para reservas
+EXPOSE 8080
+ENTRYPOINT ["/app/ms-reservas"]
