@@ -1,5 +1,6 @@
 package com.fullstack.suscripciones.service;
 
+import com.fullstack.suscripciones.client.NotificacionClient;
 import com.fullstack.suscripciones.client.UsuarioClient;
 import com.fullstack.suscripciones.dto.*;
 import com.fullstack.suscripciones.model.*;
@@ -16,9 +17,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Servicio que encapsula la lógica de negocio para la gestión de suscripciones de clientes.
- */
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -27,37 +25,25 @@ public class SuscripcionService {
     private final SuscripcionRepository suscripcionRepository;
     private final PlanRepository planRepository;
     private final HistorialEstadoRepository historialRepository;
-    private final UsuarioClient usuarioClient; // Cliente Feign para comunicarse con el microservicio de usuarios.
+    private final UsuarioClient usuarioClient;
+    private final NotificacionClient notificacionClient;
 
-    /**
-     * Crea una nueva suscripción para un cliente.
-     * @param dto DTO con los datos de la nueva suscripción.
-     * @return DTO con la información de la suscripción creada.
-     * @throws EntityNotFoundException si el cliente o el plan no existen.
-     * @throws IllegalStateException si el cliente ya tiene una suscripción activa.
-     */
     @Transactional
     public SuscripcionResponseDTO crearSuscripcion(SuscripcionRequestDTO dto) {
-        // 1. Validar que el cliente existe llamando al microservicio de usuarios.
         try {
             usuarioClient.obtenerUsuarioPorId(dto.getClienteId());
         } catch (Exception e) {
-            // Si el cliente Feign falla (ej. devuelve 404), lanzamos una excepción clara.
             throw new EntityNotFoundException("El cliente con ID " + dto.getClienteId() + " no existe.");
         }
 
-        // 2. Validar que el cliente no tenga ya una suscripción activa.
         suscripcionRepository.findByClienteIdAndEstado(dto.getClienteId(), "ACTIVA")
                 .ifPresent(s -> { throw new IllegalStateException("El cliente ya tiene una suscripción activa."); });
 
-        // 3. Obtener el plan seleccionado.
         Plan plan = planRepository.findById(dto.getPlanId())
                 .orElseThrow(() -> new EntityNotFoundException("El plan con ID " + dto.getPlanId() + " no existe."));
 
-        // 4. Calcular la fecha de fin de la suscripción.
         LocalDate fechaFin = dto.getFechaInicio().plusDays(plan.getDuracionDias());
 
-        // 5. Crear y guardar la nueva entidad Suscripcion.
         Suscripcion suscripcion = Suscripcion.builder()
                 .clienteId(dto.getClienteId())
                 .plan(plan)
@@ -68,21 +54,19 @@ public class SuscripcionService {
                 .build();
 
         suscripcion = suscripcionRepository.save(suscripcion);
-        
-        // 6. Registrar el evento en el historial.
         registrarHistorial(suscripcion, null, "ACTIVA", "Alta inicial de suscripción.");
+
+        // Actualizar estado del cliente en ms-usuarios
+        try {
+            usuarioClient.actualizarEstadoUsuario(dto.getClienteId(), new UsuarioClient.EstadoUsuarioDTO("SUSCRITO"));
+            log.info("Estado del cliente {} actualizado a SUSCRITO en ms-usuarios.", dto.getClienteId());
+        } catch (Exception e) {
+            log.error("Error al actualizar estado del cliente {} en ms-usuarios: {}", dto.getClienteId(), e.getMessage());
+        }
 
         return mapearADTO(suscripcion);
     }
 
-    /**
-     * Congela una suscripción activa.
-     * @param id El ID de la suscripción.
-     * @param dto DTO con los detalles del congelamiento.
-     * @return La suscripción actualizada.
-     * @throws EntityNotFoundException si la suscripción no existe.
-     * @throws IllegalStateException si la suscripción no está activa o si se excede el límite de días de congelamiento.
-     */
     @Transactional
     public SuscripcionResponseDTO congelar(Long id, CongelarRequestDTO dto) {
         Suscripcion sub = suscripcionRepository.findById(id)
@@ -99,7 +83,7 @@ public class SuscripcionService {
 
         sub.setDiasCongelados(sub.getDiasCongelados() + dto.getDias());
         sub.setEstado("CONGELADA");
-        sub.setFechaFin(sub.getFechaFin().plusDays(dto.getDias())); // La fecha de fin se extiende.
+        sub.setFechaFin(sub.getFechaFin().plusDays(dto.getDias()));
 
         suscripcionRepository.save(sub);
         registrarHistorial(sub, "ACTIVA", "CONGELADA", dto.getMotivo());
@@ -107,11 +91,6 @@ public class SuscripcionService {
         return mapearADTO(sub);
     }
 
-    /**
-     * Reactiva una suscripción que estaba congelada.
-     * @param id El ID de la suscripción.
-     * @return La suscripción actualizada.
-     */
     @Transactional
     public SuscripcionResponseDTO reactivar(Long id) {
         Suscripcion sub = suscripcionRepository.findById(id)
@@ -128,11 +107,6 @@ public class SuscripcionService {
         return mapearADTO(sub);
     }
 
-    /**
-     * Cancela una suscripción de forma definitiva.
-     * @param id El ID de la suscripción.
-     * @return La suscripción actualizada.
-     */
     @Transactional
     public SuscripcionResponseDTO cancelar(Long id) {
         Suscripcion sub = suscripcionRepository.findById(id)
@@ -143,35 +117,29 @@ public class SuscripcionService {
         suscripcionRepository.save(sub);
         registrarHistorial(sub, estadoAnterior, "CANCELADA", "Cancelación definitiva del servicio.");
 
+        // Actualizar estado del cliente en ms-usuarios
+        try {
+            usuarioClient.actualizarEstadoUsuario(sub.getClienteId(), new UsuarioClient.EstadoUsuarioDTO("NO_SUSCRITO"));
+            log.info("Estado del cliente {} actualizado a NO_SUSCRITO en ms-usuarios.", sub.getClienteId());
+        } catch (Exception e) {
+            log.error("Error al actualizar estado del cliente {} en ms-usuarios: {}", sub.getClienteId(), e.getMessage());
+        }
+
         return mapearADTO(sub);
     }
 
-    /**
-     * Lista todas las suscripciones (activas e inactivas) de un cliente.
-     * @param clienteId El ID del cliente.
-     * @return Una lista de DTOs de suscripción.
-     */
     @Transactional(readOnly = true)
     public List<SuscripcionResponseDTO> listarPorCliente(Long clienteId) {
         return suscripcionRepository.findByClienteId(clienteId).stream()
                 .map(this::mapearADTO).collect(Collectors.toList());
     }
 
-    /**
-     * Obtiene el historial de cambios de estado de una suscripción.
-     * @param suscripcionId El ID de la suscripción.
-     * @return Lista del historial de estados, ordenada del más reciente al más antiguo.
-     */
     @Transactional(readOnly = true)
     public List<HistorialEstado> obtenerHistorial(Long suscripcionId) {
         return historialRepository.findBySuscripcionIdOrderByIdDesc(suscripcionId);
     }
 
-    /**
-     * Tarea programada que se ejecuta todos los días a medianoche.
-     * Busca suscripciones activas cuya fecha de fin ha pasado y las marca como "VENCIDA".
-     */
-    @Scheduled(cron = "0 0 0 * * ?") // Se ejecuta a las 00:00:00 todos los días
+    @Scheduled(cron = "0 0 0 * * ?")
     @Transactional
     public void verificarVencimientos() {
         log.info("Iniciando tarea programada: Verificación de suscripciones vencidas...");
@@ -185,13 +153,26 @@ public class SuscripcionService {
                     s.setEstado("VENCIDA");
                     suscripcionRepository.save(s);
                     registrarHistorial(s, "ACTIVA", "VENCIDA", "Vencimiento automático por fecha.");
+
+                    // Notificar al cliente sobre membresía vencida
+                    try {
+                        notificacionClient.enviarNotificacion(new NotificacionClient.NotificacionDTO(s.getClienteId(), "MEMBRESIA_VENCIDA", "Tu membresía ha vencido. Por favor, renuévala para seguir disfrutando de nuestros servicios."));
+                        log.info("Notificación de membresía vencida enviada para el cliente {}", s.getClienteId());
+                    } catch (Exception e) {
+                        log.error("Error al enviar notificación de membresía vencida para el cliente {}: {}", s.getClienteId(), e.getMessage());
+                    }
+
+                    // Actualizar estado del cliente en ms-usuarios
+                    try {
+                        usuarioClient.actualizarEstadoUsuario(s.getClienteId(), new UsuarioClient.EstadoUsuarioDTO("NO_SUSCRITO"));
+                        log.info("Estado del cliente {} actualizado a NO_SUSCRITO en ms-usuarios.", s.getClienteId());
+                    } catch (Exception e) {
+                        log.error("Error al actualizar estado del cliente {} en ms-usuarios: {}", s.getClienteId(), e.getMessage());
+                    }
                 });
         log.info("Tarea de verificación de vencimientos finalizada.");
     }
 
-    /**
-     * Método de utilidad para registrar un cambio de estado en el historial.
-     */
     private void registrarHistorial(Suscripcion sub, String estadoAnterior, String estadoNuevo, String motivo) {
         HistorialEstado historial = HistorialEstado.builder()
                 .suscripcion(sub)
@@ -203,19 +184,16 @@ public class SuscripcionService {
         historialRepository.save(historial);
     }
 
-    /**
-     * Método de utilidad para mapear una entidad Suscripcion a su DTO de respuesta.
-     */
     private SuscripcionResponseDTO mapearADTO(Suscripcion s) {
-        return new SuscripcionResponseDTO(
-                s.getId(),
-                s.getClienteId(),
-                s.getPlan().getId(),
-                s.getPlan().getNombre(),
-                s.getFechaInicio(),
-                s.getFechaFin(),
-                s.getEstado(),
-                s.getDiasCongelados()
-        );
+        return SuscripcionResponseDTO.builder()
+                .id(s.getId())
+                .clienteId(s.getClienteId())
+                .planId(s.getPlan().getId())
+                .planNombre(s.getPlan().getNombre())
+                .fechaInicio(s.getFechaInicio())
+                .fechaFin(s.getFechaFin())
+                .estado(s.getEstado())
+                .diasCongelados(s.getDiasCongelados())
+                .build();
     }
 }

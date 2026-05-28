@@ -1,13 +1,14 @@
-package com.fullstack.seguimiento.Service;
+package com.fullstack.seguimiento.service;
 
+import com.fullstack.seguimiento.client.UsuarioClient;
 import com.fullstack.seguimiento.dto.FichaClienteDTO;
 import com.fullstack.seguimiento.dto.MedicionCorporalDTO;
-import com.fullstack.seguimiento.Model.FichaCliente;
-import com.fullstack.seguimiento.Model.MedicionCorporal;
-import com.fullstack.seguimiento.Repository.FichaClienteRepository;
-import com.fullstack.seguimiento.Repository.MedicionCorporalRepository;
-import com.fullstack.seguimiento.client.UsuarioClient;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.fullstack.seguimiento.model.FichaCliente;
+import com.fullstack.seguimiento.model.MedicionCorporal;
+import com.fullstack.seguimiento.repository.FichaClienteRepository;
+import com.fullstack.seguimiento.repository.MedicionCorporalRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,39 +16,46 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class SeguimientoService {
 
-    @Autowired
-    private FichaClienteRepository fichaRepository;
-
-    @Autowired
-    private MedicionCorporalRepository medicionRepository;
-
-    @Autowired
-    private UsuarioClient usuarioClient;
-
-    // --- LÓGICA DE FICHAS ---
+    private final FichaClienteRepository fichaRepository;
+    private final MedicionCorporalRepository medicionRepository;
+    private final UsuarioClient usuarioClient;
 
     @Transactional
-    public FichaClienteDTO crearFicha(FichaClienteDTO dto) {
-        // 1. Validación local
+    public FichaClienteDTO crearFicha(Long creadorId, FichaClienteDTO dto) {
+        // 1. Validar que el creador es STAFF
+        try {
+            UsuarioClient.UsuarioResponseDTO creador = usuarioClient.obtenerUsuarioPorId(creadorId);
+            if (creador == null || !"ROLE_STAFF".equalsIgnoreCase(creador.rolNombre()) && !"STAFF".equalsIgnoreCase(creador.rolNombre())) {
+                throw new RuntimeException("Acceso denegado: Solo el personal de STAFF puede crear fichas clínicas.");
+            }
+        } catch (Exception e) {
+            log.error("Error al validar rol del creador {}: {}", creadorId, e.getMessage());
+            throw new RuntimeException("No se pudo validar los permisos del usuario creador.");
+        }
+
+        // 2. Validación local
         if (fichaRepository.existsByClienteId(dto.getClienteId())) {
             throw new RuntimeException("FichaYaExisteException: El cliente ya tiene una ficha clínica asignada.");
         }
 
-        // 2. Validación Externa (Feign)
+        // 3. Validación Externa del Cliente (Feign)
         try {
             usuarioClient.obtenerUsuarioPorId(dto.getClienteId());
         } catch (Exception e) {
             throw new RuntimeException("UsuarioNotFoundException: No se puede crear la ficha porque el cliente con ID "
-                    + dto.getClienteId() + " no existe en el sistema o el servicio no está disponible.");
+                    + dto.getClienteId() + " no existe en el sistema.");
         }
 
-        // 3. Mapeo de DTO a Entidad para guardar
+        // 4. Mapeo de DTO a Entidad para guardar
         FichaCliente ficha = FichaCliente.builder()
                 .clienteId(dto.getClienteId())
-                .lesiones(dto.getLesiones())
+                .lesionesPrevias(dto.getLesionesPrevias())
                 .observaciones(dto.getObservaciones())
+                .antecedentesMedicos(dto.getAntecedentesMedicos())
                 .build();
 
         if (dto.getMediciones() != null && !dto.getMediciones().isEmpty()) {
@@ -55,10 +63,12 @@ public class SeguimientoService {
                     .map(mDto -> MedicionCorporal.builder()
                             .peso(mDto.getPeso())
                             .altura(mDto.getAltura())
-                            .cintura(mDto.getCintura())
-                            .cadera(mDto.getCadera())
-                            .objetivo(mDto.getObjetivo())
-                            .ficha(ficha)
+                            .perimetroCintura(mDto.getPerimetroCintura())
+                            .perimetroCadera(mDto.getPerimetroCadera())
+                            .objetivoActual(mDto.getObjetivoActual())
+                            .porcentajeGrasa(mDto.getPorcentajeGrasa())
+                            .masaMuscular(mDto.getMasaMuscular())
+                            .fichaCliente(ficha)
                             .build())
                     .collect(Collectors.toList());
             ficha.setMediciones(mediciones);
@@ -79,8 +89,9 @@ public class SeguimientoService {
         FichaCliente ficha = fichaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("FichaNotFoundException: Ficha no encontrada."));
 
-        ficha.setLesiones(dtoActualizada.getLesiones());
+        ficha.setLesionesPrevias(dtoActualizada.getLesionesPrevias());
         ficha.setObservaciones(dtoActualizada.getObservaciones());
+        ficha.setAntecedentesMedicos(dtoActualizada.getAntecedentesMedicos());
 
         return mapearFichaADTO(fichaRepository.save(ficha));
     }
@@ -93,20 +104,20 @@ public class SeguimientoService {
         fichaRepository.deleteById(id);
     }
 
-    // --- LÓGICA DE MEDICIONES ---
-
     @Transactional
     public MedicionCorporalDTO agregarMedicion(Long fichaId, MedicionCorporalDTO mDto) {
         FichaCliente ficha = fichaRepository.findById(fichaId)
                 .orElseThrow(() -> new RuntimeException("FichaNotFoundException: Ficha no encontrada para asignar la medición."));
 
         MedicionCorporal medicion = MedicionCorporal.builder()
-                .ficha(ficha)
+                .fichaCliente(ficha)
                 .peso(mDto.getPeso())
                 .altura(mDto.getAltura())
-                .cintura(mDto.getCintura())
-                .cadera(mDto.getCadera())
-                .objetivo(mDto.getObjetivo())
+                .perimetroCintura(mDto.getPerimetroCintura())
+                .perimetroCadera(mDto.getPerimetroCadera())
+                .objetivoActual(mDto.getObjetivoActual())
+                .porcentajeGrasa(mDto.getPorcentajeGrasa())
+                .masaMuscular(mDto.getMasaMuscular())
                 .build();
 
         return mapearMedicionADTO(medicionRepository.save(medicion));
@@ -116,12 +127,10 @@ public class SeguimientoService {
         if (!fichaRepository.existsById(fichaId)) {
             throw new RuntimeException("FichaNotFoundException: Ficha no encontrada.");
         }
-        return medicionRepository.findByFichaIdOrderByFechaDesc(fichaId).stream()
+        return medicionRepository.findByFichaClienteIdOrderByFechaMedicionDesc(fichaId).stream()
                 .map(this::mapearMedicionADTO)
                 .collect(Collectors.toList());
     }
-
-    // --- MÉTODOS PRIVADOS DE MAPEO (MAPPERS) ---
 
     private FichaClienteDTO mapearFichaADTO(FichaCliente ficha) {
         if (ficha == null) return null;
@@ -133,28 +142,37 @@ public class SeguimientoService {
                     .collect(Collectors.toList());
         }
 
-        return FichaClienteDTO.builder()
-                .id(ficha.getId())
-                .clienteId(ficha.getClienteId())
-                .lesiones(ficha.getLesiones())
-                .observaciones(ficha.getObservaciones())
-                .fechaIngreso(ficha.getFechaIngreso())
-                .mediciones(medicionesDto)
-                .build();
+        return new FichaClienteDTO(
+                ficha.getId(),
+                ficha.getClienteId(),
+                ficha.getAntecedentesMedicos(),
+                ficha.getLesionesPrevias(),
+                ficha.getObservaciones(),
+                ficha.getFechaCreacion(),
+                medicionesDto
+        );
     }
 
     private MedicionCorporalDTO mapearMedicionADTO(MedicionCorporal medicion) {
         if (medicion == null) return null;
-        return MedicionCorporalDTO.builder()
-                .id(medicion.getId())
-                .fichaId(medicion.getFicha() != null ? medicion.getFicha().getId() : null)
-                .fecha(medicion.getFecha())
-                .peso(medicion.getPeso())
-                .altura(medicion.getAltura())
-                .imc(medicion.getImc())
-                .cintura(medicion.getCintura())
-                .cadera(medicion.getCadera())
-                .objetivo(medicion.getObjetivo())
-                .build();
+        
+        Double imc = null;
+        if (medicion.getPeso() != null && medicion.getAltura() != null && medicion.getAltura() > 0) {
+            imc = medicion.getPeso() / Math.pow(medicion.getAltura(), 2);
+        }
+
+        return new MedicionCorporalDTO(
+                medicion.getId(),
+                medicion.getFichaCliente() != null ? medicion.getFichaCliente().getId() : null,
+                medicion.getFechaMedicion(),
+                medicion.getPeso(),
+                medicion.getAltura(),
+                medicion.getPorcentajeGrasa(),
+                medicion.getMasaMuscular(),
+                medicion.getPerimetroCintura(),
+                medicion.getPerimetroCadera(),
+                imc,
+                medicion.getObjetivoActual()
+        );
     }
 }

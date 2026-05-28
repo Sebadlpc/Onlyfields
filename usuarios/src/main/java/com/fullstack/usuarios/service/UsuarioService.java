@@ -40,17 +40,17 @@ public class UsuarioService {
      */
     @Transactional
     public UsuarioRespuestaDTO registrarUsuario(UsuarioRegistroDTO dto) {
-        if (usuarioRepository.existsByEmail(dto.correoElectronico())) {
-            throw new EmailYaRegistradoException("El correo electrónico '" + dto.correoElectronico() + "' ya está registrado.");
+        if (usuarioRepository.existsByEmail(dto.getCorreoElectronico())) {
+            throw new EmailYaRegistradoException("El correo electrónico '" + dto.getCorreoElectronico() + "' ya está registrado.");
         }
 
-        Rol rol = rolRepository.findById(dto.rolId())
-                .orElseThrow(() -> new RolNoEncontradoException("El rol con ID '" + dto.rolId() + "' no es válido."));
+        Rol rol = rolRepository.findById(dto.getRolId())
+                .orElseThrow(() -> new RolNoEncontradoException("El rol con ID '" + dto.getRolId() + "' no es válido."));
 
         Usuario usuario = Usuario.builder()
-                .nombre(dto.nombre())
-                .email(dto.correoElectronico())
-                .passwordHash(passwordEncoder.encode(dto.password()))
+                .nombre(dto.getNombre())
+                .email(dto.getCorreoElectronico())
+                .passwordHash(passwordEncoder.encode(dto.getPassword()))
                 .estado("ACTIVO")
                 .fechaCreacion(LocalDateTime.now())
                 .build();
@@ -69,10 +69,10 @@ public class UsuarioService {
      */
     @Transactional(readOnly = true)
     public UsuarioRespuestaDTO login(AuthLoginDTO dto) {
-        Usuario usuario = usuarioRepository.findByEmail(dto.correoElectronico())
-                .orElseThrow(() -> new UsuarioNoEncontradoException("No se encontró un usuario con el correo: " + dto.correoElectronico()));
+        Usuario usuario = usuarioRepository.findByEmail(dto.getCorreoElectronico())
+                .orElseThrow(() -> new UsuarioNoEncontradoException("No se encontró un usuario con el correo: " + dto.getCorreoElectronico()));
 
-        if (!passwordEncoder.matches(dto.password(), usuario.getPasswordHash())) {
+        if (!passwordEncoder.matches(dto.getPassword(), usuario.getPasswordHash())) {
             throw new CredencialesInvalidasException("La contraseña es incorrecta.");
         }
         if (!"ACTIVO".equals(usuario.getEstado())) {
@@ -129,13 +129,13 @@ public class UsuarioService {
                 .map(Rol::getNombre)
                 .orElse("SIN_ROL");
 
-        return new UsuarioRespuestaDTO(
-                usuario.getId(),
-                usuario.getNombre(),
-                usuario.getEmail(),
-                usuario.getEstado(),
-                usuario.getFechaCreacion(),
-                rolNombre
-        );
+        return UsuarioRespuestaDTO.builder()
+                .id(usuario.getId())
+                .nombre(usuario.getNombre())
+                .correoElectronico(usuario.getEmail())
+                .estado(usuario.getEstado())
+                .fechaCreacion(usuario.getFechaCreacion())
+                .rolNombre(rolNombre)
+                .build();
     }
 }

@@ -9,13 +9,7 @@
     </option>
     <option name="ignoredFiles">
       <set>
-        <option value="$PROJECT_DIR$/accesos/pom.xml" />
         <option value="$PROJECT_DIR$/inventario/pom.xml" />
-        <option value="$PROJECT_DIR$/notificaciones/pom.xml" />
-        <option value="$PROJECT_DIR$/pos/pom.xml" />
-        <option value="$PROJECT_DIR$/reportes/pom.xml" />
-        <option value="$PROJECT_DIR$/reservas/pom.xml" />
-        <option value="$PROJECT_DIR$/seguimiento/pom.xml" />
         <option value="$PROJECT_DIR$/suscripciones/pom.xml" />
       </set>
     </option>

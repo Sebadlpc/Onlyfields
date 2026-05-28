@@ -1,12 +1,12 @@
 package com.fullstack.pos.client;
 
-import com.fullstack.pos.dto.external.UsuarioExternoDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(name = "usuarios", url = "http://localhost:8080/api/v1/usuarios")
+@FeignClient(name = "ms-usuarios", url = "${ms.usuarios.url:http://ms-usuarios:8081}")
 public interface UsuarioClient {
-    @GetMapping("/{id}")
-    UsuarioExternoDTO obtenerUsuarioPorId(@PathVariable("id") Long id);
+
+    @GetMapping("/api/v1/usuarios/{id}")
+    void obtenerUsuarioPorId(@PathVariable("id") Long id);
 }

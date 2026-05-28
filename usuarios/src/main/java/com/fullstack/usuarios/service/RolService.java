@@ -31,14 +31,14 @@ public class RolService {
      */
     @Transactional
     public RolDTO crearRol(RolDTO dto) {
-        String nombreRol = dto.nombre().toUpperCase();
+        String nombreRol = dto.getNombre().toUpperCase();
         if (rolRepository.findByNombre(nombreRol).isPresent()) {
             throw new EmailYaRegistradoException("El rol '" + nombreRol + "' ya existe.");
         }
 
         Rol rol = Rol.builder()
                 .nombre(nombreRol)
-                .descripcion(dto.descripcion())
+                .descripcion(dto.getDescripcion())
                 .build();
 
         Rol rolGuardado = rolRepository.save(rol);
@@ -68,8 +68,8 @@ public class RolService {
         Rol rol = rolRepository.findById(id)
                 .orElseThrow(() -> new RolNoEncontradoException("Rol no encontrado con ID: " + id));
 
-        rol.setNombre(dto.nombre().toUpperCase());
-        rol.setDescripcion(dto.descripcion());
+        rol.setNombre(dto.getNombre().toUpperCase());
+        rol.setDescripcion(dto.getDescripcion());
 
         Rol rolActualizado = rolRepository.save(rol);
         return mapearADTO(rolActualizado);
@@ -100,10 +100,10 @@ public class RolService {
      * @return El DTO correspondiente.
      */
     private RolDTO mapearADTO(Rol rol) {
-        return new RolDTO(
-                rol.getId(),
-                rol.getNombre(),
-                rol.getDescripcion()
-        );
+        return RolDTO.builder()
+                .id(rol.getId())
+                .nombre(rol.getNombre())
+                .descripcion(rol.getDescripcion())
+                .build();
     }
 }

@@ -1,32 +1,23 @@
 package com.fullstack.seguimiento.dto;
 
-import com.fullstack.seguimiento.Model.ObjetivoFisico;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import com.fullstack.seguimiento.model.ObjetivoFisico;
 import lombok.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class MedicionCorporalDTO {
     private Long id;
     private Long fichaId;
-    private LocalDate fecha;
-
-    @NotNull(message = "El peso es obligatorio")
-    @Positive(message = "El peso debe ser mayor a cero")
+    private LocalDateTime fechaMedicion;
     private Double peso;
-
-    @NotNull(message = "La altura es obligatoria")
-    @Positive(message = "La altura debe ser mayor a cero")
     private Double altura;
-
+    private Double porcentajeGrasa;
+    private Double masaMuscular;
+    private Double perimetroCintura;
+    private Double perimetroCadera;
     private Double imc;
-    @Positive
-    private Double cintura;
-    @Positive
-    private Double cadera;
-    private ObjetivoFisico objetivo;
+    private ObjetivoFisico objetivoActual;
 }

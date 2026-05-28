@@ -1,6 +1,6 @@
-package com.fullstack.pos.Repository;
+package com.fullstack.pos.repository;
 
-import com.fullstack.pos.Model.Transaccion;
+import com.fullstack.pos.model.Transaccion;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,9 +1,10 @@
 package com.fullstack.pos.dto;
 
-import com.fullstack.pos.Model.EstadoTransaccion;
-import com.fullstack.pos.Model.MetodoPago;
-import com.fullstack.pos.Model.TipoTransaccion;
+import com.fullstack.pos.model.EstadoTransaccion;
+import com.fullstack.pos.model.MetodoPago;
+import com.fullstack.pos.model.TipoTransaccion;
 import lombok.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class TransaccionDTO {
     private Long cajaId;
     private Long clienteId;
     private TipoTransaccion tipo;
-    private Double total;
+    private BigDecimal total;
     private MetodoPago metodoPago;
     private EstadoTransaccion estado;
     private LocalDateTime fechaHora;

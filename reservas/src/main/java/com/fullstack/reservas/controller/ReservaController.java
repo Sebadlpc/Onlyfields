@@ -2,60 +2,49 @@ package com.fullstack.reservas.controller;
 
 import com.fullstack.reservas.dto.ReservaRequestDTO;
 import com.fullstack.reservas.dto.ReservaResponseDTO;
-import com.fullstack.reservas.models.Reserva;
-import com.fullstack.reservas.service.IReservaService;
+import com.fullstack.reservas.service.ReservaService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/reservas")
-@CrossOrigin(origins = "*")
+@RequestMapping("/api/v1/reservas")
+@RequiredArgsConstructor
 public class ReservaController {
 
-    @Autowired
-    private IReservaService reservaService;
+    private final ReservaService reservaService;
 
     @GetMapping
-    public List<ReservaResponseDTO> listar() {
-        return reservaService.obtenerTodasLasReservas().stream().map(ReservaResponseDTO::fromEntity).collect(Collectors.toList());
+    public ResponseEntity<List<ReservaResponseDTO>> listar() {
+        return ResponseEntity.ok(reservaService.obtenerTodasLasReservas());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ReservaResponseDTO> obtenerPorId(@PathVariable Long id) {
-        return ResponseEntity.ok(ReservaResponseDTO.fromEntity(reservaService.obtenerReservaPorId(id)));
+        return ResponseEntity.ok(reservaService.obtenerReservaPorId(id));
     }
 
     @GetMapping("/cliente/{clienteId}")
-    public List<ReservaResponseDTO> listarPorCliente(@PathVariable Long clienteId) {
-        return reservaService.obtenerPorCliente(clienteId).stream().map(ReservaResponseDTO::fromEntity).collect(Collectors.toList());
+    public ResponseEntity<List<ReservaResponseDTO>> listarPorCliente(@PathVariable Long clienteId) {
+        return ResponseEntity.ok(reservaService.obtenerPorCliente(clienteId));
     }
 
     @PostMapping
-    public ResponseEntity<?> crear(@Valid @RequestBody ReservaRequestDTO dto) {
-        try {
-            return new ResponseEntity<>(ReservaResponseDTO.fromEntity(reservaService.crearReserva(dto.toEntity())), HttpStatus.CREATED);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<ReservaResponseDTO> crear(@Valid @RequestBody ReservaRequestDTO dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(reservaService.crearReserva(dto));
     }
 
     @PutMapping("/{id}/cancelar")
-    public ResponseEntity<?> cancelar(@PathVariable Long id) {
-        try {
-            return ResponseEntity.ok(ReservaResponseDTO.fromEntity(reservaService.cancelarReserva(id)));
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<ReservaResponseDTO> cancelar(@PathVariable Long id) {
+        return ResponseEntity.ok(reservaService.cancelarReserva(id));
     }
+
     @PutMapping("/{id}/confirmar")
-    public ResponseEntity<?> confirmarReserva(@PathVariable Long id) {
-    Reserva reservaConfirmada = reservaService.confirmarReserva(id);
-    return ResponseEntity.ok(reservaConfirmada);
-}
+    public ResponseEntity<ReservaResponseDTO> confirmarReserva(@PathVariable Long id) {
+        return ResponseEntity.ok(reservaService.confirmarReserva(id));
+    }
 }

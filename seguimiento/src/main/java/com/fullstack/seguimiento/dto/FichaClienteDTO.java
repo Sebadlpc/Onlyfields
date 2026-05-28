@@ -1,18 +1,19 @@
 package com.fullstack.seguimiento.dto;
 
 import lombok.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class FichaClienteDTO {
     private Long id;
     private Long clienteId;
-    private String lesiones;
+    private String antecedentesMedicos;
+    private String lesionesPrevias;
     private String observaciones;
-    private LocalDate fechaIngreso;
-    private List<MedicionCorporalDTO> mediciones; // Usa la versión DTO para cortar el bucle
+    private LocalDateTime fechaCreacion;
+    private List<MedicionCorporalDTO> mediciones;
 }

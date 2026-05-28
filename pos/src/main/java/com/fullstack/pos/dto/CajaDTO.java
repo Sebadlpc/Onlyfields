@@ -1,7 +1,8 @@
 package com.fullstack.pos.dto;
 
-import com.fullstack.pos.Model.EstadoCaja;
+import com.fullstack.pos.model.EstadoCaja;
 import lombok.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -13,8 +14,8 @@ public class CajaDTO {
     private Long usuarioId;
     private LocalDateTime fechaApertura;
     private LocalDateTime fechaCierre;
-    private Double montoInicial;
-    private Float totalEfectivo;
-    private Float totalTarjeta;
+    private BigDecimal montoInicial;
+    private BigDecimal totalEfectivo;
+    private BigDecimal totalTarjeta;
     private EstadoCaja estado;
 }

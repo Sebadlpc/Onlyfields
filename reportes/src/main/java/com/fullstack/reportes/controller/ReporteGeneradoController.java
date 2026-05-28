@@ -2,9 +2,9 @@ package com.fullstack.reportes.controller;
 
 import com.fullstack.reportes.dto.ReporteGeneradoRequestDTO;
 import com.fullstack.reportes.dto.ReporteGeneradoResponseDTO;
-import com.fullstack.reportes.service.IReporteGeneradoService;
+import com.fullstack.reportes.service.ReporteService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,14 +15,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/reportes")
-@CrossOrigin(origins = "*")
+@RequestMapping("/api/v1/reportes")
+@RequiredArgsConstructor
 public class ReporteGeneradoController {
 
-    @Autowired
-    private IReporteGeneradoService reporteService;
+    private final ReporteService reporteService;
 
-    // GET /api/reportes
     @GetMapping
     public List<ReporteGeneradoResponseDTO> listarTodos() {
         return reporteService.obtenerTodos()
@@ -31,7 +29,6 @@ public class ReporteGeneradoController {
                 .collect(Collectors.toList());
     }
 
-    // GET /api/reportes/{id}
     @GetMapping("/{id}")
     public ResponseEntity<?> obtenerPorId(@PathVariable Long id) {
         try {
@@ -43,7 +40,6 @@ public class ReporteGeneradoController {
         }
     }
 
-    // GET /api/reportes/usuario/{usuarioId}
     @GetMapping("/usuario/{usuarioId}")
     public List<ReporteGeneradoResponseDTO> listarPorUsuario(@PathVariable Long usuarioId) {
         return reporteService.obtenerPorUsuario(usuarioId)
@@ -52,7 +48,6 @@ public class ReporteGeneradoController {
                 .collect(Collectors.toList());
     }
 
-    // GET /api/reportes/tipo/{tipo}
     @GetMapping("/tipo/{tipo}")
     public List<ReporteGeneradoResponseDTO> listarPorTipo(@PathVariable String tipo) {
         return reporteService.obtenerPorTipo(tipo)
@@ -61,7 +56,6 @@ public class ReporteGeneradoController {
                 .collect(Collectors.toList());
     }
 
-    
     @GetMapping("/rango")
     public ResponseEntity<?> listarPorRangoFechas(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime desde,
@@ -78,7 +72,6 @@ public class ReporteGeneradoController {
         }
     }
 
-    // POST /api/reportes
     @PostMapping
     public ResponseEntity<?> generar(@Valid @RequestBody ReporteGeneradoRequestDTO dto) {
         try {
@@ -93,7 +86,6 @@ public class ReporteGeneradoController {
         }
     }
 
-    // DELETE /api/reportes/{id}
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminar(@PathVariable Long id) {
         try {

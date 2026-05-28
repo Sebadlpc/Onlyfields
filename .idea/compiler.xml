@@ -6,21 +6,18 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="ms-reservas" />
         <module name="ms-seguimiento" />
         <module name="ms-suscripciones" />
         <module name="ms-usuarios" />
+        <module name="ms-Suscripciones" />
         <module name="ms-configuracion" />
-        <module name="ms-notificaciones" />
-        <module name="ms-pos" />
-        <module name="ms-reportes" />
-        <module name="ms-accesos" />
         <module name="ms-inventario" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="ms-Suscripciones" options="-parameters" />
       <module name="ms-accesos" options="-parameters" />
       <module name="ms-configuracion" options="-parameters" />
       <module name="ms-inventario" options="-parameters" />

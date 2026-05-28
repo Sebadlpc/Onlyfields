@@ -1,10 +1,10 @@
-package com.fullstack.seguimiento.Controller;
+package com.fullstack.seguimiento.controller;
 
 import com.fullstack.seguimiento.dto.FichaClienteDTO;
 import com.fullstack.seguimiento.dto.MedicionCorporalDTO;
-import com.fullstack.seguimiento.Service.SeguimientoService;
+import com.fullstack.seguimiento.service.SeguimientoService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,71 +12,45 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/fichas")
+@RequestMapping("/api/v1/seguimiento/fichas")
+@RequiredArgsConstructor
 public class SeguimientoController {
 
-    @Autowired
-    private SeguimientoService seguimientoService;
+    private final SeguimientoService seguimientoService;
 
     @PostMapping
-    public ResponseEntity<?> crearFicha(@Valid @RequestBody FichaClienteDTO fichaDto) {
-        try {
-            FichaClienteDTO nuevaFicha = seguimientoService.crearFicha(fichaDto);
-            return ResponseEntity.status(HttpStatus.CREATED).body(nuevaFicha);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-        }
+    public ResponseEntity<FichaClienteDTO> crearFicha(@RequestHeader("X-Usuario-Id") Long creadorId, @Valid @RequestBody FichaClienteDTO fichaDto) {
+        FichaClienteDTO nuevaFicha = seguimientoService.crearFicha(creadorId, fichaDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(nuevaFicha);
     }
 
     @GetMapping("/cliente/{clienteId}")
-    public ResponseEntity<?> obtenerFichaCliente(@PathVariable Long clienteId) {
-        try {
-            FichaClienteDTO fichaDto = seguimientoService.obtenerFichaPorCliente(clienteId);
-            return ResponseEntity.ok(fichaDto);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public ResponseEntity<FichaClienteDTO> obtenerFichaCliente(@PathVariable Long clienteId) {
+        FichaClienteDTO fichaDto = seguimientoService.obtenerFichaPorCliente(clienteId);
+        return ResponseEntity.ok(fichaDto);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> actualizarFicha(@PathVariable Long id, @Valid @RequestBody FichaClienteDTO fichaDto) {
-        try {
-            FichaClienteDTO actualizada = seguimientoService.actualizarFicha(id, fichaDto);
-            return ResponseEntity.ok(actualizada);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public ResponseEntity<FichaClienteDTO> actualizarFicha(@PathVariable Long id, @Valid @RequestBody FichaClienteDTO fichaDto) {
+        FichaClienteDTO actualizada = seguimientoService.actualizarFicha(id, fichaDto);
+        return ResponseEntity.ok(actualizada);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> eliminarFicha(@PathVariable Long id) {
-        try {
-            seguimientoService.eliminarFicha(id);
-            return ResponseEntity.noContent().build();
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public ResponseEntity<Void> eliminarFicha(@PathVariable Long id) {
+        seguimientoService.eliminarFicha(id);
+        return ResponseEntity.noContent().build();
     }
 
-    // --- SUB-RUTAS DE MEDICIONES ---
-
     @PostMapping("/{id}/mediciones")
-    public ResponseEntity<?> agregarMedicion(@PathVariable Long id, @Valid @RequestBody MedicionCorporalDTO medicionDto) {
-        try {
-            MedicionCorporalDTO nuevaMedicion = seguimientoService.agregarMedicion(id, medicionDto);
-            return ResponseEntity.status(HttpStatus.CREATED).body(nuevaMedicion);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public ResponseEntity<MedicionCorporalDTO> agregarMedicion(@PathVariable Long id, @Valid @RequestBody MedicionCorporalDTO medicionDto) {
+        MedicionCorporalDTO nuevaMedicion = seguimientoService.agregarMedicion(id, medicionDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(nuevaMedicion);
     }
 
     @GetMapping("/{id}/mediciones")
-    public ResponseEntity<?> obtenerMediciones(@PathVariable Long id) {
-        try {
-            List<MedicionCorporalDTO> mediciones = seguimientoService.obtenerHistorialMediciones(id);
-            return ResponseEntity.ok(mediciones);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public ResponseEntity<List<MedicionCorporalDTO>> obtenerMediciones(@PathVariable Long id) {
+        List<MedicionCorporalDTO> mediciones = seguimientoService.obtenerHistorialMediciones(id);
+        return ResponseEntity.ok(mediciones);
     }
 }

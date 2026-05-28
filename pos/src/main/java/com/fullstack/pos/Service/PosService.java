@@ -1,54 +1,55 @@
-package com.fullstack.pos.Service;
+package com.fullstack.pos.service;
 
+import com.fullstack.pos.client.InventarioClient;
+import com.fullstack.pos.client.NotificacionClient;
+import com.fullstack.pos.client.SuscripcionesClient;
+import com.fullstack.pos.client.UsuarioClient;
 import com.fullstack.pos.dto.CajaDTO;
 import com.fullstack.pos.dto.ItemTransaccionDTO;
 import com.fullstack.pos.dto.TransaccionDTO;
-import com.fullstack.pos.Model.*;
-import com.fullstack.pos.Repository.CajaRepository;
-import com.fullstack.pos.Repository.TransaccionRepository;
-import com.fullstack.pos.client.UsuarioClient;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.fullstack.pos.exception.CajaException;
+import com.fullstack.pos.exception.TransaccionException;
+import com.fullstack.pos.model.*;
+import com.fullstack.pos.repository.CajaRepository;
+import com.fullstack.pos.repository.TransaccionRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class PosService {
 
-    @Autowired
-    private CajaRepository cajaRepository;
-
-    @Autowired
-    private TransaccionRepository transaccionRepository;
-
-    @Autowired
-    private UsuarioClient usuarioClient; // Inyección de Feign
-
-    // --- LÓGICA DE CAJAS ---
+    private final CajaRepository cajaRepository;
+    private final TransaccionRepository transaccionRepository;
+    private final UsuarioClient usuarioClient;
+    private final InventarioClient inventarioClient;
+    private final SuscripcionesClient suscripcionesClient;
+    private final NotificacionClient notificacionClient;
 
     @Transactional
     public CajaDTO abrirCaja(Long usuarioId, Double montoInicial) {
         if (cajaRepository.findByEstado(EstadoCaja.ABIERTA).isPresent()) {
-            throw new RuntimeException("CajaYaAbiertaException: Ya existe una caja abierta en el turno.");
+            throw new CajaException("Ya existe una caja abierta.");
         }
-
-        // VALIDACIÓN FEIGN 1: ¿El empleado que abre la caja existe?
         try {
+            // Validar que el recepcionista existe y está activo
             usuarioClient.obtenerUsuarioPorId(usuarioId);
         } catch (Exception e) {
-            throw new RuntimeException("UsuarioNotFoundException: El usuario (cajero) con ID " + usuarioId + " no existe.");
+            throw new CajaException("El usuario (recepcionista) con ID " + usuarioId + " no existe o no está activo.");
         }
 
         Caja nuevaCaja = Caja.builder()
                 .usuarioId(usuarioId)
-                .montoInicial(montoInicial)
-                .totalEfectivo(0f)
-                .totalTarjeta(0f)
+                .montoInicial(BigDecimal.valueOf(montoInicial))
                 .build();
-
         return mapearCajaADTO(cajaRepository.save(nuevaCaja));
     }
 
@@ -66,23 +67,21 @@ public class PosService {
 
     private Caja obtenerCajaActualEntidad() {
         return cajaRepository.findByEstado(EstadoCaja.ABIERTA)
-                .orElseThrow(() -> new RuntimeException("CajaNoEncontradaException: No hay ninguna caja abierta."));
+                .orElseThrow(() -> new CajaException("No hay ninguna caja abierta."));
     }
-
-    // --- LÓGICA DE TRANSACCIONES ---
 
     @Transactional
     public TransaccionDTO registrarTransaccion(TransaccionDTO dto) {
         Caja cajaActiva = obtenerCajaActualEntidad();
-
-        // VALIDACIÓN FEIGN 2: ¿El cliente que compra existe?
-        try {
-            usuarioClient.obtenerUsuarioPorId(dto.getClienteId());
-        } catch (Exception e) {
-            throw new RuntimeException("UsuarioNotFoundException: El cliente con ID " + dto.getClienteId() + " no existe.");
+        
+        if (dto.getClienteId() != null) {
+            try {
+                usuarioClient.obtenerUsuarioPorId(dto.getClienteId());
+            } catch (Exception e) {
+                throw new TransaccionException("El cliente con ID " + dto.getClienteId() + " no existe.");
+            }
         }
 
-        // Mapeo manual de DTO a Entidad
         Transaccion transaccion = Transaccion.builder()
                 .cajaId(cajaActiva.getId())
                 .clienteId(dto.getClienteId())
@@ -91,37 +90,79 @@ public class PosService {
                 .metodoPago(dto.getMetodoPago())
                 .build();
 
-        if (dto.getItems() != null && !dto.getItems().isEmpty()) {
-            List<ItemTransaccion> items = dto.getItems().stream()
-                    .map(itemDto -> ItemTransaccion.builder()
-                            .productoId(itemDto.getProductoId())
-                            .descripcion(itemDto.getDescripcion())
-                            .cantidad(itemDto.getCantidad())
-                            .precioUnitario(itemDto.getPrecioUnitario())
-                            .transaccion(transaccion) // Bidireccionalidad segura
-                            .build())
-                    .collect(Collectors.toList());
-            transaccion.setItems(items);
-        } else {
-            throw new RuntimeException("TransaccionVaciaException: La transacción debe tener al menos un ítem.");
+        if (dto.getItems() == null || dto.getItems().isEmpty()) {
+            throw new TransaccionException("La transacción debe tener al menos un ítem.");
         }
+        
+        List<ItemTransaccion> items = dto.getItems().stream()
+                .map(itemDto -> ItemTransaccion.builder()
+                        .productoId(itemDto.getProductoId())
+                        .descripcion(itemDto.getDescripcion())
+                        .cantidad(itemDto.getCantidad())
+                        .precioUnitario(itemDto.getPrecioUnitario())
+                        .transaccion(transaccion)
+                        .build())
+                .collect(Collectors.toList());
+        transaccion.setItems(items);
 
         Transaccion guardada = transaccionRepository.save(transaccion);
 
+        // Lógicas específicas de negocio según el tipo y los items
+        procesarReglasDeNegocio(guardada);
+
         // Actualizar totales de la caja
         if (guardada.getMetodoPago() == MetodoPago.EFECTIVO) {
-            cajaActiva.setTotalEfectivo(cajaActiva.getTotalEfectivo() + guardada.getTotal().floatValue());
+            cajaActiva.setTotalEfectivo(cajaActiva.getTotalEfectivo().add(guardada.getTotal()));
         } else if (guardada.getMetodoPago() == MetodoPago.TARJETA) {
-            cajaActiva.setTotalTarjeta(cajaActiva.getTotalTarjeta() + guardada.getTotal().floatValue());
+            cajaActiva.setTotalTarjeta(cajaActiva.getTotalTarjeta().add(guardada.getTotal()));
         }
         cajaRepository.save(cajaActiva);
+
+        // Enviar comprobante
+        try {
+            // Asumiendo que podemos obtener el email del cliente, por ahora usamos un placeholder
+            String emailCliente = dto.getClienteId() != null ? "cliente_" + dto.getClienteId() + "@onlyfields.com" : "anonimo@onlyfields.com";
+            notificacionClient.enviarComprobante(new NotificacionClient.ComprobantePagoDTO(guardada.getId(), emailCliente, guardada.getTotal()));
+            log.info("Comprobante enviado para la transacción {}", guardada.getId());
+        } catch (Exception e) {
+            log.error("Error al enviar comprobante para la transacción {}: {}", guardada.getId(), e.getMessage());
+        }
 
         return mapearTransaccionADTO(guardada);
     }
 
+    private void procesarReglasDeNegocio(Transaccion transaccion) {
+        if (transaccion.getTipo() == TipoTransaccion.VENTA) {
+            // Descontar stock para productos físicos
+            for (ItemTransaccion item : transaccion.getItems()) {
+                if (item.getProductoId() != null) {
+                    try {
+                        inventarioClient.actualizarStock(item.getProductoId(), new InventarioClient.MovimientoStockDTO("SALIDA", item.getCantidad(), "Venta POS #" + transaccion.getId()));
+                        log.info("Stock descontado para el producto {}", item.getProductoId());
+                    } catch (Exception e) {
+                        log.error("Error al descontar stock del producto {}: {}", item.getProductoId(), e.getMessage());
+                        // Dependiendo del negocio, esto podría lanzar excepción o solo loguear
+                    }
+                }
+            }
+        } else if (transaccion.getTipo() == TipoTransaccion.PAGO_SUSCRIPCION) {
+            // Confirmar el pago de un plan/membresía
+            // Asumimos que el primer item contiene el ID de la suscripción en 'productoId'
+            if (!transaccion.getItems().isEmpty() && transaccion.getItems().get(0).getProductoId() != null) {
+                Long suscripcionId = transaccion.getItems().get(0).getProductoId();
+                try {
+                    suscripcionesClient.confirmarPago(suscripcionId);
+                    log.info("Pago confirmado para la suscripción {}", suscripcionId);
+                } catch (Exception e) {
+                    log.error("Error al confirmar pago de suscripción {}: {}", suscripcionId, e.getMessage());
+                }
+            }
+        }
+    }
+
     public TransaccionDTO obtenerTransaccionPorId(Long id) {
         Transaccion transaccion = transaccionRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Transaccion no encontrada"));
+                .orElseThrow(() -> new TransaccionException("Transaccion no encontrada con ID: " + id));
         return mapearTransaccionADTO(transaccion);
     }
 
@@ -130,8 +171,6 @@ public class PosService {
                 .map(this::mapearTransaccionADTO)
                 .collect(Collectors.toList());
     }
-
-    // --- MAPPERS ---
 
     private CajaDTO mapearCajaADTO(Caja caja) {
         if (caja == null) return null;
@@ -149,7 +188,7 @@ public class PosService {
 
     private TransaccionDTO mapearTransaccionADTO(Transaccion t) {
         if (t == null) return null;
-        List<ItemTransaccionDTO> itemsDto = t.getItems() != null ? t.getItems().stream()
+        List<ItemTransaccionDTO> itemsDto = t.getItems().stream()
                 .map(i -> ItemTransaccionDTO.builder()
                         .id(i.getId())
                         .transaccionId(t.getId())
@@ -159,7 +198,7 @@ public class PosService {
                         .precioUnitario(i.getPrecioUnitario())
                         .subTotal(i.getSubTotal())
                         .build())
-                .collect(Collectors.toList()) : null;
+                .collect(Collectors.toList());
 
         return TransaccionDTO.builder()
                 .id(t.getId())
