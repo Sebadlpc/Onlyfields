@@ -47,5 +47,6 @@ public class Plan {
      * Puede ser un texto simple o un JSON.
      */
     @Lob // Large Object, permite almacenar textos largos.
+    @Column(columnDefinition = "text")
     private String beneficios;
 }

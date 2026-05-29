@@ -17,6 +17,7 @@ COPY notificaciones ./notificaciones
 
 WORKDIR /build
 RUN chmod +x mvnw
+RUN sed -i 's/\r$//' mvnw
 RUN ./mvnw clean package -DskipTests -pl suscripciones -am
 
 FROM eclipse-temurin:17-jre-alpine
