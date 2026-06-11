@@ -27,7 +27,7 @@ public class RegistroAcceso {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "tipo", nullable = false)
+    @Column(name = "tipo", nullable = false, columnDefinition = "varchar(20)")
     @Schema(description = "Tipo de movimiento", example = "ENTRADA")
     private TipoAcceso tipo;
 
@@ -36,7 +36,7 @@ public class RegistroAcceso {
     private LocalDateTime fechaHora;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "resultado", nullable = false)
+    @Column(name = "resultado", nullable = false, columnDefinition = "varchar(20)")
     @Schema(description = "Resultado del acceso", example = "PERMITIDO")
     private ResultadoAcceso resultado;
 

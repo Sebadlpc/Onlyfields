@@ -16,7 +16,7 @@ spring:
   flyway:
     enabled: true
     locations: classpath:db/migration
-springdoc:
+spring doc:
   api-docs:
     enabled: true
   swagger-ui:
