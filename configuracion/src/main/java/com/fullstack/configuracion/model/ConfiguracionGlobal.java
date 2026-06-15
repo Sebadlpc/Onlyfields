@@ -1,7 +1,9 @@
 package com.fullstack.configuracion.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.time.LocalDateTime;
 
 /**
@@ -16,6 +18,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Schema(description = "Entidad que representa una configuración global del sistema (clave-valor)")
 public class ConfiguracionGlobal {
 
     /**
@@ -23,6 +26,7 @@ public class ConfiguracionGlobal {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "Identificador único de la configuración", example = "1")
     private Long id;
 
     /**
@@ -30,17 +34,20 @@ public class ConfiguracionGlobal {
      * Es inmutable y se usa para buscar el valor.
      */
     @Column(nullable = false, unique = true, updatable = false)
+    @Schema(description = "Clave única de la configuración", example = "TASA_IVA")
     private String clave;
 
     /**
      * El valor asociado a la clave. Este campo es el que se modifica.
      */
     @Column(nullable = false)
+    @Schema(description = "Valor asociado a la clave", example = "19")
     private String valor;
 
     /**
      * Una descripción legible por humanos sobre lo que hace esta configuración.
      */
+    @Schema(description = "Descripción de la configuración", example = "Impuesto al Valor Agregado")
     private String descripcion;
 
     /**
@@ -48,6 +55,7 @@ public class ConfiguracionGlobal {
      * Se actualiza automáticamente desde la capa de servicio.
      */
     @Column(nullable = false)
+    @Schema(description = "Fecha de la última modificación", example = "2024-05-20T10:00:00")
     private LocalDateTime fechaModificacion;
 
     /**
@@ -55,5 +63,6 @@ public class ConfiguracionGlobal {
      * Útil para auditoría.
      */
     @Column(nullable = false)
+    @Schema(description = "ID del usuario que modificó la configuración", example = "1")
     private Long usuarioId;
 }

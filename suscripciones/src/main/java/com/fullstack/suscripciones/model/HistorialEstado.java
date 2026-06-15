@@ -1,8 +1,10 @@
 package com.fullstack.suscripciones.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.time.LocalDateTime;
 
 /**
@@ -18,6 +20,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Schema(description = "Entidad que registra el historial de cambios de estado de una suscripción")
 public class HistorialEstado {
 
     /**
@@ -25,6 +28,7 @@ public class HistorialEstado {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "Identificador único del registro de historial", example = "10")
     private Long id;
 
     /**
@@ -41,22 +45,26 @@ public class HistorialEstado {
      * El estado de la suscripción *antes* del cambio. Puede ser nulo para el estado inicial.
      */
     @Column(name = "estado_anterior")
+    @Schema(description = "Estado previo de la suscripción", example = "ACTIVA")
     private String estadoAnterior;
 
     /**
      * El estado de la suscripción *después* del cambio.
      */
     @Column(name = "estado_nuevo", nullable = false)
+    @Schema(description = "Nuevo estado de la suscripción", example = "CONGELADA")
     private String estadoNuevo;
 
     /**
      * La fecha y hora exactas en que se produjo el cambio.
      */
     @Column(name = "fecha_cambio", nullable = false)
+    @Schema(description = "Fecha y hora en la que se produjo el cambio", example = "2024-05-15T10:30:00")
     private LocalDateTime fechaCambio;
 
     /**
      * Una descripción legible del motivo del cambio (ej. "Congelamiento por vacaciones", "Vencimiento automático").
      */
+    @Schema(description = "Motivo por el cual se realizó el cambio de estado", example = "Congelamiento por vacaciones")
     private String motivo;
 }

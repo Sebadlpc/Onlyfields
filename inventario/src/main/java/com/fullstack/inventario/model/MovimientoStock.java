@@ -1,7 +1,9 @@
 package com.fullstack.inventario.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.time.LocalDateTime;
 
 /**
@@ -17,6 +19,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Schema(description = "Entidad que registra un movimiento de stock (entrada o salida) de un producto")
 public class MovimientoStock {
 
     /**
@@ -25,6 +28,7 @@ public class MovimientoStock {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "Identificador único del movimiento", example = "50")
     private Long id;
 
     /**
@@ -40,6 +44,7 @@ public class MovimientoStock {
      * Tipo de movimiento. Debería ser "ENTRADA" o "SALIDA".
      */
     @Column(nullable = false)
+    @Schema(description = "Tipo de movimiento (ENTRADA o SALIDA)", example = "ENTRADA")
     private String tipo;
 
     /**
@@ -47,6 +52,7 @@ public class MovimientoStock {
      * Siempre es un número positivo.
      */
     @Column(nullable = false)
+    @Schema(description = "Cantidad de unidades movidas", example = "50")
     private Integer cantidad;
 
     /**
@@ -54,6 +60,7 @@ public class MovimientoStock {
      * Se establece automáticamente al crear el movimiento.
      */
     @Column(nullable = false)
+    @Schema(description = "Fecha y hora del movimiento", example = "2024-05-20T14:00:00")
     private LocalDateTime fechaHora;
 
     /**
@@ -62,5 +69,6 @@ public class MovimientoStock {
      * o una nota como "Ajuste por inventario físico".
      */
     @Column
+    @Schema(description = "Referencia o motivo del movimiento", example = "Compra a proveedor XYZ")
     private String referencia;
 }

@@ -5,12 +5,19 @@ import com.fullstack.usuarios.dto.UsuarioRegistroDTO;
 import com.fullstack.usuarios.dto.UsuarioRespuestaDTO;
 import com.fullstack.usuarios.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 /**
@@ -31,8 +38,13 @@ public class UsuarioController {
      * @param id El ID del usuario a buscar.
      */
     @GetMapping("/{id}")
-    @Operation(summary = "Obten un usuario por id especifica.", description = "Obtiene el usuario con la id estipulada, junto a sus datos.")
-    public ResponseEntity<UsuarioRespuestaDTO> obtenerPorId(@PathVariable Long id) {
+    @Operation(summary = "Obtener un usuario por ID", description = "Obtiene los datos públicos de un usuario específico.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operación exitosa", content = @Content(mediaType = "application/json", schema = @Schema(implementation = UsuarioRespuestaDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Usuario no encontrado", content = @Content)
+    })
+    public ResponseEntity<UsuarioRespuestaDTO> obtenerPorId(
+            @Parameter(description = "ID del usuario a buscar", required = true) @PathVariable Long id) {
         return ResponseEntity.ok(usuarioService.obtenerPorId(id));
     }
 
@@ -41,8 +53,13 @@ public class UsuarioController {
      * @param dto El DTO con los datos de registro del usuario.
      */
     @PostMapping
-    @Operation(summary = "Agrega un usuario", description = "Agrega un usuario de id actual + 1.")
-    public ResponseEntity<UsuarioRespuestaDTO> registrar(@Valid @RequestBody UsuarioRegistroDTO dto) {
+    @Operation(summary = "Registrar un nuevo usuario", description = "Crea un nuevo usuario en el sistema.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Usuario creado exitosamente", content = @Content(mediaType = "application/json", schema = @Schema(implementation = UsuarioRespuestaDTO.class))),
+            @ApiResponse(responseCode = "400", description = "Datos de entrada inválidos", content = @Content)
+    })
+    public ResponseEntity<UsuarioRespuestaDTO> registrar(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Datos para el registro del nuevo usuario") @Valid @RequestBody UsuarioRegistroDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.registrarUsuario(dto));
     }
 
@@ -51,8 +68,13 @@ public class UsuarioController {
      * @param dto El DTO con las credenciales de login (email y contraseña).
      */
     @PostMapping("/login")
-    @Operation(summary = "Logea un usuario", description = "Ingresa un usuario logeado al sistema.")
-    public ResponseEntity<UsuarioRespuestaDTO> login(@Valid @RequestBody AuthLoginDTO dto) {
+    @Operation(summary = "Autenticar un usuario", description = "Valida las credenciales de un usuario y devuelve sus datos si son correctas.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Login exitoso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = UsuarioRespuestaDTO.class))),
+            @ApiResponse(responseCode = "401", description = "Credenciales inválidas", content = @Content)
+    })
+    public ResponseEntity<UsuarioRespuestaDTO> login(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Credenciales para el inicio de sesión") @Valid @RequestBody AuthLoginDTO dto) {
         return ResponseEntity.ok(usuarioService.login(dto));
     }
 
@@ -60,7 +82,10 @@ public class UsuarioController {
      * Obtiene una lista de todos los usuarios registrados.
      */
     @GetMapping
-    @Operation(summary = "Obtener todos los usuarios.", description = "Obten una lista de todos los usuarios en el sistema.")
+    @Operation(summary = "Listar todos los usuarios", description = "Obtiene una lista de todos los usuarios registrados en el sistema.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Operación exitosa", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = UsuarioRespuestaDTO.class))))
+    })
     public ResponseEntity<List<UsuarioRespuestaDTO>> listarTodos() {
         return ResponseEntity.ok(usuarioService.listarTodos());
     }
@@ -70,8 +95,13 @@ public class UsuarioController {
      * @param id El ID del usuario a eliminar.
      */
     @DeleteMapping("/{id}")
-    @Operation(summary = "Elimina un usuario", description = "elimina/deshabilita un usuario en base a su id")
-    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
+    @Operation(summary = "Eliminar un usuario", description = "Elimina un usuario del sistema en base a su ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Usuario eliminado exitosamente", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Usuario no encontrado", content = @Content)
+    })
+    public ResponseEntity<Void> eliminar(
+            @Parameter(description = "ID del usuario a eliminar", required = true) @PathVariable Long id) {
         usuarioService.eliminarUsuario(id);
         return ResponseEntity.noContent().build();
     }

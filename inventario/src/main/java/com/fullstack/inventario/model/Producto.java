@@ -1,7 +1,9 @@
 package com.fullstack.inventario.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.math.BigDecimal;
 
 /**
@@ -15,6 +17,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Schema(description = "Entidad que representa un producto en el inventario")
 public class Producto {
 
     /**
@@ -23,12 +26,14 @@ public class Producto {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "Identificador único del producto", example = "1")
     private Long id;
 
     /**
      * Nombre del producto. Es un campo obligatorio.
      */
     @Column(nullable = false)
+    @Schema(description = "Nombre del producto", example = "Bebida Energética")
     private String nombre;
 
     /**
@@ -44,12 +49,14 @@ public class Producto {
      * Precio de venta al público del producto. Es un campo obligatorio.
      */
     @Column(nullable = false)
+    @Schema(description = "Precio de venta del producto", example = "2.50")
     private BigDecimal precioVenta;
 
     /**
      * Cantidad actual de unidades disponibles en stock. Es un campo obligatorio.
      */
     @Column(nullable = false)
+    @Schema(description = "Cantidad actual de unidades en stock", example = "100")
     private Integer stockActual;
 
     /**
@@ -57,6 +64,7 @@ public class Producto {
      * se puede generar una alerta. Es un campo obligatorio.
      */
     @Column(nullable = false)
+    @Schema(description = "Nivel mínimo de stock para generar alertas", example = "10")
     private Integer stockMinimo;
 
     /**
@@ -64,5 +72,6 @@ public class Producto {
      * La restricción 'unique' asegura que no haya dos productos con el mismo código.
      */
     @Column(unique = true)
+    @Schema(description = "Código de barras único del producto", example = "7891234567890")
     private String codigoBarras;
 }
