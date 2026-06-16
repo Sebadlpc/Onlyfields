@@ -1,8 +1,8 @@
-package com.fullstack.seguimiento.controller;
+package com.fullstack.seguimiento.Controller;
 
 import com.fullstack.seguimiento.dto.FichaClienteDTO;
 import com.fullstack.seguimiento.dto.MedicionCorporalDTO;
-import com.fullstack.seguimiento.service.SeguimientoService;
+import com.fullstack.seguimiento.Service.SeguimientoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

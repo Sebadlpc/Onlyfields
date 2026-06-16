@@ -1,12 +1,12 @@
-package com.fullstack.seguimiento.service;
+package com.fullstack.seguimiento.Service;
 
 import com.fullstack.seguimiento.client.UsuarioClient;
 import com.fullstack.seguimiento.dto.FichaClienteDTO;
 import com.fullstack.seguimiento.dto.MedicionCorporalDTO;
 import com.fullstack.seguimiento.model.FichaCliente;
 import com.fullstack.seguimiento.model.MedicionCorporal;
-import com.fullstack.seguimiento.repository.FichaClienteRepository;
-import com.fullstack.seguimiento.repository.MedicionCorporalRepository;
+import com.fullstack.seguimiento.Repository.FichaClienteRepository;
+import com.fullstack.seguimiento.Repository.MedicionCorporalRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

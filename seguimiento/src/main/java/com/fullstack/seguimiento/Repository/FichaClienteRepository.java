@@ -1,4 +1,4 @@
-package com.fullstack.seguimiento.repository;
+package com.fullstack.seguimiento.Repository;
 
 import com.fullstack.seguimiento.model.FichaCliente;
 import org.springframework.data.jpa.repository.JpaRepository;

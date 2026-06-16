@@ -10,5 +10,5 @@ public interface UsuarioClient {
     @GetMapping("/api/v1/usuarios/{id}")
     UsuarioResponseDTO obtenerUsuarioPorId(@PathVariable("id") Long id);
 
-    record UsuarioResponseDTO(String estado, String rolNombre) {}
+    record UsuarioResponseDTO(Long creadorId, String estado, String rolNombre) {}
 }

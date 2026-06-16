@@ -1,4 +1,4 @@
-package com.fullstack.pos.service;
+package com.fullstack.pos.Service;
 
 import com.fullstack.pos.client.InventarioClient;
 import com.fullstack.pos.client.NotificacionClient;
@@ -10,8 +10,8 @@ import com.fullstack.pos.dto.TransaccionDTO;
 import com.fullstack.pos.exception.CajaException;
 import com.fullstack.pos.exception.TransaccionException;
 import com.fullstack.pos.model.*;
-import com.fullstack.pos.repository.CajaRepository;
-import com.fullstack.pos.repository.TransaccionRepository;
+import com.fullstack.pos.Repository.CajaRepository;
+import com.fullstack.pos.Repository.TransaccionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -73,7 +73,7 @@ public class PosService {
     @Transactional
     public TransaccionDTO registrarTransaccion(TransaccionDTO dto) {
         Caja cajaActiva = obtenerCajaActualEntidad();
-        
+
         if (dto.getClienteId() != null) {
             try {
                 usuarioClient.obtenerUsuarioPorId(dto.getClienteId());
@@ -93,7 +93,7 @@ public class PosService {
         if (dto.getItems() == null || dto.getItems().isEmpty()) {
             throw new TransaccionException("La transacción debe tener al menos un ítem.");
         }
-        
+
         List<ItemTransaccion> items = dto.getItems().stream()
                 .map(itemDto -> ItemTransaccion.builder()
                         .productoId(itemDto.getProductoId())

@@ -1,8 +1,8 @@
-package com.fullstack.pos.controller;
+package com.fullstack.pos.Controller;
 
 import com.fullstack.pos.dto.CajaDTO;
 import com.fullstack.pos.dto.TransaccionDTO;
-import com.fullstack.pos.service.PosService;
+import com.fullstack.pos.Service.PosService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

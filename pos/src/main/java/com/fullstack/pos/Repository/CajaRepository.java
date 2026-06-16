@@ -1,4 +1,4 @@
-package com.fullstack.pos.repository;
+package com.fullstack.pos.Repository;
 
 import com.fullstack.pos.model.Caja;
 import com.fullstack.pos.model.EstadoCaja;
