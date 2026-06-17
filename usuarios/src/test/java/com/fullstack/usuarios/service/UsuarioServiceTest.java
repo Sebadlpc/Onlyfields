@@ -12,6 +12,7 @@ import com.fullstack.usuarios.model.Usuario;
 import com.fullstack.usuarios.repository.RolRepository;
 import com.fullstack.usuarios.repository.UsuarioRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,13 +21,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -44,210 +45,188 @@ class UsuarioServiceTest {
     @InjectMocks
     private UsuarioService usuarioService;
 
-    private UsuarioRegistroDTO usuarioRegistroDTO;
-    private Rol rol;
-    private Usuario usuario;
-    private AuthLoginDTO authLoginDTO;
+    private Usuario usuarioMock;
+    private Rol rolMock;
+    private UsuarioRegistroDTO registroDTO;
+    private AuthLoginDTO loginDTO;
 
     @BeforeEach
     void setUp() {
-        usuarioRegistroDTO = UsuarioRegistroDTO.builder()
-                .nombre("Test User")
-                .correoElectronico("test@example.com")
-                .password("password123")
+        rolMock = Rol.builder()
+                .id(1L)
+                .nombre("USER")
+                .build();
+
+        usuarioMock = Usuario.builder()
+                .id(1L)
+                .nombre("Juan Perez")
+                .email("juan@test.com")
+                .passwordHash("hashed-password")
+                .estado("ACTIVO")
+                .fechaCreacion(LocalDateTime.now())
+                .roles(Set.of(rolMock))
+                .build();
+
+        registroDTO = UsuarioRegistroDTO.builder()
+                .nombre("Juan Perez")
+                .correoElectronico("juan@test.com")
+                .password("password")
                 .rolId(1L)
                 .build();
 
-        rol = Rol.builder()
-                .id(1L)
-                .nombre("ROLE_USER")
-                .build();
-
-        usuario = Usuario.builder()
-                .id(1L)
-                .nombre("Test User")
-                .email("test@example.com")
-                .passwordHash("encodedPassword")
-                .estado("ACTIVO")
-                .fechaCreacion(LocalDateTime.now())
-                .build();
-        usuario.agregarRol(rol);
-
-        authLoginDTO = AuthLoginDTO.builder()
-                .correoElectronico("test@example.com")
-                .password("password123")
+        loginDTO = AuthLoginDTO.builder()
+                .correoElectronico("juan@test.com")
+                .password("password")
                 .build();
     }
 
+    // ==========================================
+    // TESTS PARA: registrarUsuario()
+    // ==========================================
+
     @Test
+    @DisplayName("Debe registrar usuario exitosamente")
     void registrarUsuario_Exito() {
-        // Arrange
-        when(usuarioRepository.existsByEmail(anyString())).thenReturn(false);
-        when(rolRepository.findById(anyLong())).thenReturn(Optional.of(rol));
-        when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
-        when(usuarioRepository.save(any(Usuario.class))).thenReturn(usuario);
+        when(usuarioRepository.existsByEmail(registroDTO.getCorreoElectronico())).thenReturn(false);
+        when(rolRepository.findById(1L)).thenReturn(Optional.of(rolMock));
+        when(passwordEncoder.encode(registroDTO.getPassword())).thenReturn("hashed-password");
+        when(usuarioRepository.save(any(Usuario.class))).thenReturn(usuarioMock);
 
-        // Act
-        UsuarioRespuestaDTO respuesta = usuarioService.registrarUsuario(usuarioRegistroDTO);
+        UsuarioRespuestaDTO resultado = usuarioService.registrarUsuario(registroDTO);
 
-        // Assert
-        assertNotNull(respuesta);
-        assertEquals(usuario.getId(), respuesta.getId());
-        assertEquals(usuario.getNombre(), respuesta.getNombre());
-        assertEquals(usuario.getEmail(), respuesta.getCorreoElectronico());
-        assertEquals("ACTIVO", respuesta.getEstado());
-        assertEquals("ROLE_USER", respuesta.getRolNombre());
-
-        verify(usuarioRepository).existsByEmail(anyString());
-        verify(rolRepository).findById(anyLong());
-        verify(passwordEncoder).encode(anyString());
+        assertThat(resultado).isNotNull();
+        assertThat(resultado.getCorreoElectronico()).isEqualTo("juan@test.com");
+        assertThat(resultado.getRolNombre()).isEqualTo("USER");
         verify(usuarioRepository).save(any(Usuario.class));
     }
 
     @Test
-    void registrarUsuario_EmailYaRegistrado() {
-        // Arrange
-        when(usuarioRepository.existsByEmail(anyString())).thenReturn(true);
+    @DisplayName("Debe lanzar excepción si el email ya está registrado")
+    void registrarUsuario_EmailExistente_LanzaExcepcion() {
+        when(usuarioRepository.existsByEmail(registroDTO.getCorreoElectronico())).thenReturn(true);
 
-        // Act & Assert
-        assertThrows(EmailYaRegistradoException.class, () -> usuarioService.registrarUsuario(usuarioRegistroDTO));
-        verify(usuarioRepository).existsByEmail(anyString());
-        verify(rolRepository, never()).findById(anyLong());
+        assertThatThrownBy(() -> usuarioService.registrarUsuario(registroDTO))
+                .isInstanceOf(EmailYaRegistradoException.class)
+                .hasMessageContaining("ya está registrado");
+
         verify(usuarioRepository, never()).save(any(Usuario.class));
     }
 
     @Test
-    void registrarUsuario_RolNoEncontrado() {
-        // Arrange
-        when(usuarioRepository.existsByEmail(anyString())).thenReturn(false);
-        when(rolRepository.findById(anyLong())).thenReturn(Optional.empty());
+    @DisplayName("Debe lanzar excepción si el rol no existe")
+    void registrarUsuario_RolNoExiste_LanzaExcepcion() {
+        when(usuarioRepository.existsByEmail(registroDTO.getCorreoElectronico())).thenReturn(false);
+        when(rolRepository.findById(1L)).thenReturn(Optional.empty());
 
-        // Act & Assert
-        assertThrows(RolNoEncontradoException.class, () -> usuarioService.registrarUsuario(usuarioRegistroDTO));
-        verify(usuarioRepository).existsByEmail(anyString());
-        verify(rolRepository).findById(anyLong());
+        assertThatThrownBy(() -> usuarioService.registrarUsuario(registroDTO))
+                .isInstanceOf(RolNoEncontradoException.class)
+                .hasMessageContaining("no es válido");
+
         verify(usuarioRepository, never()).save(any(Usuario.class));
     }
 
+    // ==========================================
+    // TESTS PARA: login()
+    // ==========================================
+
     @Test
+    @DisplayName("Debe hacer login exitosamente")
     void login_Exito() {
-        // Arrange
-        when(usuarioRepository.findByEmail(anyString())).thenReturn(Optional.of(usuario));
-        when(passwordEncoder.matches(anyString(), anyString())).thenReturn(true);
+        when(usuarioRepository.findByEmail(loginDTO.getCorreoElectronico())).thenReturn(Optional.of(usuarioMock));
+        when(passwordEncoder.matches(loginDTO.getPassword(), usuarioMock.getPasswordHash())).thenReturn(true);
 
-        // Act
-        UsuarioRespuestaDTO respuesta = usuarioService.login(authLoginDTO);
+        UsuarioRespuestaDTO resultado = usuarioService.login(loginDTO);
 
-        // Assert
-        assertNotNull(respuesta);
-        assertEquals(usuario.getId(), respuesta.getId());
-        assertEquals(usuario.getEmail(), respuesta.getCorreoElectronico());
-
-        verify(usuarioRepository).findByEmail(anyString());
-        verify(passwordEncoder).matches(anyString(), anyString());
+        assertThat(resultado).isNotNull();
+        assertThat(resultado.getCorreoElectronico()).isEqualTo("juan@test.com");
     }
 
     @Test
-    void login_UsuarioNoEncontrado() {
-        // Arrange
-        when(usuarioRepository.findByEmail(anyString())).thenReturn(Optional.empty());
+    @DisplayName("Debe lanzar excepción si el usuario no existe")
+    void login_UsuarioNoExiste_LanzaExcepcion() {
+        when(usuarioRepository.findByEmail(loginDTO.getCorreoElectronico())).thenReturn(Optional.empty());
 
-        // Act & Assert
-        assertThrows(UsuarioNoEncontradoException.class, () -> usuarioService.login(authLoginDTO));
-        verify(usuarioRepository).findByEmail(anyString());
-        verify(passwordEncoder, never()).matches(anyString(), anyString());
+        assertThatThrownBy(() -> usuarioService.login(loginDTO))
+                .isInstanceOf(UsuarioNoEncontradoException.class)
+                .hasMessageContaining("No se encontró");
     }
 
     @Test
-    void login_ContrasenaIncorrecta() {
-        // Arrange
-        when(usuarioRepository.findByEmail(anyString())).thenReturn(Optional.of(usuario));
-        when(passwordEncoder.matches(anyString(), anyString())).thenReturn(false);
+    @DisplayName("Debe lanzar excepción si la contraseña es incorrecta")
+    void login_PasswordIncorrecto_LanzaExcepcion() {
+        when(usuarioRepository.findByEmail(loginDTO.getCorreoElectronico())).thenReturn(Optional.of(usuarioMock));
+        when(passwordEncoder.matches(loginDTO.getPassword(), usuarioMock.getPasswordHash())).thenReturn(false);
 
-        // Act & Assert
-        assertThrows(CredencialesInvalidasException.class, () -> usuarioService.login(authLoginDTO));
-        verify(usuarioRepository).findByEmail(anyString());
-        verify(passwordEncoder).matches(anyString(), anyString());
+        assertThatThrownBy(() -> usuarioService.login(loginDTO))
+                .isInstanceOf(CredencialesInvalidasException.class)
+                .hasMessageContaining("incorrecta");
     }
 
     @Test
-    void login_CuentaInactiva() {
-        // Arrange
-        usuario.setEstado("INACTIVO");
-        when(usuarioRepository.findByEmail(anyString())).thenReturn(Optional.of(usuario));
-        when(passwordEncoder.matches(anyString(), anyString())).thenReturn(true);
+    @DisplayName("Debe lanzar excepción si el usuario está inactivo")
+    void login_UsuarioInactivo_LanzaExcepcion() {
+        usuarioMock.setEstado("INACTIVO");
+        when(usuarioRepository.findByEmail(loginDTO.getCorreoElectronico())).thenReturn(Optional.of(usuarioMock));
+        when(passwordEncoder.matches(loginDTO.getPassword(), usuarioMock.getPasswordHash())).thenReturn(true);
 
-        // Act & Assert
-        assertThrows(CredencialesInvalidasException.class, () -> usuarioService.login(authLoginDTO));
-        verify(usuarioRepository).findByEmail(anyString());
-        verify(passwordEncoder).matches(anyString(), anyString());
+        assertThatThrownBy(() -> usuarioService.login(loginDTO))
+                .isInstanceOf(CredencialesInvalidasException.class)
+                .hasMessageContaining("no está activa");
     }
 
+    // ==========================================
+    // TESTS PARA: listarTodos()
+    // ==========================================
+
     @Test
+    @DisplayName("Debe listar todos los usuarios")
     void listarTodos_Exito() {
-        // Arrange
-        when(usuarioRepository.findAll()).thenReturn(Collections.singletonList(usuario));
+        when(usuarioRepository.findAll()).thenReturn(List.of(usuarioMock));
 
-        // Act
-        List<UsuarioRespuestaDTO> respuesta = usuarioService.listarTodos();
+        List<UsuarioRespuestaDTO> resultado = usuarioService.listarTodos();
 
-        // Assert
-        assertNotNull(respuesta);
-        assertFalse(respuesta.isEmpty());
-        assertEquals(1, respuesta.size());
-        assertEquals(usuario.getId(), respuesta.get(0).getId());
-
-        verify(usuarioRepository).findAll();
+        assertThat(resultado).hasSize(1);
+        assertThat(resultado.get(0).getCorreoElectronico()).isEqualTo("juan@test.com");
     }
 
+    // ==========================================
+    // TESTS PARA: obtenerPorId()
+    // ==========================================
+
     @Test
+    @DisplayName("Debe obtener usuario por ID exitosamente")
     void obtenerPorId_Exito() {
-        // Arrange
-        when(usuarioRepository.findById(anyLong())).thenReturn(Optional.of(usuario));
+        when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuarioMock));
 
-        // Act
-        UsuarioRespuestaDTO respuesta = usuarioService.obtenerPorId(1L);
+        UsuarioRespuestaDTO resultado = usuarioService.obtenerPorId(1L);
 
-        // Assert
-        assertNotNull(respuesta);
-        assertEquals(usuario.getId(), respuesta.getId());
-
-        verify(usuarioRepository).findById(anyLong());
+        assertThat(resultado).isNotNull();
+        assertThat(resultado.getId()).isEqualTo(1L);
     }
 
     @Test
-    void obtenerPorId_UsuarioNoEncontrado() {
-        // Arrange
-        when(usuarioRepository.findById(anyLong())).thenReturn(Optional.empty());
+    @DisplayName("Debe lanzar excepción si el usuario no existe por ID")
+    void obtenerPorId_NoExiste_LanzaExcepcion() {
+        when(usuarioRepository.findById(1L)).thenReturn(Optional.empty());
 
-        // Act & Assert
-        assertThrows(UsuarioNoEncontradoException.class, () -> usuarioService.obtenerPorId(1L));
-        verify(usuarioRepository).findById(anyLong());
+        assertThatThrownBy(() -> usuarioService.obtenerPorId(1L))
+                .isInstanceOf(UsuarioNoEncontradoException.class)
+                .hasMessageContaining("no encontrado con el ID");
     }
 
+    // ==========================================
+    // TESTS PARA: eliminarUsuario()
+    // ==========================================
+
     @Test
+    @DisplayName("Debe eliminar (desactivar) usuario exitosamente")
     void eliminarUsuario_Exito() {
-        // Arrange
-        when(usuarioRepository.findById(anyLong())).thenReturn(Optional.of(usuario));
-        when(usuarioRepository.save(any(Usuario.class))).thenReturn(usuario);
+        when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuarioMock));
+        when(usuarioRepository.save(any(Usuario.class))).thenReturn(usuarioMock);
 
-        // Act
         usuarioService.eliminarUsuario(1L);
 
-        // Assert
-        assertEquals("INACTIVO", usuario.getEstado());
-        verify(usuarioRepository).findById(anyLong());
-        verify(usuarioRepository).save(any(Usuario.class));
-    }
-
-    @Test
-    void eliminarUsuario_UsuarioNoEncontrado() {
-        // Arrange
-        when(usuarioRepository.findById(anyLong())).thenReturn(Optional.empty());
-
-        // Act & Assert
-        assertThrows(UsuarioNoEncontradoException.class, () -> usuarioService.eliminarUsuario(1L));
-        verify(usuarioRepository).findById(anyLong());
-        verify(usuarioRepository, never()).save(any(Usuario.class));
+        assertThat(usuarioMock.getEstado()).isEqualTo("INACTIVO");
+        verify(usuarioRepository).save(usuarioMock);
     }
 }
