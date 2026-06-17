@@ -60,6 +60,65 @@
                     <imageName>ms-reservas</imageName>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.11</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.11</version>
+                <configuration>
+                    <excludes>
+                        <exclude>com/fullstack/accesos/model/**</exclude>
+                        <exclude>com/fullstack/accesos/dto/**</exclude>
+                        <exclude>com/fullstack/accesos/config/**</exclude>
+                        <exclude>com/fullstack/accesos/client/**</exclude>
+                        <exclude>com/fullstack/accesos/*Application.class</exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <excludes>
+                                <exclude>com/fullstack/reservas/models/**</exclude>
+                                <exclude>com/fullstack/reservas/service/impl/**</exclude>
+                                <exclude>com/fullstack/reservas/dto/**</exclude>
+                                <exclude>com/fullstack/reservas/exception/**</exclude>
+                                <exclude>com/fullstack/reservas/controller/**</exclude>
+                                <exclude>com/fullstack/reservas/client/**</exclude>
+                                <exclude>com/fullstack/reservas/repository/**</exclude>
+                                <exclude>com/fullstack/reservas/*Application.class</exclude>
+                            </excludes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 </project>

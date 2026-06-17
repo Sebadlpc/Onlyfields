@@ -1,15 +1,15 @@
 package com.fullstack.reservas.service.impl;
 
+import com.fullstack.reservas.client.NotificacionClient;
+import com.fullstack.reservas.client.UsuarioClient;
 import com.fullstack.reservas.models.Cancha;
 import com.fullstack.reservas.models.Reserva;
 import com.fullstack.reservas.repository.*;
 import com.fullstack.reservas.service.IReservaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -29,27 +29,31 @@ public class ReservaServiceImpl implements IReservaService {
     private CanchaRepository canchaRepository;
 
     @Autowired
-    private BloqueHorarioRepository bloqueHorarioRepository; // Para chequear mantenimientos
+    private BloqueHorarioRepository bloqueHorarioRepository;
 
     @Autowired
-    private RestTemplate restTemplate;
+    private UsuarioClient usuarioClient;
 
-    //  ms-usuarios corre en el puerto 8081
-    private final String msUsuariosUrl = "http://localhost:8081/api/usuarios/";
+    @Autowired
+    private NotificacionClient notificacionClient;
 
     @Override
     @Transactional
     public Reserva crearReserva(Reserva reserva) {
-        // 1. Validar Usuario (Comunicación con ms-usuarios)
-         /*try {  
-            Map<String, Object> usuario = restTemplate.getForObject(msUsuariosUrl + reserva.getClienteId(), Map.class);
+        // 1. Validar Usuario (Comunicación con ms-usuarios vía Feign)
+        try {
+            // Transformamos la respuesta de Feign a Map para leer el estado
+            @SuppressWarnings("unchecked")
+            Map<String, Object> usuario = (Map<String, Object>) usuarioClient.obtenerUsuarioPorId(reserva.getClienteId());
+
             if (usuario == null || !"ACTIVO".equals(usuario.get("estado"))) {
                 throw new RuntimeException("El cliente no está ACTIVO o no existe.");
             }
+        } catch (feign.FeignException.NotFound e) {
+            throw new RuntimeException("El cliente con ID " + reserva.getClienteId() + " no existe en la base de datos.");
         } catch (Exception e) {
-            throw new RuntimeException("Error al validar cliente: " + e.getMessage());
+            throw new RuntimeException("Error de comunicación al validar cliente: " + e.getMessage());
         }
-           */ 
 
         // 2. Validar duración de 1 a 4 horas
         long minutos = Duration.between(reserva.getFechaInicio(), reserva.getFechaFin()).toMinutes();
@@ -59,7 +63,7 @@ public class ReservaServiceImpl implements IReservaService {
 
         // 3. Validar estado de la cancha
         Cancha cancha = canchaRepository.findById(reserva.getCancha().getId())
-            .orElseThrow(() -> new RuntimeException("Cancha no encontrada"));
+                .orElseThrow(() -> new RuntimeException("Cancha no encontrada"));
         if (!"DISPONIBLE".equalsIgnoreCase(cancha.getEstado())) {
             throw new RuntimeException("La cancha no está DISPONIBLE.");
         }
@@ -78,7 +82,7 @@ public class ReservaServiceImpl implements IReservaService {
         BigDecimal horas = BigDecimal.valueOf(minutos).divide(new BigDecimal("60"), 2, RoundingMode.HALF_UP);
         reserva.setCancha(cancha);
         reserva.setTotalCobrado(horas.multiply(cancha.getTarifaHora()));
-        reserva.setEstado("PENDIENTE_PAGO"); //  Regla de negocio aplicada
+        reserva.setEstado("PENDIENTE_PAGO");
 
         return reservaRepository.save(reserva);
     }
@@ -87,10 +91,9 @@ public class ReservaServiceImpl implements IReservaService {
     @Transactional
     public Reserva cancelarReserva(Long id) {
         Reserva reserva = obtenerReservaPorId(id);
-        
+
         long horasFaltantes = ChronoUnit.HOURS.between(LocalDateTime.now(), reserva.getFechaInicio());
-        
-        // Regla: 100% reembolso si > 24h, penalización 30% si < 24h
+
         if (horasFaltantes < 24) {
             BigDecimal penalizacion = reserva.getTotalCobrado().multiply(new BigDecimal("0.30")).setScale(2, RoundingMode.HALF_UP);
             reserva.setTotalCobrado(penalizacion);
@@ -102,12 +105,12 @@ public class ReservaServiceImpl implements IReservaService {
         return reservaRepository.save(reserva);
     }
 
-    @Scheduled(fixedRate = 300000) 
+    @Scheduled(fixedRate = 300000)
     @Transactional
     public void limpiarReservasExpiradas() {
         LocalDateTime limite = LocalDateTime.now().minusMinutes(15);
         List<Reserva> expiradas = reservaRepository.buscarExpiradas("PENDIENTE_PAGO", limite);
-        
+
         for (Reserva r : expiradas) {
             r.setEstado("CANCELADA");
             reservaRepository.save(r);
@@ -146,21 +149,27 @@ public class ReservaServiceImpl implements IReservaService {
     public void eliminarReserva(Long id) {
         reservaRepository.deleteById(id);
     }
+
     @Override
     @Transactional
     public Reserva confirmarReserva(Long id) {
         Reserva reserva = reservaRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
-        
+                .orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
+
         reserva.setEstado("CONFIRMADA");
-        
+
+        // Uso del cliente Feign en lugar del antiguo RestTemplate
         try {
-            restTemplate.postForObject("http://ms-notificaciones:8080/api/notificaciones/enviar-comprobante", reserva, String.class);
-            System.out.println("✅ Notificación enviada con éxito para la reserva " + id);
+            notificacionClient.enviarComprobante(new NotificacionClient.NotificacionReservaDTO(
+                    reserva.getId(),
+                    "cliente_" + reserva.getClienteId() + "@onlyfields.com",
+                    "Tu reserva ha sido CONFIRMADA"
+            ));
+            System.out.println("✅ Notificación enviada con éxito vía Feign para la reserva " + id);
         } catch (Exception e) {
-            System.err.println("❌ Error al enviar notificación, pero la reserva se confirmó: " + e.getMessage());
+            System.err.println("❌ Error al enviar notificación vía Feign, pero la reserva se confirmó: " + e.getMessage());
         }
-        
+
         return reservaRepository.save(reserva);
     }
 }
