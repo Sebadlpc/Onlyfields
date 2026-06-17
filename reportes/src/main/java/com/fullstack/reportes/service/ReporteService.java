@@ -30,22 +30,25 @@ public class ReporteService {
         reporte.setFechaGeneracion(LocalDateTime.now());
 
         try {
-            // Lógica para obtener datos de otros microservicios
+            log.info("Iniciando generación de reporte tipo: {}", reporte.getTipo());
+
             if ("FINANCIERO".equalsIgnoreCase(reporte.getTipo())) {
                 List<Object> transacciones = posClient.obtenerTransacciones();
                 List<Object> reservas = reservasClient.obtenerReservas();
-                // ... Lógica para procesar los datos y generar el reporte
                 reporte.setParametros("{\"transacciones\": " + transacciones.size() + ", \"reservas\": " + reservas.size() + "}");
+
             } else if ("INVENTARIO".equalsIgnoreCase(reporte.getTipo())) {
                 List<Object> productos = inventarioClient.obtenerProductos();
                 reporte.setParametros("{\"productos\": " + productos.size() + "}");
+
             } else {
                 reporte.setParametros("{\"mensaje\": \"Tipo de reporte no implementado aún\"}");
             }
+
             reporte.setRutaArchivo("Cálculo en vivo (Sin archivo físico)");
         } catch (Exception e) {
-            log.error("Error al generar reporte: {}", e.getMessage());
-            reporte.setParametros("{\"error\": \"No se pudo generar el reporte. " + e.getMessage() + "\"}");
+            log.error("Error de comunicación con otros MS al generar reporte: {}", e.getMessage());
+            reporte.setParametros("{\"error\": \"Fallo de comunicación: " + e.getMessage() + "\"}");
         }
 
         return reporteRepository.save(reporte);
@@ -53,7 +56,8 @@ public class ReporteService {
 
     @Transactional(readOnly = true)
     public ReporteGenerado obtenerPorId(Long id) {
-        return reporteRepository.findById(id).orElseThrow(() -> new RuntimeException("No se encontró el reporte con ID: " + id));
+        return reporteRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("No se encontró el reporte con ID: " + id));
     }
 
     @Transactional(readOnly = true)
@@ -61,28 +65,10 @@ public class ReporteService {
         return reporteRepository.findAll();
     }
 
-    @Transactional(readOnly = true)
-    public List<ReporteGenerado> obtenerPorUsuario(Long usuarioId) {
-        return reporteRepository.findByUsuarioId(usuarioId);
-    }
-
-    @Transactional(readOnly = true)
-    public List<ReporteGenerado> obtenerPorTipo(String tipo) {
-        return reporteRepository.findByTipo(tipo);
-    }
-
-    @Transactional(readOnly = true)
-    public List<ReporteGenerado> obtenerPorRangoFechas(LocalDateTime desde, LocalDateTime hasta) {
-        if (hasta.isBefore(desde)) {
-            throw new RuntimeException("La fecha 'hasta' debe ser posterior a la fecha 'desde'.");
-        }
-        return reporteRepository.findByFechaGeneracionBetween(desde, hasta);
-    }
-
     @Transactional
     public void eliminarReporte(Long id) {
         if (!reporteRepository.existsById(id)) {
-            throw new RuntimeException("No se puede eliminar: no se encontró el reporte con ID: " + id);
+            throw new RuntimeException("No se encontró el reporte con ID: " + id);
         }
         reporteRepository.deleteById(id);
     }

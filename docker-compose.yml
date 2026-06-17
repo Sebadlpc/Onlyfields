@@ -110,7 +110,7 @@ services:
       dockerfile: reportes/Dockerfile.validate
     container_name: onlyfields-ms-reportes
     ports:
-      - "8088:8080"
+      - "8088:8088"
     depends_on:
       - db-mysql
     networks:

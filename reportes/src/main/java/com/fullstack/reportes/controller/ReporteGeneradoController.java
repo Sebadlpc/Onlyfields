@@ -3,6 +3,10 @@ package com.fullstack.reportes.controller;
 import com.fullstack.reportes.dto.ReporteGeneradoRequestDTO;
 import com.fullstack.reportes.dto.ReporteGeneradoResponseDTO;
 import com.fullstack.reportes.service.ReporteService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -17,10 +21,13 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/reportes")
 @RequiredArgsConstructor
+@Tag(name = "Reportes", description = "API para la generación y consulta de reportes del sistema")
 public class ReporteGeneradoController {
 
     private final ReporteService reporteService;
 
+    @Operation(summary = "Obtener todos los reportes", description = "Devuelve una lista de todos los reportes generados históricamente.")
+    @ApiResponse(responseCode = "200", description = "Operación exitosa")
     @GetMapping
     public List<ReporteGeneradoResponseDTO> listarTodos() {
         return reporteService.obtenerTodos()
@@ -29,6 +36,11 @@ public class ReporteGeneradoController {
                 .collect(Collectors.toList());
     }
 
+    @Operation(summary = "Obtener reporte por ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Reporte encontrado"),
+            @ApiResponse(responseCode = "404", description = "Reporte no encontrado")
+    })
     @GetMapping("/{id}")
     public ResponseEntity<?> obtenerPorId(@PathVariable Long id) {
         try {
@@ -40,38 +52,11 @@ public class ReporteGeneradoController {
         }
     }
 
-    @GetMapping("/usuario/{usuarioId}")
-    public List<ReporteGeneradoResponseDTO> listarPorUsuario(@PathVariable Long usuarioId) {
-        return reporteService.obtenerPorUsuario(usuarioId)
-                .stream()
-                .map(ReporteGeneradoResponseDTO::fromEntity)
-                .collect(Collectors.toList());
-    }
-
-    @GetMapping("/tipo/{tipo}")
-    public List<ReporteGeneradoResponseDTO> listarPorTipo(@PathVariable String tipo) {
-        return reporteService.obtenerPorTipo(tipo)
-                .stream()
-                .map(ReporteGeneradoResponseDTO::fromEntity)
-                .collect(Collectors.toList());
-    }
-
-    @GetMapping("/rango")
-    public ResponseEntity<?> listarPorRangoFechas(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime desde,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime hasta) {
-        try {
-            List<ReporteGeneradoResponseDTO> resultado = reporteService
-                    .obtenerPorRangoFechas(desde, hasta)
-                    .stream()
-                    .map(ReporteGeneradoResponseDTO::fromEntity)
-                    .collect(Collectors.toList());
-            return ResponseEntity.ok(resultado);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-
+    @Operation(summary = "Generar un nuevo reporte", description = "Se comunica con los otros microservicios (Feign) para consolidar la data.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Reporte generado con éxito"),
+            @ApiResponse(responseCode = "400", description = "Error en la solicitud o en la comunicación con otros MS")
+    })
     @PostMapping
     public ResponseEntity<?> generar(@Valid @RequestBody ReporteGeneradoRequestDTO dto) {
         try {
@@ -86,6 +71,7 @@ public class ReporteGeneradoController {
         }
     }
 
+    @Operation(summary = "Eliminar un reporte")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminar(@PathVariable Long id) {
         try {
