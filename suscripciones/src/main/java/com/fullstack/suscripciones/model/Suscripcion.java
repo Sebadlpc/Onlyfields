@@ -71,7 +71,7 @@ public class Suscripcion {
      * Contador de días que la suscripción ha estado congelada.
      * Puede usarse para limitar el número total de días de congelamiento permitidos.
      */
-    @Column(name = "dias_congelados", nullable = false)
+    @Column(name = "dias_congelados", nullable = true)
     @Schema(description = "Número de días que la suscripción ha estado congelada", example = "0")
     private Integer diasCongelados;
 }

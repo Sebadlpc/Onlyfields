@@ -62,7 +62,8 @@ class SuscripcionServiceTest {
     @DisplayName("Debe crear una suscripción exitosamente")
     void crearSuscripcion_Exito() {
         SuscripcionRequestDTO request = new SuscripcionRequestDTO(1L, 1L, LocalDate.now());
-        doNothing().when(usuarioClient).obtenerUsuarioPorId(1L);
+        // Simula que el cliente existe
+        when(usuarioClient.obtenerUsuarioPorId(1L)).thenReturn(new Object()); 
         when(suscripcionRepository.findByClienteIdAndEstado(1L, "ACTIVA")).thenReturn(Optional.empty());
         when(planRepository.findById(1L)).thenReturn(Optional.of(planMock));
         when(suscripcionRepository.save(any(Suscripcion.class))).thenReturn(suscripcionActiva);
@@ -78,7 +79,8 @@ class SuscripcionServiceTest {
     @DisplayName("Debe lanzar excepción si el cliente ya tiene una suscripción activa")
     void crearSuscripcion_ClienteYaActivo_LanzaExcepcion() {
         SuscripcionRequestDTO request = new SuscripcionRequestDTO(1L, 1L, LocalDate.now());
-        doNothing().when(usuarioClient).obtenerUsuarioPorId(1L);
+        // Simula que el cliente existe
+        when(usuarioClient.obtenerUsuarioPorId(1L)).thenReturn(new Object());
         when(suscripcionRepository.findByClienteIdAndEstado(1L, "ACTIVA")).thenReturn(Optional.of(suscripcionActiva));
 
         assertThatThrownBy(() -> suscripcionService.crearSuscripcion(request))

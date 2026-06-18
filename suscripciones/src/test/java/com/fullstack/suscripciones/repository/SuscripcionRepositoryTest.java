@@ -1,21 +1,28 @@
 package com.fullstack.suscripciones.repository;
 
+import com.fullstack.suscripciones.client.NotificacionClient;
+import com.fullstack.suscripciones.client.UsuarioClient;
 import com.fullstack.suscripciones.model.Plan;
 import com.fullstack.suscripciones.model.Suscripcion;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTest
+@DataJpaTest(excludeAutoConfiguration = FlywayAutoConfiguration.class)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
 class SuscripcionRepositoryTest {
 
     @Autowired
@@ -24,11 +31,17 @@ class SuscripcionRepositoryTest {
     @Autowired
     private TestEntityManager entityManager;
 
+    @MockBean
+    private UsuarioClient usuarioClient;
+
+    @MockBean
+    private NotificacionClient notificacionClient;
+
     private Plan plan;
 
     @BeforeEach
     void setUp() {
-        plan = entityManager.persistAndFlush(Plan.builder().nombre("TEST").duracionDias(30).build());
+        plan = entityManager.persistAndFlush(Plan.builder().nombre("TEST").duracionDias(30).precio(new BigDecimal("100.00")).build());
     }
 
     private Suscripcion createSuscripcion(Long clienteId, String estado, LocalDate fechaFin) {
