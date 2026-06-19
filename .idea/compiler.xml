@@ -15,6 +15,7 @@
         <module name="ms-notificaciones" />
         <module name="ms-pos" />
         <module name="ms-reportes" />
+        <module name="api-gateway" />
         <module name="ms-accesos" />
         <module name="ms-inventario" />
       </profile>
@@ -22,6 +23,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="api-gateway" options="-parameters" />
       <module name="ms-accesos" options="-parameters" />
       <module name="ms-configuracion" options="-parameters" />
       <module name="ms-inventario" options="-parameters" />

@@ -4,9 +4,9 @@ WORKDIR /build
 
 # Copiar solo los POMs para cachear la capa de dependencias
 COPY pom.xml .
-COPY reservas/pom.xml ./reservas/
 COPY api-gateway/pom.xml ./api-gateway/
 COPY usuarios/pom.xml ./usuarios/
+COPY reservas/pom.xml ./reservas/
 COPY pos/pom.xml ./pos/
 COPY suscripciones/pom.xml ./suscripciones/
 COPY inventario/pom.xml ./inventario/
@@ -20,17 +20,18 @@ COPY notificaciones/pom.xml ./notificaciones/
 COPY .mvn ./.mvn
 COPY mvnw .
 RUN chmod +x mvnw && sed -i 's/\r$//' mvnw
-RUN --mount=type=cache,target=/root/.m2,sharing=locked ./mvnw dependency:go-offline -pl reservas -am -q
+RUN --mount=type=cache,target=/root/.m2,sharing=locked ./mvnw dependency:go-offline -pl api-gateway -am -q
 
 # Copiar el resto del código fuente y compilar
-COPY reservas/src ./reservas/src
+COPY api-gateway/src/main ./api-gateway/src/main
+# (No es necesario copiar el código fuente de otros módulos si solo compilamos este)
 
-RUN --mount=type=cache,target=/root/.m2,sharing=locked ./mvnw clean package -DskipTests -pl reservas -am
+RUN --mount=type=cache,target=/root/.m2,sharing=locked ./mvnw clean package -DskipTests -pl api-gateway -am
 
 FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 
-COPY --from=builder /build/reservas/target/ms-reservas-1.0.0.jar /app/app.jar
+COPY --from=builder /build/api-gateway/target/api-gateway-1.0.0.jar /app/app.jar
 
-EXPOSE 8082
+EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]

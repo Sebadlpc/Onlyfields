@@ -21,12 +21,5 @@ public class UsuariosApplication {
 		SpringApplication.run(UsuariosApplication.class, args);
 	}
 
-	@Bean
-	public OpenAPI customOpenAPI() {
-		return new OpenAPI()
-				.info(new Info()
-						.title("API 2026 de Onlyfields")
-						.version("1.0")
-						.description("API para la gestión de usuarios en Onlyfields."));
-	}
+
 }

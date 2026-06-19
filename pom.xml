@@ -27,6 +27,7 @@
         <module>reportes</module>
         <module>configuracion</module>
         <module>notificaciones</module>
+        <module>api-gateway</module>
     </modules>
 
     <properties>
