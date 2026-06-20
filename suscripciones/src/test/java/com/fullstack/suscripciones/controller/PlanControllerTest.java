@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
@@ -46,7 +45,6 @@ class PlanControllerTest {
     }
 
     @Test
-    @WithMockUser // Simula un usuario autenticado para evitar 401
     void listarTodos_ShouldReturnListOfPlanes() throws Exception {
         when(planRepository.findAll()).thenReturn(Collections.singletonList(planMock));
 
@@ -56,7 +54,6 @@ class PlanControllerTest {
     }
 
     @Test
-    @WithMockUser // Simula un usuario autenticado
     void obtenerDetalle_GivenExistingId_ShouldReturnPlan() throws Exception {
         when(planRepository.findById(1L)).thenReturn(Optional.of(planMock));
 
@@ -67,7 +64,6 @@ class PlanControllerTest {
     }
 
     @Test
-    @WithMockUser // Simula un usuario autenticado
     void obtenerDetalle_GivenNonExistingId_ShouldReturnNotFound() throws Exception {
         when(planRepository.findById(99L)).thenReturn(Optional.empty());
 
