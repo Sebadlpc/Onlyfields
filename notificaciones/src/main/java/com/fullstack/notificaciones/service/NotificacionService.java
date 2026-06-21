@@ -31,51 +31,28 @@ public class NotificacionService {
         notificacion.setIntentos(0);
 
         Notificacion guardada = repository.save(notificacion);
-        
+
         // Ejecuta el envío en segundo plano (Fire-and-forget)
         procesarEnvio(guardada.getId());
 
         return convertToDto(guardada);
     }
 
-    @Async 
+    @Async
     @Transactional
     public void procesarEnvio(Long id) {
-        repository.findById(id).ifPresent(notificacion -> {
+        repository.findById(id).ifPresent(n -> {
             try {
-                notificacion.setIntentos(notificacion.getIntentos() + 1);
-
-                notificacion.setEstado("ENVIADO");
-                notificacion.setFechaEnvio(LocalDateTime.now());
-            } catch (Exception e) {
-                // Si falla y ya superó los 3 intentos (backoff simulado)
-                if (notificacion.getIntentos() >= 3) {
-                    notificacion.setEstado("FALLIDO");
-                }
+                Thread.sleep(1000); // Simulación de envío de correo
+                n.setEstado("ENVIADO");
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                n.setEstado("FALLIDO");
             }
-            repository.save(notificacion);
+            n.setIntentos(n.getIntentos() + 1);
+            n.setFechaEnvio(LocalDateTime.now());
+            repository.save(n);
         });
-    }
-
-    @Transactional(readOnly = true)
-    public List<NotificacionDTO> obtenerTodas() {
-        return repository.findAll().stream()
-                .map(this::convertToDto)
-                .collect(Collectors.toList());
-    }
-
-    @Transactional(readOnly = true)
-    public NotificacionDTO obtenerPorId(Long id) {
-        return repository.findById(id)
-                .map(this::convertToDto)
-                .orElseThrow(() -> new RuntimeException("Notificación no encontrada"));
-    }
-
-    @Transactional(readOnly = true)
-    public List<NotificacionDTO> obtenerPorCliente(Long clienteId) {
-        return repository.findByDestinatarioId(clienteId).stream()
-                .map(this::convertToDto)
-                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
@@ -94,6 +71,27 @@ public class NotificacionService {
         });
     }
 
+    // --- MÉTODOS DE LECTURA FALTANTES PARA EL TEST ---
+    @Transactional(readOnly = true)
+    public NotificacionDTO obtenerNotificacion(Long id) {
+        return repository.findById(id)
+                .map(this::convertToDto)
+                .orElse(null);
+    }
+
+    @Transactional(readOnly = true)
+    public List<NotificacionDTO> obtenerPorDestinatario(Long destinatarioId) {
+        return repository.findByDestinatarioId(destinatarioId).stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+    @Transactional(readOnly = true)
+    public List<NotificacionDTO> obtenerTodas() {
+        return repository.findAll().stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+    // --- CONVERSORES ---
     private NotificacionDTO convertToDto(Notificacion n) {
         return NotificacionDTO.builder()
                 .id(n.getId())
@@ -118,8 +116,10 @@ public class NotificacionService {
                 .canal(dto.getCanal())
                 .asunto(dto.getAsunto())
                 .cuerpo(dto.getCuerpo())
+                .estado(dto.getEstado())
+                .fechaEnvio(dto.getFechaEnvio())
+                .intentos(dto.getIntentos())
                 .idempotencyKey(dto.getIdempotencyKey())
                 .build();
     }
-    
 }
