@@ -35,15 +35,15 @@ El sistema está implementado como un **monorepo Maven multi-módulo**, donde ca
 
 ```
                         ┌─────────────────────────┐
-                        │      Cliente externo      │
-                        │  (Postman / Frontend)    │
+                        │      Cliente externo    │
+                        │  (Postman / Frontend)   │
                         └────────────┬────────────┘
                                      │ HTTP :8080
                         ┌────────────▼────────────┐
-                        │       API Gateway        │
-                        │  spring-cloud-gateway    │
-                        │      :8080               │
-                        └──────┬──────────┬────────┘
+                        │       API Gateway       │
+                        │  spring-cloud-gateway   │
+                        │      :8080              │
+                        └──────┬──────────┬───────┘
               ┌────────────────┤          ├────────────────┐
               │ onlyfields-network (bridge Docker)         │
    ┌──────────▼──────┐  ┌─────▼───────┐  ┌──────▼──────┐   │
