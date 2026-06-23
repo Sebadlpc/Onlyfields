@@ -81,3 +81,37 @@ spring:
           uri: ${MS_NOTIFICACIONES_URI:http://localhost:8090}
           predicates:
             - Path=/api/notificaciones/**
+
+springdoc:
+  swagger-ui:
+    path: /doc/swagger-ui.html
+    urls:
+      - name: 1. Usuarios y Autenticación (ms-usuarios)
+        url: /api/v1/usuarios/v3/api-docs
+
+      - name: 2. Gestión de Reservas (ms-reservas)
+        url: /api/v1/reservas/v3/api-docs
+
+      - name: 3. Punto de Venta / POS (ms-pos)
+        url: /api/v1/transacciones/v3/api-docs
+
+      - name: 4. Suscripciones y Membresías (ms-suscripciones)
+        url: /api/v1/suscripciones/v3/api-docs
+
+      - name: 5. Control de Inventario (ms-inventario)
+        url: /api/v1/inventario/v3/api-docs
+
+      - name: 6. Control de Accesos (ms-accesos)
+        url: /api/v1/accesos/v3/api-docs
+
+      - name: 7. Seguimiento Corporal (ms-seguimiento)
+        url: /api/v1/seguimiento/v3/api-docs
+
+      - name: 8. Reportes y Analytics (ms-reportes)
+        url: /api/v1/reportes/v3/api-docs
+
+      - name: 9. Configuraciones Globales (ms-configuracion)
+        url: /api/v1/configuraciones/v3/api-docs
+
+      - name: 10. Notificaciones y Alertas (ms-notificaciones)
+        url: /api/v1/notificaciones/v3/api-docs
