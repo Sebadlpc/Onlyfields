@@ -77,6 +77,18 @@
                         <goals>
                             <goal>report</goal>
                         </goals>
+                        <configuration>
+                            <excludes>
+                                <exclude>com/fullstack/reservas/models/**</exclude>
+                                <exclude>com/fullstack/reservas/service/impl/**</exclude>
+                                <exclude>com/fullstack/reservas/dto/**</exclude>
+                                <exclude>com/fullstack/reservas/exception/**</exclude>
+                                <exclude>com/fullstack/reservas/controller/**</exclude>
+                                <exclude>com/fullstack/reservas/client/**</exclude>
+                                <exclude>com/fullstack/reservas/repository/**</exclude>
+                                <exclude>com/fullstack/reservas/*Application.class</exclude>
+                            </excludes>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

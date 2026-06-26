@@ -89,15 +89,6 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.11</version>
-                <configuration>
-                    <excludes>
-                        <exclude>com/fullstack/accesos/model/**</exclude>
-                        <exclude>com/fullstack/accesos/dto/**</exclude>
-                        <exclude>com/fullstack/accesos/config/**</exclude>
-                        <exclude>com/fullstack/accesos/client/**</exclude>
-                        <exclude>com/fullstack/accesos/*Application.class</exclude>
-                    </excludes>
-                </configuration>
                 <executions>
                     <execution>
                         <goals>

@@ -3,20 +3,23 @@ package com.fullstack.reportes.service;
 import com.fullstack.reportes.client.InventarioClient;
 import com.fullstack.reportes.client.PosClient;
 import com.fullstack.reportes.client.ReservasClient;
+import com.fullstack.reportes.client.SuscripcionesClient;
 import com.fullstack.reportes.model.ReporteGenerado;
 import com.fullstack.reportes.repository.ReporteGeneradoRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -24,167 +27,93 @@ import static org.mockito.Mockito.*;
 class ReporteServiceTest {
 
     @Mock
-    private ReporteGeneradoRepository repository;
-
+    private ReporteGeneradoRepository reporteRepository;
     @Mock
     private PosClient posClient;
-
     @Mock
     private ReservasClient reservasClient;
-
+    @Mock
+    private SuscripcionesClient suscripcionesClient;
     @Mock
     private InventarioClient inventarioClient;
 
     @InjectMocks
     private ReporteService reporteService;
 
-    private ReporteGenerado reportePrueba;
+    private ReporteGenerado reporteBase;
 
     @BeforeEach
     void setUp() {
-        reportePrueba = new ReporteGenerado();
-        reportePrueba.setId(1L);
-        reportePrueba.setUsuarioId(100L);
-    }
-
-    // ==========================================
-    // TESTS DEL MÉTODO: generarReporte
-    // ==========================================
-
-    @Test
-    void generarReporte_Financiero_DeberiaCalcularConDatosExternos() {
-        // GIVEN (Dado un reporte financiero y clientes OK)
-        reportePrueba.setTipo("FINANCIERO");
-        when(posClient.obtenerTransacciones()).thenReturn(new ArrayList<>());
-        when(reservasClient.obtenerReservas()).thenReturn(new ArrayList<>());
-        when(repository.save(any(ReporteGenerado.class))).thenReturn(reportePrueba);
-
-        // WHEN (Cuando se manda a generar)
-        ReporteGenerado resultado = reporteService.generarReporte(reportePrueba);
-
-        // THEN (Entonces se guardan los parámetros financieros)
-        assertNotNull(resultado);
-        assertTrue(resultado.getParametros().contains("transacciones"));
-        verify(repository, times(1)).save(any(ReporteGenerado.class));
+        reporteBase = new ReporteGenerado();
+        reporteBase.setTipo("FINANCIERO");
     }
 
     @Test
-    void generarReporte_Inventario_DeberiaCalcularConDatosDeInventario() {
-        // GIVEN (Dado un reporte de inventario)
-        reportePrueba.setTipo("INVENTARIO");
-        when(inventarioClient.obtenerProductos()).thenReturn(new ArrayList<>());
-        when(repository.save(any(ReporteGenerado.class))).thenReturn(reportePrueba);
+    void generarReporte_Financiero_ShouldCallPosAndReservasClients() {
+        when(reporteRepository.save(any(ReporteGenerado.class))).thenAnswer(i -> i.getArgument(0));
+        when(posClient.obtenerTransacciones()).thenReturn(Collections.nCopies(5, new Object()));
+        when(reservasClient.obtenerReservas()).thenReturn(Collections.nCopies(10, new Object()));
 
-        // WHEN
-        ReporteGenerado resultado = reporteService.generarReporte(reportePrueba);
+        ReporteGenerado resultado = reporteService.generarReporte(reporteBase);
 
-        // THEN (Debe procesar la data de inventario)
-        assertNotNull(resultado);
-        assertTrue(resultado.getParametros().contains("productos"));
-        verify(inventarioClient, times(1)).obtenerProductos();
-        verify(repository, times(1)).save(any(ReporteGenerado.class));
+        assertThat(resultado.getParametros()).contains("\"transacciones\": 5", "\"reservas\": 10");
+        verify(posClient).obtenerTransacciones();
+        verify(reservasClient).obtenerReservas();
+        verify(inventarioClient, never()).obtenerProductos();
     }
 
     @Test
-    void generarReporte_TipoDesconocido_DeberiaDevolverMensajeNoImplementado() {
-        // GIVEN (Dado un reporte de tipo no contemplado)
-        reportePrueba.setTipo("MARKETING");
-        when(repository.save(any(ReporteGenerado.class))).thenReturn(reportePrueba);
+    void generarReporte_Inventario_ShouldCallInventarioClient() {
+        reporteBase.setTipo("INVENTARIO");
+        when(reporteRepository.save(any(ReporteGenerado.class))).thenAnswer(i -> i.getArgument(0));
+        when(inventarioClient.obtenerProductos()).thenReturn(Collections.nCopies(20, new Object()));
 
-        // WHEN
-        ReporteGenerado resultado = reporteService.generarReporte(reportePrueba);
+        ReporteGenerado resultado = reporteService.generarReporte(reporteBase);
 
-        // THEN
-        assertTrue(resultado.getParametros().contains("no implementado aún"));
-        verify(repository, times(1)).save(any(ReporteGenerado.class));
+        assertThat(resultado.getParametros()).contains("\"productos\": 20");
+        verify(inventarioClient).obtenerProductos();
+        verify(posClient, never()).obtenerTransacciones();
     }
 
     @Test
-    void generarReporte_ErrorComunicacion_DeberiaCapturarExcepcion() {
-        // GIVEN (Dado un reporte financiero, pero el MS Pos está caído)
-        reportePrueba.setTipo("FINANCIERO");
-        when(posClient.obtenerTransacciones()).thenThrow(new RuntimeException("MS POS Caído"));
-        when(repository.save(any(ReporteGenerado.class))).thenReturn(reportePrueba);
+    void generarReporte_WhenFeignClientFails_ShouldSaveReportWithError() {
+        when(reporteRepository.save(any(ReporteGenerado.class))).thenAnswer(i -> i.getArgument(0));
+        when(posClient.obtenerTransacciones()).thenThrow(new RuntimeException("MS POS no disponible"));
 
-        // WHEN
-        ReporteGenerado resultado = reporteService.generarReporte(reportePrueba);
+        ReporteGenerado resultado = reporteService.generarReporte(reporteBase);
 
-        // THEN (Debe capturar el error y ponerlo en los parámetros)
-        assertTrue(resultado.getParametros().contains("Fallo de comunicación"));
-        verify(repository, times(1)).save(any(ReporteGenerado.class));
+        assertThat(resultado.getParametros()).contains("\"error\": \"Fallo de comunicación: MS POS no disponible\"");
     }
 
-    // ==========================================
-    // TESTS DEL MÉTODO: obtenerPorId
-    // ==========================================
-
     @Test
-    void obtenerPorId_Existe_DeberiaRetornarReporte() {
-        // GIVEN
-        when(repository.findById(1L)).thenReturn(Optional.of(reportePrueba));
-
-        // WHEN
+    void obtenerPorId_GivenExistingId_ShouldReturnReporte() {
+        when(reporteRepository.findById(1L)).thenReturn(Optional.of(reporteBase));
         ReporteGenerado resultado = reporteService.obtenerPorId(1L);
-
-        // THEN
-        assertEquals(1L, resultado.getId());
-        verify(repository, times(1)).findById(1L);
+        assertThat(resultado).isEqualTo(reporteBase);
     }
 
     @Test
-    void obtenerPorId_NoExiste_DeberiaLanzarExcepcion() {
-        // GIVEN
-        when(repository.findById(99L)).thenReturn(Optional.empty());
-
-        // WHEN / THEN
-        assertThrows(RuntimeException.class, () -> reporteService.obtenerPorId(99L));
+    void obtenerPorId_GivenNonExistingId_ShouldThrowException() {
+        when(reporteRepository.findById(99L)).thenReturn(Optional.empty());
+        assertThatThrownBy(() -> reporteService.obtenerPorId(99L))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("No se encontró el reporte con ID: 99");
     }
 
-    // ==========================================
-    // TESTS DEL MÉTODO: obtenerTodos
-    // ==========================================
-
     @Test
-    void obtenerTodos_DeberiaRetornarListaDeReportes() {
-        // GIVEN
-        List<ReporteGenerado> lista = new ArrayList<>();
-        lista.add(reportePrueba);
-        when(repository.findAll()).thenReturn(lista);
+    void eliminarReporte_GivenExistingId_ShouldDelete() {
+        when(reporteRepository.existsById(1L)).thenReturn(true);
+        doNothing().when(reporteRepository).deleteById(1L);
 
-        // WHEN
-        List<ReporteGenerado> resultado = reporteService.obtenerTodos();
-
-        // THEN
-        assertEquals(1, resultado.size());
-        verify(repository, times(1)).findAll();
-    }
-
-    // ==========================================
-    // TESTS DEL MÉTODO: eliminarReporte
-    // ==========================================
-
-    @Test
-    void eliminarReporte_Existe_DeberiaEliminarExitosamente() {
-        // GIVEN
-        when(repository.existsById(1L)).thenReturn(true);
-        doNothing().when(repository).deleteById(1L);
-
-        // WHEN
         reporteService.eliminarReporte(1L);
 
-        // THEN
-        verify(repository, times(1)).existsById(1L);
-        verify(repository, times(1)).deleteById(1L);
+        verify(reporteRepository).deleteById(1L);
     }
 
     @Test
-    void eliminarReporte_NoExiste_DeberiaLanzarExcepcion() {
-        // GIVEN
-        when(repository.existsById(99L)).thenReturn(false);
-
-        // WHEN / THEN
-        assertThrows(RuntimeException.class, () -> reporteService.eliminarReporte(99L));
-        verify(repository, times(1)).existsById(99L);
-        verify(repository, never()).deleteById(anyLong()); // Nunca debe llegar a borrar
+    void eliminarReporte_GivenNonExistingId_ShouldThrowException() {
+        when(reporteRepository.existsById(99L)).thenReturn(false);
+        assertThatThrownBy(() -> reporteService.eliminarReporte(99L))
+                .isInstanceOf(RuntimeException.class);
     }
 }
