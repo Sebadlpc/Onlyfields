@@ -7,17 +7,6 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="ms-reservas" />
-        <module name="ms-seguimiento" />
-        <module name="ms-suscripciones" />
-        <module name="ms-usuarios" />
-        <module name="ms-configuracion" />
-        <module name="ms-notificaciones" />
-        <module name="ms-pos" />
-        <module name="ms-reportes" />
-        <module name="api-gateway" />
-        <module name="ms-accesos" />
-        <module name="ms-inventario" />
       </profile>
     </annotationProcessing>
   </component>

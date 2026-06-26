@@ -22,10 +22,10 @@ COPY mvnw .
 RUN chmod +x mvnw && sed -i 's/\r$//' mvnw
 RUN --mount=type=cache,target=/root/.m2,sharing=locked ./mvnw dependency:go-offline -pl notificaciones -am -q
 
-# Copiar el resto del código fuente y compilar
-COPY notificaciones/src ./notificaciones/src
-
-RUN --mount=type=cache,target=/root/.m2,sharing=locked ./mvnw clean package -DskipTests -pl notificaciones -am
+WORKDIR /build
+RUN sed -i 's/\r//' mvnw
+RUN chmod +x mvnw
+RUN ./mvnw clean package -DskipTests -pl notificaciones -am
 
 FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app

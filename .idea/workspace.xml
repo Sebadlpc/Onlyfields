@@ -1,0 +1,629 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="878a036f-607e-420f-9cd1-6eae26fb11c0" name="Changes" comment="pefnskjgvg">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accesos/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/accesos/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/configuracion/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/configuracion/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventario/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/inventario/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notificaciones/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/notificaciones/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pos/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/pos/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reportes/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/reportes/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reservas/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/reservas/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seguimiento/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/seguimiento/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/suscripciones/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/suscripciones/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/usuarios/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/usuarios/Dockerfile" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="EmbeddingIndexingInfo">
+    <option name="cachedIndexableFilesCount" value="116" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="MainBCKP" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;SerjioKLO&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Sebadlpc/Onlyfields.git",
+    "accountId": "ea065c76-2254-44d9-8525-9b116abf6bf0"
+  },
+  "recentNewPullRequestHead": {
+    "server": {
+      "useHttp": false,
+      "host": "github.com",
+      "port": null,
+      "suffix": null
+    },
+    "owner": "Sebadlpc",
+    "repository": "Onlyfields"
+  }
+}]]></component>
+  <component name="HttpClientEndpointsTabState">
+    <option name="cachedRequestData" value="&lt;CachedHttpClientTabRequests&gt;&#10;  &lt;entry key=&quot;048b676ab6c5bfa505149f61e1570de8adf2a676&quot; value=&quot;###&amp;#10;GET http://localhost:8085/api/v1/productos&quot; /&gt;&#10;  &lt;entry key=&quot;18d49f0791efe8f7bee05997373d577e86aa82f9&quot; value=&quot;GET http://localhost:8084/api/v1/suscripciones&quot; /&gt;&#10;  &lt;entry key=&quot;42b20c24499a3c4bde28124835f07975e8873a3f&quot; value=&quot;###&amp;#10;GET http://localhost:8081/api/v1/usuarios&quot; /&gt;&#10;  &lt;entry key=&quot;1004651779ba92f6c9fa936a448139e831595d7c&quot; value=&quot;###&amp;#10;GET http://localhost:8080/api/v1/categorias&quot; /&gt;&#10;&lt;/CachedHttpClientTabRequests&gt;" />
+  </component>
+  <component name="HttpClientOnboardingState">{
+  &quot;isOnboardingCommentShown&quot;: true
+}</component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="3DoLfNEWFwu2oir13Wg8KFsRPzr" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
+    &quot;Docker.Docker-compose.yml.db-mysql: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.Docker-compose.yml.ms-inventario: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.Docker-compose.yml.ms-suscripciones: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.Docker-compose.yml.ms-usuarios: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.docker-compose.yml: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Notification.DisplayName-DoNotAsk-DatabaseConfigFileWatcher.found&quot;: &quot;New/updated database configurations found&quot;,
+    &quot;Notification.DoNotAsk-DatabaseConfigFileWatcher.found&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
+    &quot;com.google.cloudcode.ide_session_index&quot;: &quot;20260528_0003&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/seses/IdeaProjects/Onlyfields/pos/src/main/resources&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/seses/IdeaProjects/Onlyfields/suscripciones/src/Main.java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;oracle&quot;,
+      &quot;mysql&quot;
+    ],
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
+      &quot;JAVA&quot;
+    ]
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\seses\IdeaProjects\Onlyfields\pos\src\main\resources" />
+      <recent name="C:\Users\seses\IdeaProjects\Onlyfields\seguimiento\src\main\resources" />
+      <recent name="C:\Users\seses\IdeaProjects\Onlyfields" />
+      <recent name="C:\Users\seses\IdeaProjects\Onlyfields\accesos" />
+      <recent name="C:\Users\seses\IdeaProjects\Onlyfields\configuracion" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="KtorApplicationConfigurationType" />
+        <option value="MicronautRunConfigurationType" />
+        <option value="QuarkusRunConfigurationType" />
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="Docker.Docker-compose.yml.ms-usuarios: Compose Deployment">
+    <configuration name="AccesosApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="ms-accesos" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.fullstack.accesos.AccesosApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ConfiguracionApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="ms-configuracion" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.fullstack.configuracion.ConfiguracionApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="InventarioApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="ms-inventario" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.fullstack.inventario.InventarioApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NotificacionesApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="ms-reservas (1)" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.fullstack.notificaciones.NotificacionesApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PosApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="ms-pos" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.fullstack.pos.PosApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ReportesApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="ms-reservas (2)" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.fullstack.reportes.ReportesApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ReservasApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="ms-reservas (3)" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.fullstack.reservas.ReservasApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SeguimientoApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="ms-seguimiento" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.fullstack.seguimiento.SeguimientoApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SuscripcionesApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="ms-suscripciones" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.fullstack.suscripciones.SuscripcionesApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UsuariosApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="ms-usuarios" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.fullstack.usuarios.UsuariosApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Docker-compose.yml.db-mysql: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="services">
+            <list>
+              <option value="db-mysql" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="Docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="Docker-compose.yml.ms-inventario: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="services">
+            <list>
+              <option value="ms-inventario" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="Docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="Docker-compose.yml.ms-suscripciones: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="services">
+            <list>
+              <option value="ms-suscripciones" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="Docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="Docker-compose.yml.ms-usuarios: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="services">
+            <list>
+              <option value="ms-usuarios" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="Docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
+      <deployment type="docker-compose.yml">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="docker-compose.yml: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="sourceFilePath" value="docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
+        <item itemvalue="Docker.Docker-compose.yml.ms-usuarios: Compose Deployment" />
+        <item itemvalue="Docker.Docker-compose.yml.ms-suscripciones: Compose Deployment" />
+        <item itemvalue="Docker.Docker-compose.yml.ms-inventario: Compose Deployment" />
+        <item itemvalue="Docker.Docker-compose.yml.db-mysql: Compose Deployment" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.22562.145" />
+        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-IU-243.22562.145" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="878a036f-607e-420f-9cd1-6eae26fb11c0" name="Changes" comment="" />
+      <created>1778943578475</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1778943578475</updated>
+      <workItem from="1778943579683" duration="3178000" />
+      <workItem from="1778966828716" duration="559000" />
+      <workItem from="1779028312638" duration="2040000" />
+      <workItem from="1779030377416" duration="4361000" />
+      <workItem from="1779125320227" duration="7775000" />
+      <workItem from="1779141604747" duration="13000" />
+      <workItem from="1779142561770" duration="7233000" />
+      <workItem from="1779156637043" duration="44000" />
+      <workItem from="1779156973125" duration="2548000" />
+      <workItem from="1779316477623" duration="6463000" />
+      <workItem from="1779328736185" duration="4573000" />
+      <workItem from="1779372933296" duration="2145000" />
+      <workItem from="1779585801884" duration="160000" />
+      <workItem from="1779855237364" duration="1565000" />
+      <workItem from="1779868590164" duration="2117000" />
+      <workItem from="1779910973429" duration="2361000" />
+      <workItem from="1779913363921" duration="178000" />
+      <workItem from="1779922841516" duration="37000" />
+      <workItem from="1779922894899" duration="8386000" />
+      <workItem from="1779933677821" duration="3073000" />
+      <workItem from="1779938400153" duration="4203000" />
+      <workItem from="1779946257671" duration="13094000" />
+      <workItem from="1779991882140" duration="1140000" />
+      <workItem from="1779995596215" duration="1509000" />
+    </task>
+    <task id="LOCAL-00001" summary="Arreglo de datos &quot; null &quot; en openfeign">
+      <option name="closed" value="true" />
+      <created>1778946671841</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1778946671841</updated>
+    </task>
+    <task id="LOCAL-00002" summary="termino y dockerizacion de inventario (sin openfeign, onlytest)">
+      <option name="closed" value="true" />
+      <created>1779030474254</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1779030474254</updated>
+    </task>
+    <task id="LOCAL-00003" summary="weas de docker noma yerra">
+      <option name="closed" value="true" />
+      <created>1779034810637</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1779034810638</updated>
+    </task>
+    <task id="LOCAL-00004" summary="jue">
+      <option name="closed" value="true" />
+      <created>1779159532663</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1779159532665</updated>
+    </task>
+    <task id="LOCAL-00005" summary="jue">
+      <option name="closed" value="true" />
+      <created>1779161104914</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1779161104914</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Finalmente">
+      <option name="closed" value="true" />
+      <created>1779324056886</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1779324056886</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Finalmente">
+      <option name="closed" value="true" />
+      <created>1779324501185</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1779324501185</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Limpieza culia">
+      <option name="closed" value="true" />
+      <created>1779324600536</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1779324600536</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Limpieza culia">
+      <option name="closed" value="true" />
+      <created>1779868632931</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1779868632931</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Tengo sueño waxo klo">
+      <option name="closed" value="true" />
+      <created>1779870697447</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1779870697447</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Director's cut">
+      <option name="closed" value="true" />
+      <created>1779932278620</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1779932278621</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Configuracion global de conexion">
+      <option name="closed" value="true" />
+      <created>1779933225103</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1779933225103</updated>
+    </task>
+    <task id="LOCAL-00013" summary="limpieza">
+      <option name="closed" value="true" />
+      <created>1779933768720</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1779933768720</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Estandarizacion de conectividad">
+      <option name="closed" value="true" />
+      <created>1779934104631</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1779934104631</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Conexiones en teoria bien">
+      <option name="closed" value="true" />
+      <created>1779935022910</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1779935022910</updated>
+    </task>
+    <task id="LOCAL-00016" summary="deberian estar bien">
+      <option name="closed" value="true" />
+      <created>1779942291383</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1779942291384</updated>
+    </task>
+    <task id="LOCAL-00017" summary="vai pa la cima">
+      <option name="closed" value="true" />
+      <created>1779955344631</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1779955344631</updated>
+    </task>
+    <task id="LOCAL-00018" summary="vai pa la cima">
+      <option name="closed" value="true" />
+      <created>1779960723741</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1779960723741</updated>
+    </task>
+    <task id="LOCAL-00019" summary="vai pa la cima">
+      <option name="closed" value="true" />
+      <created>1779992148426</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1779992148427</updated>
+    </task>
+    <task id="LOCAL-00020" summary="limpieza del main">
+      <option name="closed" value="true" />
+      <created>1779992468794</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1779992468794</updated>
+    </task>
+    <task id="LOCAL-00021" summary="limpieza del main">
+      <option name="closed" value="true" />
+      <created>1779992534869</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1779992534869</updated>
+    </task>
+    <task id="LOCAL-00022" summary="pefnskjgvg">
+      <option name="closed" value="true" />
+      <created>1779995952555</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1779995952555</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-core" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework.security:spring-security-core" />
+    <option featureType="dependencySupport" implementationName="java:jakarta.validation:jakarta.validation-api" />
+    <option featureType="dependencySupport" implementationName="java:io.projectreactor:reactor-core" />
+    <option featureType="dependencySupport" implementationName="executable:kubectl" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework.data:spring-data-commons" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework.cloud:spring-cloud-context" />
+    <option featureType="dependencySupport" implementationName="java:org.hibernate.validator:hibernate-validator" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-webmvc" />
+    <option featureType="dependencySupport" implementationName="java:org.projectlombok:lombok" />
+    <option featureType="dependencySupport" implementationName="executable:docker" />
+    <option featureType="dependencySupport" implementationName="java:jakarta.persistence:jakarta.persistence-api" />
+    <option featureType="dependencySupport" implementationName="java:org.flywaydb:flyway-core" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework.boot:spring-boot" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="usuarios" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="origin/usuarios" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="usuarios" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Arreglo de datos &quot; null &quot; en openfeign" />
+    <MESSAGE value="termino y dockerizacion de inventario (sin openfeign, onlytest)" />
+    <MESSAGE value="weas de docker noma yerra" />
+    <MESSAGE value="jue" />
+    <MESSAGE value="jueasdsad" />
+    <MESSAGE value="Finalmente" />
+    <MESSAGE value="Limpieza culia" />
+    <MESSAGE value="Tengo sueño waxo klo" />
+    <MESSAGE value="Director's cut" />
+    <MESSAGE value="Configuracion global de conexion" />
+    <MESSAGE value="limpieza" />
+    <MESSAGE value="Estandarizacion de conectividad" />
+    <MESSAGE value="Conexiones en teoria bien" />
+    <MESSAGE value="deberian estar bien" />
+    <MESSAGE value="vai pa la cima" />
+    <MESSAGE value="limpieza del main" />
+    <MESSAGE value="pefnskjgvg" />
+    <option name="LAST_COMMIT_MESSAGE" value="pefnskjgvg" />
+    <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/oracle-wallet/src/Main.java</url>
+          <line>11</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
