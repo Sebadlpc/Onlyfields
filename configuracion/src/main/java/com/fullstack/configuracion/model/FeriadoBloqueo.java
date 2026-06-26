@@ -1,7 +1,9 @@
 package com.fullstack.configuracion.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.time.LocalDate;
 
 /**
@@ -15,6 +17,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Schema(description = "Entidad que representa un día feriado o de bloqueo en el sistema")
 public class FeriadoBloqueo {
 
     /**
@@ -22,6 +25,7 @@ public class FeriadoBloqueo {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "Identificador único del registro de feriado/bloqueo", example = "1")
     private Long id;
 
     /**
@@ -29,12 +33,14 @@ public class FeriadoBloqueo {
      * Debe ser única para evitar registros duplicados en el mismo día.
      */
     @Column(nullable = false, unique = true)
+    @Schema(description = "Fecha del feriado o bloqueo", example = "2024-12-25")
     private LocalDate fecha;
 
     /**
      * El motivo del feriado o bloqueo (ej. "Navidad", "Mantenimiento del sistema").
      */
     @Column(nullable = false)
+    @Schema(description = "Motivo por el cual el día es feriado o está bloqueado", example = "Navidad")
     private String motivo;
 
     /**
@@ -42,5 +48,6 @@ public class FeriadoBloqueo {
      * Si es 'true', el sistema de reservas no debería permitir crear reservas en esta fecha.
      */
     @Column(nullable = false)
+    @Schema(description = "Indica si este feriado impide la creación de nuevas reservas", example = "true")
     private Boolean afectaReservas;
 }

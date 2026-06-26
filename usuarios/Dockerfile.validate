@@ -1,19 +1,26 @@
+# syntax=docker/dockerfile:1.4
 FROM eclipse-temurin:17-jdk-alpine AS builder
 WORKDIR /build
 
+# Copiar solo los POMs para cachear la capa de dependencias
 COPY pom.xml .
+COPY usuarios/pom.xml ./usuarios/
+COPY api-gateway/pom.xml ./api-gateway/
+COPY reservas/pom.xml ./reservas/
+COPY pos/pom.xml ./pos/
+COPY suscripciones/pom.xml ./suscripciones/
+COPY inventario/pom.xml ./inventario/
+COPY accesos/pom.xml ./accesos/
+COPY seguimiento/pom.xml ./seguimiento/
+COPY reportes/pom.xml ./reportes/
+COPY configuracion/pom.xml ./configuracion/
+COPY notificaciones/pom.xml ./notificaciones/
+
+# Descargar dependencias con cache compartido
 COPY .mvn ./.mvn
 COPY mvnw .
-COPY usuarios ./usuarios
-COPY reservas ./reservas
-COPY pos ./pos
-COPY suscripciones ./suscripciones
-COPY inventario ./inventario
-COPY accesos ./accesos
-COPY seguimiento ./seguimiento
-COPY reportes ./reportes
-COPY configuracion ./configuracion
-COPY notificaciones ./notificaciones
+RUN chmod +x mvnw && sed -i 's/\r$//' mvnw
+RUN --mount=type=cache,target=/root/.m2,sharing=locked ./mvnw dependency:go-offline -pl usuarios -am -q
 
 WORKDIR /build
 RUN sed -i 's/\r//' mvnw

@@ -1,4 +1,4 @@
-package com.fullstack.pos.repository;
+package com.fullstack.pos.Repository;
 
 import com.fullstack.pos.model.Transaccion;
 import org.springframework.data.jpa.repository.JpaRepository;

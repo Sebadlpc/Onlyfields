@@ -13,3 +13,13 @@ spring:
   flyway:
     enabled: true
     locations: classpath:db/migration
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /api/v1/accesos/v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /doc/swagger-ui.html
+server:
+  port: 8086

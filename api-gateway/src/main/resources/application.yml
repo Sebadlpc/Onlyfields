@@ -1,0 +1,117 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: usuarios-route
+          uri: ${MS_USUARIOS_URI:http://localhost:8081}
+          predicates:
+            - Path=/api/v1/usuarios/**
+
+        - id: reservas-canchas-route
+          uri: ${MS_RESERVAS_URI:http://localhost:8082}
+          predicates:
+            - Path=/api/canchas/**
+
+        - id: reservas-route
+          uri: ${MS_RESERVAS_URI:http://localhost:8082}
+          predicates:
+            - Path=/api/v1/reservas/**
+
+        - id: pos-route
+          uri: ${MS_POS_URI:http://localhost:8083}
+          predicates:
+            - Path=/api/v1/pos/**
+
+        - id: suscripciones-route
+          uri: ${MS_SUSCRIPCIONES_URI:http://localhost:8084}
+          predicates:
+            - Path=/api/v1/suscripciones/**
+
+        - id: planes-route
+          uri: ${MS_SUSCRIPCIONES_URI:http://localhost:8084}
+          predicates:
+            - Path=/api/v1/planes/**
+
+        - id: inventario-productos-route
+          uri: ${MS_INVENTARIO_URI:http://localhost:8085}
+          predicates:
+            - Path=/api/v1/productos/**
+
+        - id: inventario-categorias-route
+          uri: ${MS_INVENTARIO_URI:http://localhost:8085}
+          predicates:
+            - Path=/api/v1/categorias/**
+
+        - id: accesos-qr-route
+          uri: ${MS_ACCESOS_URI:http://localhost:8086}
+          predicates:
+            - Path=/api/v1/qr/**
+
+        - id: accesos-route
+          uri: ${MS_ACCESOS_URI:http://localhost:8086}
+          predicates:
+            - Path=/api/v1/accesos/**
+
+        - id: seguimiento-route
+          uri: ${MS_SEGUIMIENTO_URI:http://localhost:8087}
+          predicates:
+            - Path=/api/v1/seguimiento/**
+
+        - id: reportes-route
+          uri: ${MS_REPORTES_URI:http://localhost:8088}
+          predicates:
+            - Path=/api/v1/reportes/**
+
+        - id: configuracion-config-route
+          uri: ${MS_CONFIGURACION_URI:http://localhost:8089}
+          predicates:
+            - Path=/api/v1/config/**
+
+        - id: configuracion-feriados-route
+          uri: ${MS_CONFIGURACION_URI:http://localhost:8089}
+          predicates:
+            - Path=/api/v1/feriados/**
+
+        - id: notificaciones-route
+          uri: ${MS_NOTIFICACIONES_URI:http://localhost:8090}
+          predicates:
+            - Path=/api/notificaciones/**
+
+springdoc:
+  swagger-ui:
+    path: /doc/swagger-ui.html
+    urls:
+      - name: 1. Usuarios y Autenticación (ms-usuarios)
+        url: /api/v1/usuarios/v3/api-docs
+
+      - name: 2. Gestión de Reservas (ms-reservas)
+        url: /api/v1/reservas/v3/api-docs
+
+      - name: 3. Punto de Venta / POS (ms-pos)
+        url: /api/v1/transacciones/v3/api-docs
+
+      - name: 4. Suscripciones y Membresías (ms-suscripciones)
+        url: /api/v1/suscripciones/v3/api-docs
+
+      - name: 5. Control de Inventario (ms-inventario)
+        url: /api/v1/inventario/v3/api-docs
+
+      - name: 6. Control de Accesos (ms-accesos)
+        url: /api/v1/accesos/v3/api-docs
+
+      - name: 7. Seguimiento Corporal (ms-seguimiento)
+        url: /api/v1/seguimiento/v3/api-docs
+
+      - name: 8. Reportes y Analytics (ms-reportes)
+        url: /api/v1/reportes/v3/api-docs
+
+      - name: 9. Configuraciones Globales (ms-configuracion)
+        url: /api/v1/configuraciones/v3/api-docs
+
+      - name: 10. Notificaciones y Alertas (ms-notificaciones)
+        url: /api/v1/notificaciones/v3/api-docs

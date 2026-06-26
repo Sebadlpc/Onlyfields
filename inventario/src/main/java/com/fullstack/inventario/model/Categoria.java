@@ -1,5 +1,6 @@
 package com.fullstack.inventario.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,6 +15,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Schema(description = "Entidad que representa una categoría de productos")
 public class Categoria {
 
     /**
@@ -22,6 +24,7 @@ public class Categoria {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "Identificador único de la categoría", example = "5")
     private Long id;
 
     /**
@@ -29,5 +32,6 @@ public class Categoria {
      * Debe ser único y no puede ser nulo.
      */
     @Column(nullable = false, unique = true)
+    @Schema(description = "Nombre de la categoría", example = "Bebidas Isotónicas")
     private String nombre;
 }

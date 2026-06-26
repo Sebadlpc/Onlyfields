@@ -68,7 +68,7 @@ services:
   ms-inventario:
     build:
       context: .
-      dockerfile: Inventario/Dockerfile.validate
+      dockerfile: inventario/Dockerfile.validate
     container_name: onlyfields-ms-inventario
     ports:
       - "8085:8085"
@@ -120,7 +120,7 @@ services:
   ms-configuracion:
     build:
       context: .
-      dockerfile: Configuracion/Dockerfile.validate
+      dockerfile: configuracion/Dockerfile.validate
     container_name: onlyfields-ms-configuracion
     ports:
       - "8089:8089"
@@ -139,6 +139,39 @@ services:
       - "8090:8090"
     depends_on:
       - db-mysql
+    networks:
+      - onlyfields-network
+    restart: unless-stopped
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: api-gateway/Dockerfile.validate
+    container_name: onlyfields-api-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      MS_USUARIOS_URI: http://onlyfields-ms-usuarios:8081
+      MS_RESERVAS_URI: http://onlyfields-ms-reservas:8082
+      MS_POS_URI: http://onlyfields-ms-pos:8083
+      MS_SUSCRIPCIONES_URI: http://onlyfields-ms-suscripciones:8084
+      MS_INVENTARIO_URI: http://onlyfields-ms-inventario:8085
+      MS_ACCESOS_URI: http://onlyfields-ms-accesos:8086
+      MS_SEGUIMIENTO_URI: http://onlyfields-ms-seguimiento:8087
+      MS_REPORTES_URI: http://onlyfields-ms-reportes:8088
+      MS_CONFIGURACION_URI: http://onlyfields-ms-configuracion:8089
+      MS_NOTIFICACIONES_URI: http://onlyfields-ms-notificaciones:8090
+    depends_on:
+      - ms-usuarios
+      - ms-reservas
+      - ms-pos
+      - ms-suscripciones
+      - ms-inventario
+      - ms-accesos
+      - ms-seguimiento
+      - ms-reportes
+      - ms-configuracion
+      - ms-notificaciones
     networks:
       - onlyfields-network
     restart: unless-stopped
